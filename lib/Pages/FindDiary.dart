@@ -9,12 +9,12 @@ class FindDiaryEntryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ColorScheme colors = Theme.of(context).colorScheme;
     return Scaffold(
-      appBar: PreferredSize(
+      appBar: const PreferredSize(
           preferredSize: Size.fromHeight(60.0),
           child: XAppBar(
             title: "Find Entry",
           )),
-      drawer: XDrawer(),
+      drawer: const XDrawer(currentPage: "find"),
       backgroundColor: colors.surface,
     );
   }

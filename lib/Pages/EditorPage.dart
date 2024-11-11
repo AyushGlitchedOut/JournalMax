@@ -9,12 +9,14 @@ class EditorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ColorScheme colors = Theme.of(context).colorScheme;
     return Scaffold(
-      appBar: PreferredSize(
+      appBar: const PreferredSize(
           preferredSize: Size.fromHeight(60.0),
           child: XAppBar(
             title: "Editor Page",
           )),
-      drawer: XDrawer(),
+      drawer: const XDrawer(
+        currentPage: "editor",
+      ),
       backgroundColor: colors.surface,
     );
   }

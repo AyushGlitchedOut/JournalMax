@@ -10,4 +10,4 @@ ThemeData lightmode = ThemeData(
         secondary: Colors.black87,
         tertiary: Colors.grey.shade400,
         outline: Colors.grey.shade900,
-        shadow: Colors.black45));
+        shadow: Colors.black38));

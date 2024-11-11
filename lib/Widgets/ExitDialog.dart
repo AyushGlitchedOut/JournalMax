@@ -10,19 +10,19 @@ Future<void> ExitDialog(BuildContext context) {
           shape: RoundedRectangleBorder(
               side: BorderSide(width: 2.0, color: colors.outline),
               borderRadius: BorderRadius.circular(2.0)),
-          title: Text("Exit App"),
-          content: Text("Do you really want to exit the App"),
+          title: const Text("Exit App"),
+          content: const Text("Do you really want to exit the App"),
           actions: [
             ElevatedButton(
                 onPressed: () {
                   SystemNavigator.pop();
                 },
-                child: Text("OK")),
+                child: const Text("OK")),
             ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text("Cancel"))
+                child: const Text("Cancel"))
           ],
         );
       });

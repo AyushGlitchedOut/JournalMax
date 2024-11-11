@@ -7,19 +7,18 @@ import 'package:journalmax/Pages/SettingsPage.dart';
 import 'package:journalmax/Pages/SyncPage.dart';
 import 'package:journalmax/Pages/ViewerPage.dart';
 import 'package:journalmax/Themes/themes.dart';
-import 'package:provider/provider.dart';
 
 class App extends StatelessWidget {
   App({super.key});
 
   final Map<String, WidgetBuilder> routes = {
-    "/homepage": (context) => HomePage(),
-    "/settings": (context) => SettingsPage(),
-    "/sync": (context) => SyncPage(),
-    "/view": (context) => ViewerPage(),
-    "/find": (context) => FindDiaryEntryPage(),
-    "/editor": (context) => EditorPage(),
-    "/collection": (context) => CollectionPage()
+    "/homepage": (context) => const HomePage(),
+    "/settings": (context) => const SettingsPage(),
+    "/sync": (context) => const SyncPage(),
+    "/view": (context) => const ViewerPage(),
+    "/find": (context) => const FindDiaryEntryPage(),
+    "/editor": (context) => const EditorPage(),
+    "/collection": (context) => const CollectionPage()
   };
 
   @override

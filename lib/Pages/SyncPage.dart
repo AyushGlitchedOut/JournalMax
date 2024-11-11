@@ -9,12 +9,14 @@ class SyncPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ColorScheme colors = Theme.of(context).colorScheme;
     return Scaffold(
-      appBar: PreferredSize(
+      appBar: const PreferredSize(
           preferredSize: Size.fromHeight(60.0),
           child: XAppBar(
             title: "Synchronize",
           )),
-      drawer: XDrawer(),
+      drawer: const XDrawer(
+        currentPage: "sync",
+      ),
       backgroundColor: colors.surface,
     );
   }

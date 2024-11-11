@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:journalmax/Widgets/ExitDialog.dart';
 
 class XAppBar extends StatelessWidget {
@@ -16,11 +15,11 @@ class XAppBar extends StatelessWidget {
           Scaffold.of(context).openDrawer();
         },
         icon: Icon(Icons.menu_rounded, color: colors.onPrimary, shadows: [
-          Shadow(color: colors.shadow, offset: Offset(-1.5, -1.5))
+          Shadow(color: colors.shadow, offset: const Offset(-1.5, -1.5))
         ]),
         // onPressed: () {},
         style: ButtonStyle(
-            iconSize: WidgetStatePropertyAll(35.0),
+            iconSize: const WidgetStatePropertyAll(35.0),
             shadowColor: WidgetStatePropertyAll(colors.shadow)),
       ),
       backgroundColor: colors.onSurface,
@@ -33,7 +32,7 @@ class XAppBar extends StatelessWidget {
               letterSpacing: 1.0,
               fontSize: 23.0,
               shadows: [
-                Shadow(color: colors.shadow, offset: Offset(-1.5, -1.5))
+                Shadow(color: colors.shadow, offset: const Offset(-1.5, -1.5))
               ]),
         ),
       ),
@@ -48,7 +47,7 @@ class XAppBar extends StatelessWidget {
                   size: 35.0,
                   color: colors.onPrimary,
                   shadows: [
-                    Shadow(color: colors.shadow, offset: Offset(-1.5, -1.5))
+                    Shadow(color: colors.shadow, offset: const Offset(-1.5, -1.5))
                   ]),
             ))
       ],

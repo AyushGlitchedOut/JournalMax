@@ -9,12 +9,14 @@ class ViewerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ColorScheme colors = Theme.of(context).colorScheme;
     return Scaffold(
-      appBar: PreferredSize(
+      appBar: const PreferredSize(
           preferredSize: Size.fromHeight(60.0),
           child: XAppBar(
             title: "View Entry",
           )),
-      drawer: XDrawer(),
+      drawer: const XDrawer(
+        currentPage: "view",
+      ),
       backgroundColor: colors.surface,
     );
   }
