@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:journalmax/Widgets/ExitDialog.dart';
 
 class XAppBar extends StatelessWidget {
   final String title;
@@ -39,29 +40,7 @@ class XAppBar extends StatelessWidget {
       actions: [
         IconButton(
             onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      shape: RoundedRectangleBorder(
-                          side: BorderSide(width: 2.0, color: colors.outline),
-                          borderRadius: BorderRadius.circular(2.0)),
-                      title: Text("Exit App"),
-                      content: Text("Do you really want to exit the App"),
-                      actions: [
-                        ElevatedButton(
-                            onPressed: () {
-                              SystemNavigator.pop();
-                            },
-                            child: Text("OK")),
-                        ElevatedButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text("Cancel"))
-                      ],
-                    );
-                  });
+              ExitDialog(context);
             },
             icon: Padding(
               padding: const EdgeInsets.all(5.0),

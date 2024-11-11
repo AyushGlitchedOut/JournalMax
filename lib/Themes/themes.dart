@@ -9,5 +9,5 @@ ThemeData lightmode = ThemeData(
         onPrimary: Colors.white,
         secondary: Colors.black87,
         tertiary: Colors.grey.shade400,
-        outline: Colors.blue.shade900,
+        outline: Colors.grey.shade900,
         shadow: Colors.black45));

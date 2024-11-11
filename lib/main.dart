@@ -14,10 +14,10 @@ class App extends StatelessWidget {
 
   final Map<String, WidgetBuilder> routes = {
     "/homepage": (context) => HomePage(),
-    "/ssettings": (context) => SettingsPage(),
+    "/settings": (context) => SettingsPage(),
     "/sync": (context) => SyncPage(),
     "/view": (context) => ViewerPage(),
-    "find": (context) => FindDiaryEntryPage(),
+    "/find": (context) => FindDiaryEntryPage(),
     "/editor": (context) => EditorPage(),
     "/collection": (context) => CollectionPage()
   };
