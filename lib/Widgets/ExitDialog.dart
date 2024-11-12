@@ -9,7 +9,7 @@ Future<void> ExitDialog(BuildContext context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(
               side: BorderSide(width: 2.0, color: colors.outline),
-              borderRadius: BorderRadius.circular(2.0)),
+              borderRadius: BorderRadius.circular(15.0)),
           title: const Text("Exit App"),
           content: const Text("Do you really want to exit the App"),
           actions: [

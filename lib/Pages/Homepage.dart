@@ -30,7 +30,7 @@ class HomePage extends StatelessWidget {
             child: Container(
               margin: const EdgeInsets.all(5.0),
               decoration: BoxDecoration(
-                  color: colors.surface,
+                  color: colors.onSurface,
                   border: Border.all(color: colors.outline),
                   borderRadius: BorderRadius.circular(10.0),
                   boxShadow: [
@@ -45,6 +45,7 @@ class HomePage extends StatelessWidget {
                   ]),
               child: SingleChildScrollView(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: recentEntries(),
                 ),
               ),
