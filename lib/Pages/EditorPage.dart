@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';
+import 'package:journalmax/Widgets/XDropDown.dart';
+import 'package:journalmax/Widgets/XIconLabelButton.dart';
+import 'package:journalmax/Widgets/XLabel.dart';
 
 class EditorPage extends StatelessWidget {
   const EditorPage({super.key});
@@ -18,6 +21,22 @@ class EditorPage extends StatelessWidget {
         currentPage: "editor",
       ),
       backgroundColor: colors.surface,
+      body: Column(
+        children: [
+          XDropdown(label: "Mood", list: [
+            "happy",
+            "sad",
+            "angry",
+            "excited",
+            "mundane",
+            "surprised",
+            "frustrated",
+            "doubtful",
+            "anxious"
+          ]),
+          XIconLabelButton(icon: Icons.image_outlined, label: "Add Multimedia")
+        ],
+      ),
     );
   }
 }
