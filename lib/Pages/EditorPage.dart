@@ -3,19 +3,19 @@ import 'package:journalmax/Widgets/MultimediaAddDialog.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';
 import 'package:journalmax/Widgets/XDropDown.dart';
+import 'package:journalmax/Widgets/XFloatingButton.dart';
 import 'package:journalmax/Widgets/XIconLabelButton.dart';
-import 'package:journalmax/Widgets/XLabel.dart';
 import 'package:journalmax/Widgets/EntryItem.dart';
 
 class EditorPage extends StatefulWidget {
-  EditorPage({super.key});
+  const EditorPage({super.key});
 
   @override
   State<EditorPage> createState() => _EditorPageState();
 }
 
 class _EditorPageState extends State<EditorPage> {
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
 
   Map<String, dynamic> moods = EntryItemMoods.happy;
 
@@ -41,12 +41,12 @@ class _EditorPageState extends State<EditorPage> {
             onclick: () => showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return Center(child: MultimediaAddDialog());
+                  return const Center(child: MultimediaAddDialog());
                 }),
           ),
           Expanded(
             child: Container(
-              margin: EdgeInsets.all(5.0),
+              margin: const EdgeInsets.all(5.0),
               // decoration: BoxDecoration(),
               child: SingleChildScrollView(
                 child: TextField(
@@ -77,13 +77,18 @@ class _EditorPageState extends State<EditorPage> {
           )
         ],
       ),
+      floatingActionButton: XFloatingButton(
+        icon: Icons.remove_red_eye_outlined,
+        //later pass arguments of uid of current document
+        onclick: () => Navigator.pushReplacementNamed(context, "/view"),
+      ),
     );
   }
 
   XDropdown _MoodDropDown() {
     return XDropdown(
       label: "Mood",
-      list: [
+      list: const [
         "happy",
         "sad",
         "angry",

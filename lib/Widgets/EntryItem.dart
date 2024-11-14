@@ -70,17 +70,17 @@ class EntryItem extends StatelessWidget {
       width: MediaQuery.sizeOf(context).width,
       decoration: BoxDecoration(
           color: mood["surface"],
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(10.0)),
           boxShadow: [
-            BoxShadow(color: mood["secondary"]!, offset: Offset(1.5, 1.5)),
-            BoxShadow(color: mood["text"]!, offset: Offset(-1.5, -1.5))
+            BoxShadow(color: mood["secondary"]!, offset: const Offset(1.5, 1.5)),
+            BoxShadow(color: mood["text"]!, offset: const Offset(-1.5, -1.5))
           ]),
-      padding: EdgeInsets.all(5.0),
-      margin: EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(5.0),
+      margin: const EdgeInsets.all(5.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(
+          const SizedBox(
             width: 15.0,
           ),
           Icon(
@@ -88,7 +88,7 @@ class EntryItem extends StatelessWidget {
             size: 10.0,
             color: colors.primary,
           ),
-          SizedBox(width: 20.0),
+          const SizedBox(width: 20.0),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

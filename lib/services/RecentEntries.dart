@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:journalmax/Widgets/EntryItem.dart';
 
 List<EntryItem> recentEntries() {

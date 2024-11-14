@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';
+import 'package:journalmax/Widgets/XFloatingButton.dart';
 import 'package:journalmax/Widgets/XIconLabelButton.dart';
 import 'package:journalmax/Widgets/XLabel.dart';
 import 'package:journalmax/services/RecentEntries.dart';
@@ -68,26 +69,10 @@ class HomePage extends StatelessWidget {
           )
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        shape:
-            CircleBorder(side: BorderSide(color: colors.outline, width: 1.0)),
-        foregroundColor: colors.primary,
-        backgroundColor: colors.onPrimary,
-        child: Icon(
-          Icons.add,
-          size: 40.0,
-          shadows: [
-            BoxShadow(
-              color: colors.shadow,
-              offset: const Offset(-1.0, -1.0),
-            ),
-            BoxShadow(
-              color: colors.tertiary,
-              offset: const Offset(1.0, 1.0),
-            ),
-          ],
-        ),
+      floatingActionButton: XFloatingButton(
+        icon: Icons.add,
+        // later pass arguments and stuff
+        onclick: () => Navigator.pushReplacementNamed(context, "/editor"),
       ),
     );
   }

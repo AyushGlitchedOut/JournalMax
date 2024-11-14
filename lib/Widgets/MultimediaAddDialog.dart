@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class MultimediaAddDialog extends StatelessWidget {
   const MultimediaAddDialog({super.key});
@@ -9,7 +8,7 @@ class MultimediaAddDialog extends StatelessWidget {
     final ColorScheme colors = Theme.of(context).colorScheme;
     return Center(
       child: AlertDialog(
-        insetPadding: EdgeInsets.only(top: 150),
+        insetPadding: const EdgeInsets.only(top: 150),
         backgroundColor: colors.onSurface,
         actionsAlignment: MainAxisAlignment.start,
         alignment: Alignment.topCenter,
@@ -21,33 +20,30 @@ class MultimediaAddDialog extends StatelessWidget {
           "Add Multimedia",
           style: TextStyle(color: colors.onPrimary),
         )),
-        content: SingleChildScrollView(
-          // Allows scrolling if content exceeds available space
-          child: Column(
-            mainAxisSize:
-                MainAxisSize.min, // Prevents the column from expanding too much
-            children: [
-              MultimediaDialogButton(
-                  colors: colors,
-                  icon: Icons.location_on,
-                  title: "Current Location"),
-              MultimediaDialogButton(
+        content: Column(
+          mainAxisSize:
+              MainAxisSize.min, // Prevents the column from expanding too much
+          children: [
+            DialogButton(
                 colors: colors,
-                title: "Record Voice",
-                icon: Icons.mic,
-              ),
-              MultimediaDialogButton(
-                colors: colors,
-                title: "Add Images",
-                icon: Icons.image,
-              )
-            ],
-          ),
+                icon: Icons.location_on,
+                title: "Current Location"),
+            DialogButton(
+              colors: colors,
+              title: "Record Voice",
+              icon: Icons.mic,
+            ),
+            DialogButton(
+              colors: colors,
+              title: "Add Images",
+              icon: Icons.image,
+            )
+          ],
         ),
         actions: [
           ElevatedButton(
               onPressed: () {
-                SystemNavigator.pop();
+                Navigator.of(context).pop();
               },
               child: const Text("OK")),
           ElevatedButton(
@@ -61,8 +57,8 @@ class MultimediaAddDialog extends StatelessWidget {
   }
 }
 
-class MultimediaDialogButton extends StatelessWidget {
-  const MultimediaDialogButton(
+class DialogButton extends StatelessWidget {
+  const DialogButton(
       {super.key,
       required this.colors,
       required this.icon,
@@ -77,20 +73,20 @@ class MultimediaDialogButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(5.0),
+      margin: const EdgeInsets.all(5.0),
       decoration: BoxDecoration(
           color: colors.onSurface,
           borderRadius: BorderRadius.circular(10.0),
           boxShadow: [
-            BoxShadow(color: colors.shadow, offset: Offset(1.5, 1.5)),
-            BoxShadow(color: colors.outline, offset: Offset(-1.5, -1.5))
+            BoxShadow(color: colors.shadow, offset: const Offset(1.5, 1.5)),
+            BoxShadow(color: colors.outline, offset: const Offset(-1.5, -1.5))
           ]),
       child: ElevatedButton(
           style: ButtonStyle(
               shape: WidgetStatePropertyAll(RoundedRectangleBorder(
                   side: BorderSide(color: colors.outline),
                   borderRadius: BorderRadius.circular(10.0))),
-              padding: WidgetStateProperty.all(EdgeInsets.all(5.0)),
+              padding: WidgetStateProperty.all(const EdgeInsets.all(5.0)),
               alignment: Alignment.topLeft),
           onPressed: onclick,
           child: Row(
@@ -100,9 +96,12 @@ class MultimediaDialogButton extends StatelessWidget {
                 size: 40.0,
                 color: colors.primary,
               ),
+              const SizedBox(
+                width: 20.0,
+              ),
               Text(
                 title,
-                style: TextStyle(fontSize: 20.0, color: colors.primary),
+                style: TextStyle(fontSize: 20.0, color: colors.tertiary),
               )
             ],
           )),

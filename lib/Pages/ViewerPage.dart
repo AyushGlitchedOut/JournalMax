@@ -1,12 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:journalmax/Widgets/EntryItem.dart';
+import 'package:journalmax/Widgets/MultimediaAddDialog.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';
+import 'package:journalmax/Widgets/XFloatingButton.dart';
+import 'package:journalmax/Widgets/XIconLabelButton.dart';
 
-class ViewerPage extends StatelessWidget {
-  const ViewerPage({super.key});
+class ViewerPage extends StatefulWidget {
+  Map<String, Color>? mood;
+  ViewerPage({super.key, this.mood});
+
+  @override
+  State<ViewerPage> createState() => _ViewerPageState();
+}
+
+class _ViewerPageState extends State<ViewerPage> {
+  Text text = const Text("Lorem Ipsum Dolor Amet");
+
+  void setContent(String test) {
+    setState(() {
+      text = Text(test);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    widget.mood ??= EntryItemMoods.happy;
     final ColorScheme colors = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: const PreferredSize(
@@ -18,6 +37,104 @@ class ViewerPage extends StatelessWidget {
         currentPage: "view",
       ),
       backgroundColor: colors.surface,
+      body: Column(
+        children: [
+          Expanded(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                  border: Border.all(color: colors.outline),
+                  color: widget.mood!["surface"],
+                  boxShadow: [
+                    BoxShadow(
+                        color: widget.mood!["text"] ?? colors.shadow,
+                        offset: const Offset(1.5, 1.5)),
+                    BoxShadow(
+                        color: widget.mood!["secondary"] ?? colors.outline,
+                        offset: const Offset(-1.5, -1.5))
+                  ],
+                  borderRadius: BorderRadius.circular(10.0)),
+              padding: const EdgeInsets.all(5.0),
+              margin: const EdgeInsets.all(20.0),
+              child: SingleChildScrollView(child: text),
+            ),
+          ),
+          XIconLabelButton(
+            icon: Icons.collections,
+            label: "View memories in the entry",
+            customFontSize: 19.0,
+            onclick: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      insetPadding: const EdgeInsets.only(top: 150),
+                      backgroundColor: colors.onSurface,
+                      actionsAlignment: MainAxisAlignment.start,
+                      alignment: Alignment.topCenter,
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(width: 2.0, color: colors.outline),
+                          borderRadius: BorderRadius.circular(15.0)),
+                      title: Center(
+                          child: Text(
+                        "View Memories",
+                        style: TextStyle(
+                            color: colors.onPrimary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30.0),
+                      )),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          DialogButton(
+                            colors: colors,
+                            icon: Icons.book,
+                            title: "View Diary Entry",
+                            onclick: () => setContent("Diary Entry"),
+                          ),
+                          DialogButton(
+                            colors: colors,
+                            icon: Icons.location_on,
+                            title: "View where you were",
+                            onclick: () => setContent("Location"),
+                          ),
+                          DialogButton(
+                            colors: colors,
+                            icon: Icons.mic,
+                            title: "View Voice Notes",
+                            onclick: () => setContent("Voice Notes"),
+                          ),
+                          DialogButton(
+                            colors: colors,
+                            icon: Icons.image,
+                            title: "View Attached Images",
+                            onclick: () => setContent("Images "),
+                          )
+                        ],
+                      ),
+                      actions: [
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text("OK")),
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text("Cancel"))
+                      ],
+                    );
+                  });
+            },
+          )
+        ],
+      ),
+      floatingActionButton: XFloatingButton(
+        icon: Icons.edit,
+        //pass arguments later
+        onclick: () => Navigator.pushReplacementNamed(context, "/editor"),
+      ),
     );
   }
 }
