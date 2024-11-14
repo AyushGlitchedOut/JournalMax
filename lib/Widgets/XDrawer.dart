@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:journalmax/Widgets/ExitDialog.dart';
+import 'package:journalmax/Widgets/XExitDialog.dart';
 
 class XDrawer extends StatelessWidget {
   final String currentPage;
@@ -63,7 +63,7 @@ class XDrawer extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (path == "/exit") {
-          ExitDialog(context);
+          XExitDialog(context);
           return;
         }
         Navigator.pushReplacementNamed(context, path!);

@@ -1,49 +1,49 @@
-import 'package:journalmax/Widgets/EntryItem.dart';
+import 'package:journalmax/Widgets/XEntryItem.dart';
 
-List<EntryItem> recentEntries() {
+List<XEntryItem> recentEntries() {
   //TODO : implement the actual stuff
   return [
-    EntryItem(
+    XEntryItem(
       mood: EntryItemMoods.angry,
       title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
       date: DateTime.now(),
     ),
-    EntryItem(
+    XEntryItem(
       mood: EntryItemMoods.anxious,
       title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
       date: DateTime.now(),
     ),
-    EntryItem(
+    XEntryItem(
       mood: EntryItemMoods.doubtful,
       title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
       date: DateTime.now(),
     ),
-    EntryItem(
+    XEntryItem(
       mood: EntryItemMoods.excited,
       title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
       date: DateTime.now(),
     ),
-    EntryItem(
+    XEntryItem(
       mood: EntryItemMoods.frustrated,
       title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
       date: DateTime.now(),
     ),
-    EntryItem(
+    XEntryItem(
       mood: EntryItemMoods.happy,
       title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
       date: DateTime.now(),
     ),
-    EntryItem(
+    XEntryItem(
       mood: EntryItemMoods.mundane,
       title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
       date: DateTime.now(),
     ),
-    EntryItem(
+    XEntryItem(
       mood: EntryItemMoods.sad,
       title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
       date: DateTime.now(),
     ),
-    EntryItem(
+    XEntryItem(
       mood: EntryItemMoods.surprised,
       title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
       date: DateTime.now(),

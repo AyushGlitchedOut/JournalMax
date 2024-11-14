@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:journalmax/Widgets/EntryItem.dart';
-import 'package:journalmax/Widgets/MultimediaAddDialog.dart';
+import 'package:journalmax/Widgets/XDialogButton.dart';
+import 'package:journalmax/Widgets/XEntryItem.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';
 import 'package:journalmax/Widgets/XFloatingButton.dart';
 import 'package:journalmax/Widgets/XIconLabelButton.dart';
 
+// ignore: must_be_immutable
 class ViewerPage extends StatefulWidget {
   Map<String, Color>? mood;
   ViewerPage({super.key, this.mood});
@@ -86,25 +87,25 @@ class _ViewerPageState extends State<ViewerPage> {
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          DialogButton(
+                          XDialogButton(
                             colors: colors,
                             icon: Icons.book,
                             title: "View Diary Entry",
                             onclick: () => setContent("Diary Entry"),
                           ),
-                          DialogButton(
+                          XDialogButton(
                             colors: colors,
                             icon: Icons.location_on,
                             title: "View where you were",
                             onclick: () => setContent("Location"),
                           ),
-                          DialogButton(
+                          XDialogButton(
                             colors: colors,
                             icon: Icons.mic,
                             title: "View Voice Notes",
                             onclick: () => setContent("Voice Notes"),
                           ),
-                          DialogButton(
+                          XDialogButton(
                             colors: colors,
                             icon: Icons.image,
                             title: "View Attached Images",

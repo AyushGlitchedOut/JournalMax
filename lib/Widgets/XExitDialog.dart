@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-Future<void> ExitDialog(BuildContext context) {
+Future<void> XExitDialog(BuildContext context) {
   final ColorScheme colors = Theme.of(context).colorScheme;
   return showDialog(
       context: context,

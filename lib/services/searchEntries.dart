@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:journalmax/Widgets/XEntryItem.dart';
 
-//TODO: implement the actual collection
-List<Widget> getCollection() {
+List<XEntryItem> searchEntries(String query) {
+  print(query);
   return [
     XEntryItem(
       mood: EntryItemMoods.angry,

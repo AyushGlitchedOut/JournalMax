@@ -56,11 +56,11 @@ final class EntryItemMoods {
   };
 }
 
-class EntryItem extends StatelessWidget {
+class XEntryItem extends StatelessWidget {
   final Map<String, Color> mood;
   final String title;
   final DateTime date;
-  const EntryItem(
+  const XEntryItem(
       {super.key, required this.mood, required this.date, required this.title});
 
   @override
@@ -72,7 +72,8 @@ class EntryItem extends StatelessWidget {
           color: mood["surface"],
           borderRadius: const BorderRadius.all(Radius.circular(10.0)),
           boxShadow: [
-            BoxShadow(color: mood["secondary"]!, offset: const Offset(1.5, 1.5)),
+            BoxShadow(
+                color: mood["secondary"]!, offset: const Offset(1.5, 1.5)),
             BoxShadow(color: mood["text"]!, offset: const Offset(-1.5, -1.5))
           ]),
       padding: const EdgeInsets.all(5.0),

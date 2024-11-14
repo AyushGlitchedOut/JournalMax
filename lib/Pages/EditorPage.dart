@@ -5,7 +5,7 @@ import 'package:journalmax/Widgets/XDrawer.dart';
 import 'package:journalmax/Widgets/XDropDown.dart';
 import 'package:journalmax/Widgets/XFloatingButton.dart';
 import 'package:journalmax/Widgets/XIconLabelButton.dart';
-import 'package:journalmax/Widgets/EntryItem.dart';
+import 'package:journalmax/Widgets/XEntryItem.dart';
 
 class EditorPage extends StatefulWidget {
   const EditorPage({super.key});
@@ -41,7 +41,7 @@ class _EditorPageState extends State<EditorPage> {
             onclick: () => showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return const Center(child: MultimediaAddDialog());
+                  return const Center(child: XMultimediaAddDialog());
                 }),
           ),
           Expanded(
