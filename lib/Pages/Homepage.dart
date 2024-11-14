@@ -1,13 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:journalmax/Themes/ThemeProvider.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';
 import 'package:journalmax/Widgets/XFloatingButton.dart';
 import 'package:journalmax/Widgets/XIconLabelButton.dart';
 import 'package:journalmax/Widgets/XLabel.dart';
 import 'package:journalmax/services/RecentEntries.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  Future<void> loadTheme(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    print(Provider.of<Themeprovider>(context, listen: false).isDarkMode ==
+        prefs.getBool("isDarkMode"));
+    if (Provider.of<Themeprovider>(context, listen: false).isDarkMode ==
+        prefs.getBool("isDarkMode")) {
+      return;
+    } else {
+      Provider.of<Themeprovider>(context, listen: false).toggleThemes();
+    }
+  }
+
+  @override
+  void initState() {
+    loadTheme(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

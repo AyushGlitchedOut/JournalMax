@@ -6,7 +6,8 @@ import 'package:journalmax/Pages/Homepage.dart';
 import 'package:journalmax/Pages/SettingsPage.dart';
 import 'package:journalmax/Pages/SyncPage.dart';
 import 'package:journalmax/Pages/ViewerPage.dart';
-import 'package:journalmax/Themes/themes.dart';
+import 'package:journalmax/Themes/ThemeProvider.dart';
+import 'package:provider/provider.dart';
 
 class App extends StatelessWidget {
   App({super.key});
@@ -26,7 +27,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: true,
       title: "JornalMax",
-      theme: lightmode,
+      theme: Provider.of<Themeprovider>(context).themeData,
       initialRoute: "/homepage",
       routes: routes,
     );
@@ -34,9 +35,8 @@ class App extends StatelessWidget {
 }
 
 void main() {
-  // runApp(ChangeNotifierProvider(
-  //   create: (context) => null,
-  //   child: const App(),
-  // ));
-  runApp(App());
+  runApp(ChangeNotifierProvider(
+    create: (context) => Themeprovider(),
+    child: App(),
+  ));
 }
