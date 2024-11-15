@@ -24,7 +24,7 @@ class SyncPage extends StatelessWidget {
       body: Column(
         children: [
           SyncProgress(colors: colors),
-          XIconLabelButton(
+          const XIconLabelButton(
             icon: Icons.add_to_drive,
             label: "Sync your Files to Google Drive",
             onclick: uploadToGoogleDrive,
