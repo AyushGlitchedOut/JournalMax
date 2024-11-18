@@ -5,6 +5,7 @@ import 'package:journalmax/Widgets/XDrawer.dart';
 import 'package:journalmax/Widgets/XFloatingButton.dart';
 import 'package:journalmax/Widgets/XIconLabelButton.dart';
 import 'package:journalmax/Widgets/XLabel.dart';
+import 'package:journalmax/services/CRUD_Entry.dart';
 import 'package:journalmax/services/RecentEntries.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,6 +33,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     loadTheme(context);
+
     super.initState();
   }
 

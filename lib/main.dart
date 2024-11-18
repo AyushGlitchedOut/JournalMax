@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:journalmax/Pages/%5BTestPage%5D.dart';
 import 'package:journalmax/Pages/CollectionPage.dart';
 import 'package:journalmax/Pages/EditorPage.dart';
 import 'package:journalmax/Pages/FindDiary.dart';
@@ -19,14 +20,15 @@ class App extends StatelessWidget {
     "/view": (context) => ViewerPage(),
     "/find": (context) => const FindDiaryEntryPage(),
     "/editor": (context) => const EditorPage(),
-    "/collection": (context) => const CollectionPage()
+    "/collection": (context) => const CollectionPage(),
+    "/test": (context) => TestPage()
   };
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: true,
-      title: "JornalMax",
+      title: "JournalMax",
       theme: Provider.of<Themeprovider>(context).themeData,
       initialRoute: "/homepage",
       routes: routes,

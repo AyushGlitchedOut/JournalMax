@@ -47,6 +47,8 @@ class XDrawer extends StatelessWidget {
                   highlight: currentPage == "settings"),
               XDrawerTile(Icons.sync, context, "Synchronise", "/sync",
                   highlight: currentPage == "sync"),
+              XDrawerTile(Icons.adb, context, "Test DB", "/test",
+                  highlight: false)
             ],
           ),
           XDrawerTile(Icons.exit_to_app_rounded, context, "Quit App", "/exit",
