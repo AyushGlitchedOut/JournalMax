@@ -21,7 +21,7 @@ class Initdatabase {
       await db.execute(
           '''CREATE TABLE items (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL,
            content TEXT NOT NULL, mood TEXT NOT NULL,
-           location TEXT, audio_record TEXT, image TEXT, date TEXT NOT NULL''');
+           location TEXT, audio_record TEXT, image TEXT, date TEXT NOT NULL);''');
     });
   }
 }

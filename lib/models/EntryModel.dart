@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
 
 class Entry {
   final String title;
   final String Content;
-  final Map<String, Color> mood;
+  final Map<String, Object> mood;
   final dynamic location;
   final dynamic audio_record;
   final dynamic image;

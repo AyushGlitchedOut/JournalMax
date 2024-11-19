@@ -21,7 +21,7 @@ class App extends StatelessWidget {
     "/find": (context) => const FindDiaryEntryPage(),
     "/editor": (context) => const EditorPage(),
     "/collection": (context) => const CollectionPage(),
-    "/test": (context) => TestPage()
+    "/test": (context) => const TestPage()
   };
 
   @override
