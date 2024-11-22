@@ -1,4 +1,3 @@
-
 class Entry {
   final String title;
   final String Content;

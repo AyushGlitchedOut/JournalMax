@@ -25,18 +25,19 @@ class TestPage extends StatelessWidget {
         children: [
           ElevatedButton(
               onPressed: () async {
-                print(await getEntry(""));
+                print(await getEntry("push"));
+                print('\n ${await getAllEntry()}');
               },
-              child: const Text("GET")),
+              child: const Text("GET Entry")),
           ElevatedButton(
               onPressed: () {
-                deleteEntry("query");
+                deleteEntry(27);
               },
               child: const Text("DELETE")),
           ElevatedButton(
               onPressed: () {
                 updateEntry(
-                    "query",
+                    34,
                     Entry(
                         title: "Title",
                         Content: "Lorem Ipsum Dolor Amet",
@@ -52,7 +53,12 @@ class TestPage extends StatelessWidget {
                     date: DateTime.now(),
                     mood: EntryItemMoods.frustrated));
               },
-              child: const Text("PUSH"))
+              child: const Text("PUSH")),
+          ElevatedButton(
+              onPressed: () {
+                Wipe_deleteAllEntry();
+              },
+              child: Text("Wipe ")),
         ],
       ),
     );

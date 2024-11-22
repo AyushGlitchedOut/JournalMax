@@ -20,14 +20,42 @@ Future<void> pushEntry(Entry entry) async {
       conflictAlgorithm: ConflictAlgorithm.replace);
 }
 
-Future<void> deleteEntry(dynamic query) async {
+Future<void> deleteEntry(int id) async {
   final db = await Initdatabase().database;
+  db.delete("items", where: "id = ?", whereArgs: ["$id"]);
 }
 
-Future<List<Map<String, Object?>>> getEntry(dynamic query) async {
+Future<void> Wipe_deleteAllEntry() async {
+  final db = await Initdatabase().database;
+  db.delete("items");
+}
+
+Future<List<Map<String, Object?>>> getAllEntry() async {
   final db = await Initdatabase().database;
   final res = db.query("items");
   return res;
 }
 
-Future<void> updateEntry(dynamic query, Entry entry) async {}
+Future<List<Map<String, Object?>>> getEntry(String query) async {
+  final db = await Initdatabase().database;
+  final res =
+      await db.query("items", where: "title LIKE ?", whereArgs: ["%$query%"]);
+  return res;
+}
+
+Future<void> updateEntry(int id, Entry entry) async {
+  final db = await Initdatabase().database;
+  db.update(
+      "items",
+      {
+        "title": entry.title,
+        "content": entry.Content,
+        "mood": entry.mood.toString(),
+        "location": entry.location,
+        "audio_record": entry.audio_record,
+        "image": entry.image,
+        "date": '${entry.date.day}/${entry.date.month}/${entry.date.year}'
+      },
+      where: "id = $id",
+      conflictAlgorithm: ConflictAlgorithm.replace);
+}
