@@ -5,7 +5,6 @@ import 'package:journalmax/services/CRUD_Entry.dart';
 Future<List<XEntryItem>> loadRecentEntries() async {
   const Map<String, Color> Function(String query) NameToColor =
       EntryItemMoods.NameToColor;
-  //TODO : implement the actual stuff
   final Entries = await getRecentEntries();
   final List<XEntryItem> ResultArray = [];
   for (var i in Entries) {

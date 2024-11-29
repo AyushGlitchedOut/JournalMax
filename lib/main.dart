@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:journalmax/Pages/%5BTestPage%5D.dart';
 import 'package:journalmax/Pages/CollectionPage.dart';
@@ -21,7 +22,7 @@ class App extends StatelessWidget {
     "/find": (context) => const FindDiaryEntryPage(),
     "/editor": (context) => const EditorPage(),
     "/collection": (context) => const CollectionPage(),
-    "/test": (context) => const TestPage()
+    if (kDebugMode) "/test": (context) => const TestPage(),
   };
 
   @override

@@ -52,6 +52,7 @@ class CollectionPage extends StatelessWidget {
                   ]),
               child: SingleChildScrollView(
                 child: Column(
+                  //implemet buffering
                   children: getCollection(),
                 ),
               ),

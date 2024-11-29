@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';
@@ -9,6 +10,9 @@ class TestPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (!kDebugMode) {
+      Navigator.pushReplacementNamed(context, "/homepage");
+    }
     final ColorScheme colors = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: const PreferredSize(
