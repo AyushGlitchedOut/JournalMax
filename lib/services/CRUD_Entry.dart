@@ -2,6 +2,15 @@ import 'package:journalmax/models/EntryModel.dart';
 import 'package:journalmax/services/InitDataBase.dart';
 import 'package:sqflite/sqflite.dart';
 
+Future<List<Map<String, dynamic>>> getRecentEntries() async {
+  final db = await Initdatabase().database;
+  return await db.query(
+    'items',
+    orderBy: 'date DESC',
+    limit: 10,
+  );
+}
+
 Future<void> pushEntry(Entry entry) async {
   print(
       'Pushing Entry :\n --${entry.title} \n-- ${entry.Content} \n-- ${entry.mood} \n-- ${entry.date}');

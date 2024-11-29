@@ -102,7 +102,7 @@ final class EntryItemMoods {
 class XEntryItem extends StatelessWidget {
   final Map<String, Color> mood;
   final String title;
-  final DateTime date;
+  final String date;
   const XEntryItem(
       {super.key, required this.mood, required this.date, required this.title});
 
@@ -150,7 +150,7 @@ class XEntryItem extends StatelessWidget {
                     maxLines: 1,
                   ),
                   Text(
-                    '${date.year}/${date.month}/${date.day}',
+                    date,
                     style: TextStyle(
                         fontSize: 15.0,
                         color:

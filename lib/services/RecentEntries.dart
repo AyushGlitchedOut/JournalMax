@@ -1,52 +1,16 @@
+import 'package:flutter/material.dart';
 import 'package:journalmax/Widgets/XEntryItem.dart';
+import 'package:journalmax/services/CRUD_Entry.dart';
 
-List<XEntryItem> recentEntries() {
+Future<List<XEntryItem>> loadRecentEntries() async {
+  const Map<String, Color> Function(String query) NameToColor =
+      EntryItemMoods.NameToColor;
   //TODO : implement the actual stuff
-  return [
-    XEntryItem(
-      mood: EntryItemMoods.angry,
-      title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
-      date: DateTime.now(),
-    ),
-    XEntryItem(
-      mood: EntryItemMoods.anxious,
-      title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
-      date: DateTime.now(),
-    ),
-    XEntryItem(
-      mood: EntryItemMoods.doubtful,
-      title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
-      date: DateTime.now(),
-    ),
-    XEntryItem(
-      mood: EntryItemMoods.excited,
-      title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
-      date: DateTime.now(),
-    ),
-    XEntryItem(
-      mood: EntryItemMoods.frustrated,
-      title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
-      date: DateTime.now(),
-    ),
-    XEntryItem(
-      mood: EntryItemMoods.happy,
-      title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
-      date: DateTime.now(),
-    ),
-    XEntryItem(
-      mood: EntryItemMoods.mundane,
-      title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
-      date: DateTime.now(),
-    ),
-    XEntryItem(
-      mood: EntryItemMoods.sad,
-      title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
-      date: DateTime.now(),
-    ),
-    XEntryItem(
-      mood: EntryItemMoods.surprised,
-      title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
-      date: DateTime.now(),
-    ),
-  ];
+  final Entries = await getRecentEntries();
+  final List<XEntryItem> ResultArray = [];
+  for (var i in Entries) {
+    ResultArray.add(XEntryItem(
+        mood: NameToColor(i["mood"]), date: i["date"], title: i["title"]));
+  }
+  return ResultArray;
 }

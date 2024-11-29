@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:journalmax/Themes/ThemeProvider.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';
+import 'package:journalmax/Widgets/XEntryItem.dart';
 import 'package:journalmax/Widgets/XFloatingButton.dart';
 import 'package:journalmax/Widgets/XIconLabelButton.dart';
 import 'package:journalmax/Widgets/XLabel.dart';
@@ -17,6 +18,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<XEntryItem> recentEntries = [];
+  bool isLoading = true; // Track loading state
   Future<void> loadTheme(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
     print(Provider.of<Themeprovider>(context, listen: false).isDarkMode ==
@@ -32,14 +35,31 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    loadTheme(context);
-
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      loadTheme(context);
+      awaitRecentEntries();
+    });
+  }
+
+  Future<void> awaitRecentEntries() async {
+    setState(() {
+      isLoading = true; // Start loading
+    });
+
+    // Simulate fetching entries (Replace with actual data fetching logic)
+    final loadedEntries = await loadRecentEntries();
+
+    setState(() {
+      recentEntries = loadedEntries;
+      isLoading = false; // End loading
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final ColorScheme colors = Theme.of(context).colorScheme;
+
     return Scaffold(
       appBar: const PreferredSize(
           preferredSize: Size.fromHeight(60.0),
@@ -72,12 +92,25 @@ class _HomePageState extends State<HomePage> {
                         offset: const Offset(2.0, 2.0),
                         blurRadius: 1.0),
                   ]),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: recentEntries(),
-                ),
-              ),
+              child: isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.orange,
+                      ), // Loader widget
+                    )
+                  : recentEntries.isEmpty
+                      ? const Center(
+                          child: Text(
+                            "No recent entries",
+                            style: TextStyle(fontSize: 16.0),
+                          ),
+                        )
+                      : SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: recentEntries,
+                          ),
+                        ),
             ),
           ),
           const XLabel(label: "Options"),
@@ -99,7 +132,6 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: XFloatingButton(
         icon: Icons.add,
-        // later pass arguments and stuff
         onclick: () => Navigator.pushReplacementNamed(context, "/editor"),
       ),
     );

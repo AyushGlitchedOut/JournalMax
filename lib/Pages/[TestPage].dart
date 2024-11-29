@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';
-import 'package:journalmax/Widgets/XEntryItem.dart';
 import 'package:journalmax/models/EntryModel.dart';
 import 'package:journalmax/services/CRUD_Entry.dart';
 
@@ -37,7 +36,7 @@ class TestPage extends StatelessWidget {
           ElevatedButton(
               onPressed: () {
                 updateEntry(
-                    34,
+                    7,
                     Entry(
                         title: "Title",
                         Content: "Lorem Ipsum Dolor Amet",
@@ -58,7 +57,7 @@ class TestPage extends StatelessWidget {
               onPressed: () {
                 Wipe_deleteAllEntry();
               },
-              child: Text("Wipe ")),
+              child: const Text("Wipe ")),
         ],
       ),
     );
