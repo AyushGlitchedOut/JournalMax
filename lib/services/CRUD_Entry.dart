@@ -11,7 +11,7 @@ Future<void> pushEntry(Entry entry) async {
       {
         "title": entry.title,
         "content": entry.Content,
-        "mood": entry.mood.toString(),
+        "mood": entry.mood,
         "location": entry.location,
         "audio_record": entry.audio_record,
         "image": entry.image,

@@ -116,74 +116,6 @@ class _EditorPageState extends State<EditorPage> {
   }
 }
 
-//   XDropdown _MoodDropDown() {
-//     return XDropdown(
-//       label: "Mood",
-//       onchange: (value) {
-//         // if (value == "happy") {setState((){moods = EntryItemMoods.};happy}
-//         // else if (value == "happy") {setState((){moods = EntryItemMoods.};happy}
-//         switch (value) {
-//           case "happy":
-//             setState(() {
-//               moods = EntryItemMoods.happy;
-//             });
-//             print(moods);
-//             break;
-//           case "sad":
-//             setState(() {
-//               moods = EntryItemMoods.sad;
-//             });
-//             print(moods);
-//             break;
-//           case "angry":
-//             setState(() {
-//               moods = EntryItemMoods.angry;
-//             });
-//             print(moods);
-//             break;
-//           case "excited":
-//             setState(() {
-//               moods = EntryItemMoods.excited;
-//             });
-//             print(moods);
-//             break;
-//           case "mundane":
-//             setState(() {
-//               moods = EntryItemMoods.mundane;
-//             });
-//             print(moods);
-//             break;
-//           case "surprised":
-//             setState(() {
-//               moods = EntryItemMoods.surprised;
-//             });
-//             print(moods);
-//             break;
-//           case "frustrated":
-//             setState(() {
-//               moods = EntryItemMoods.frustrated;
-//             });
-//             print(moods);
-//             break;
-//           case "doubtful":
-//             setState(() {
-//               moods = EntryItemMoods.doubtful;
-//             });
-//             print(moods);
-//             break;
-//           case "anxious":
-//             setState(() {
-//               moods = EntryItemMoods.anxious;
-//             });
-//             print(moods);
-//             break;
-//           default:
-//         }
-//       },
-//     );
-//   }
-// }
-
 class MoodChangeDialog extends StatefulWidget {
   void Function(Map<String, Color> mood)? changeMoodFunction;
   MoodChangeDialog({super.key, required this.changeMoodFunction});
@@ -193,18 +125,8 @@ class MoodChangeDialog extends StatefulWidget {
 }
 
 class _MoodChangeDialogState extends State<MoodChangeDialog> {
-  String currentMood = "happy";
-  List<String> moods = [
-    "Happy",
-    "Sad",
-    "Angry",
-    "Excited",
-    "Mundane",
-    "Surprised",
-    "Frustrated",
-    "Doubtful",
-    "Anxious"
-  ];
+  String currentMood = "Happy";
+  final moods = EntryItemMoods.moods;
 
   @override
   Widget build(BuildContext context) {
@@ -248,45 +170,8 @@ class _MoodChangeDialogState extends State<MoodChangeDialog> {
         actions: [
           ElevatedButton(
               onPressed: () {
-                switch (currentMood) {
-                  case "Happy":
-                    widget.changeMoodFunction!(EntryItemMoods.happy);
-                    print(currentMood);
-                    break;
-                  case "Sad":
-                    widget.changeMoodFunction!(EntryItemMoods.sad);
-                    print(currentMood);
-                    break;
-                  case "Angry":
-                    widget.changeMoodFunction!(EntryItemMoods.angry);
-                    print(currentMood);
-                    break;
-                  case "Excited":
-                    widget.changeMoodFunction!(EntryItemMoods.excited);
-                    print(currentMood);
-                    break;
-                  case "Mundane":
-                    widget.changeMoodFunction!(EntryItemMoods.mundane);
-                    print(currentMood);
-                    break;
-                  case "Surprised":
-                    widget.changeMoodFunction!(EntryItemMoods.surprised);
-                    print(currentMood);
-                    break;
-                  case "Frustrated":
-                    widget.changeMoodFunction!(EntryItemMoods.frustrated);
-                    print(currentMood);
-                    break;
-                  case "Doubtful":
-                    widget.changeMoodFunction!(EntryItemMoods.doubtful);
-                    print(currentMood);
-                    break;
-                  case "Anxious":
-                    widget.changeMoodFunction!(EntryItemMoods.anxious);
-                    print(currentMood);
-                    break;
-                  default:
-                }
+                widget.changeMoodFunction!(
+                    EntryItemMoods.NameToColor(currentMood));
                 Navigator.pop(context);
               },
               child: const Text("Done!")),

@@ -1,7 +1,7 @@
 class Entry {
   final String title;
   final String Content;
-  final Map<String, Object> mood;
+  final String mood;
   final dynamic location;
   final dynamic audio_record;
   final dynamic image;

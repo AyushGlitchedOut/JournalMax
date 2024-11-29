@@ -1,6 +1,49 @@
 import 'package:flutter/material.dart';
 
+//
+//
+
+//
+//
+//
 final class EntryItemMoods {
+  static Map<String, Color> NameToColor(String name) {
+    switch (name) {
+      case "Happy":
+        return happy;
+      case "Sad":
+        return sad;
+      case "Angry":
+        return angry;
+      case "Excited":
+        return excited;
+      case "Mundane":
+        return mundane;
+      case "Surprised":
+        return surprised;
+      case "Frustrated":
+        return frustrated;
+      case "Doubtful":
+        return doubtful;
+      case "Anxious":
+        return anxious;
+      default:
+        return happy;
+    }
+  }
+
+  static List<String> moods = [
+    "Happy",
+    "Sad",
+    "Angry",
+    "Excited",
+    "Mundane",
+    "Surprised",
+    "Frustrated",
+    "Doubtful",
+    "Anxious"
+  ];
+
   static Map<String, Color> angry = {
     "surface": Colors.red.shade200,
     "text": Colors.blue.shade800,

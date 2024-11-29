@@ -41,7 +41,7 @@ class TestPage extends StatelessWidget {
                     Entry(
                         title: "Title",
                         Content: "Lorem Ipsum Dolor Amet",
-                        mood: EntryItemMoods.happy,
+                        mood: "Happy",
                         date: DateTime.now()));
               },
               child: const Text("UPDATE")),
@@ -51,7 +51,7 @@ class TestPage extends StatelessWidget {
                     Content: "Push Entry Content",
                     title: "pushEntry",
                     date: DateTime.now(),
-                    mood: EntryItemMoods.frustrated));
+                    mood: "Frustrated"));
               },
               child: const Text("PUSH")),
           ElevatedButton(
