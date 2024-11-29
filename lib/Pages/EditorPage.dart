@@ -60,8 +60,44 @@ class _EditorPageState extends State<EditorPage> {
                   return const Center(child: XMultimediaAddDialog());
                 }),
           ),
-          TitleEntryBar(titleController: _titleController, moods: moods),
-          ContentEntryBox(contentController: _contentController, moods: moods),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: _titleController,
+              decoration: InputDecoration(
+                  hintText: "Enter the title here...",
+                  hintStyle: TextStyle(color: moods["text"]),
+                  filled: true,
+                  fillColor: moods["surface"],
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: moods["text"]))),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.all(5.0),
+              // decoration: BoxDecoration(),
+              child: SingleChildScrollView(
+                child: TextField(
+                  controller: _contentController,
+                  autofocus: true,
+                  enabled: true,
+                  style: TextStyle(color: moods["text"]),
+                  decoration: InputDecoration(
+                      hintText: "Enter your thoughts here!",
+                      hintStyle: TextStyle(color: moods["secondary"]),
+                      filled: true,
+                      fillColor: moods["surface"],
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(color: moods["secondary"]))),
+                  minLines: 12,
+                  maxLines: 20,
+                ),
+              ),
+            ),
+          ),
           XIconLabelButton(
             icon: Icons.save_as_rounded,
             label: "Save Entry",
@@ -75,74 +111,6 @@ class _EditorPageState extends State<EditorPage> {
         icon: Icons.remove_red_eye_outlined,
         //later pass arguments of uid of current document
         onclick: () => Navigator.pushReplacementNamed(context, "/view"),
-      ),
-    );
-  }
-}
-
-class ContentEntryBox extends StatelessWidget {
-  const ContentEntryBox({
-    super.key,
-    required TextEditingController contentController,
-    required this.moods,
-  }) : _contentController = contentController;
-
-  final TextEditingController _contentController;
-  final Map<String, dynamic> moods;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        margin: const EdgeInsets.all(5.0),
-        // decoration: BoxDecoration(),
-        child: SingleChildScrollView(
-          child: TextField(
-            controller: _contentController,
-            autofocus: true,
-            enabled: true,
-            style: TextStyle(color: moods["text"]),
-            decoration: InputDecoration(
-                hintText: "Enter your thoughts here!",
-                hintStyle: TextStyle(color: moods["secondary"]),
-                filled: true,
-                fillColor: moods["surface"],
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(color: moods["secondary"]))),
-            minLines: 12,
-            maxLines: 20,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class TitleEntryBar extends StatelessWidget {
-  const TitleEntryBar({
-    super.key,
-    required TextEditingController titleController,
-    required this.moods,
-  }) : _titleController = titleController;
-
-  final TextEditingController _titleController;
-  final Map<String, dynamic> moods;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TextField(
-        controller: _titleController,
-        decoration: InputDecoration(
-            hintText: "Enter the title here...",
-            hintStyle: TextStyle(color: moods["text"]),
-            filled: true,
-            fillColor: moods["surface"],
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide(color: moods["text"]))),
       ),
     );
   }

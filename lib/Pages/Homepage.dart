@@ -75,10 +75,44 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           const XLabel(label: "Recent Entries"),
-          RecentEntriesBox(
-              colors: colors,
-              isLoading: isLoading,
-              recentEntries: recentEntries),
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.all(5.0),
+              decoration: BoxDecoration(
+                  color: colors.onSurface,
+                  border: Border.all(color: colors.outline),
+                  borderRadius: BorderRadius.circular(10.0),
+                  boxShadow: [
+                    BoxShadow(
+                        color: colors.primary,
+                        offset: const Offset(-1.5, -1.5),
+                        blurRadius: 1.0),
+                    BoxShadow(
+                        color: colors.shadow,
+                        offset: const Offset(2.0, 2.0),
+                        blurRadius: 1.0),
+                  ]),
+              child: isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.orange,
+                      ), // Loader widget
+                    )
+                  : recentEntries.isEmpty
+                      ? const Center(
+                          child: Text(
+                            "No recent entries",
+                            style: TextStyle(fontSize: 16.0),
+                          ),
+                        )
+                      : SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: recentEntries,
+                          ),
+                        ),
+            ),
+          ),
           const XLabel(label: "Options"),
           const XIconLabelButton(
             icon: Icons.auto_awesome_sharp,
@@ -99,61 +133,6 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: XFloatingButton(
         icon: Icons.add,
         onclick: () => Navigator.pushReplacementNamed(context, "/editor"),
-      ),
-    );
-  }
-}
-
-class RecentEntriesBox extends StatelessWidget {
-  const RecentEntriesBox({
-    super.key,
-    required this.colors,
-    required this.isLoading,
-    required this.recentEntries,
-  });
-
-  final ColorScheme colors;
-  final bool isLoading;
-  final List<XEntryItem> recentEntries;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        margin: const EdgeInsets.all(5.0),
-        decoration: BoxDecoration(
-            color: colors.onSurface,
-            border: Border.all(color: colors.outline),
-            borderRadius: BorderRadius.circular(10.0),
-            boxShadow: [
-              BoxShadow(
-                  color: colors.primary,
-                  offset: const Offset(-1.5, -1.5),
-                  blurRadius: 1.0),
-              BoxShadow(
-                  color: colors.shadow,
-                  offset: const Offset(2.0, 2.0),
-                  blurRadius: 1.0),
-            ]),
-        child: isLoading
-            ? const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.orange,
-                ), // Loader widget
-              )
-            : recentEntries.isEmpty
-                ? const Center(
-                    child: Text(
-                      "No recent entries",
-                      style: TextStyle(fontSize: 16.0),
-                    ),
-                  )
-                : SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: recentEntries,
-                    ),
-                  ),
       ),
     );
   }
