@@ -1,53 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:journalmax/Widgets/XEntryItem.dart';
+import 'package:journalmax/services/CRUD_Entry.dart';
 
 //TODO: implement the actual collection
-List<Widget> getCollection() {
-  return [
-    XEntryItem(
-      mood: EntryItemMoods.angry,
-      title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
-      date: DateTime.now().toString(),
-    ),
-    XEntryItem(
-      mood: EntryItemMoods.anxious,
-      title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
-      date: DateTime.now().toString(),
-    ),
-    XEntryItem(
-      mood: EntryItemMoods.doubtful,
-      title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
-      date: DateTime.now().toString(),
-    ),
-    XEntryItem(
-      mood: EntryItemMoods.excited,
-      title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
-      date: DateTime.now().toString(),
-    ),
-    XEntryItem(
-      mood: EntryItemMoods.frustrated,
-      title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
-      date: DateTime.now().toString(),
-    ),
-    XEntryItem(
-      mood: EntryItemMoods.happy,
-      title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
-      date: DateTime.now().toString(),
-    ),
-    XEntryItem(
-      mood: EntryItemMoods.mundane,
-      title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
-      date: DateTime.now().toString(),
-    ),
-    XEntryItem(
-      mood: EntryItemMoods.sad,
-      title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
-      date: DateTime.now().toString(),
-    ),
-    XEntryItem(
-      mood: EntryItemMoods.surprised,
-      title: "Lorem Ipsum dolor sit Amet iuerrvg iuesr",
-      date: DateTime.now().toString(),
-    ),
-  ];
+Future<List<Widget>> getCollection() async {
+  const Map<String, Color> Function(String query) NametoColor =
+      EntryItemMoods.NameToColor;
+  final List<Widget> EntryList = [];
+  final Entries = await getAllEntry();
+  for (var entry in Entries) {
+    EntryList.add(XEntryItem(
+        mood: NametoColor(entry["mood"].toString()),
+        date: entry["date"].toString(),
+        title: entry["title"].toString()));
+  }
+  return EntryList;
 }

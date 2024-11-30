@@ -116,6 +116,7 @@ class _EditorPageState extends State<EditorPage> {
   }
 }
 
+// ignore: must_be_immutable
 class MoodChangeDialog extends StatefulWidget {
   void Function(Map<String, Color> mood)? changeMoodFunction;
   MoodChangeDialog({super.key, required this.changeMoodFunction});

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 //
 //
@@ -134,7 +135,7 @@ class XEntryItem extends StatelessWidget {
             Icon(
               Icons.circle,
               size: 10.0,
-              color: colors.primary,
+              color: colors.surface,
             ),
             const SizedBox(width: 20.0),
             Expanded(
@@ -167,6 +168,7 @@ class XEntryItem extends StatelessWidget {
 
   Future<dynamic> DeleteDialog(BuildContext context) {
     final ColorScheme colors = Theme.of(context).colorScheme;
+    HapticFeedback.selectionClick();
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -194,7 +196,7 @@ class XEntryItem extends StatelessWidget {
                   ElevatedButton(
                       style: ButtonStyle(
                           backgroundColor:
-                              WidgetStatePropertyAll(colors.secondary)),
+                              WidgetStatePropertyAll(colors.onPrimary)),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -204,6 +206,9 @@ class XEntryItem extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             color: Colors.red[900]),
                       )),
+                  SizedBox(
+                    width: 10.0,
+                  ),
                   ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).pop();

@@ -1,12 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';
-import 'package:journalmax/Widgets/XDropDown.dart';
 import 'package:journalmax/Widgets/XIconLabelButton.dart';
 import 'package:journalmax/services/getCollection.dart';
 
-class CollectionPage extends StatelessWidget {
+class CollectionPage extends StatefulWidget {
   const CollectionPage({super.key});
+
+  @override
+  State<CollectionPage> createState() => _CollectionPageState();
+}
+
+class _CollectionPageState extends State<CollectionPage> {
+  List<Widget> Entries = [];
+  bool isCollectionLoading = true;
+  Future<void> getEntryCollection() async {
+    setState(() {
+      isCollectionLoading = true;
+    });
+    final awaitedEntries = await getCollection();
+    setState(() {
+      Entries = awaitedEntries;
+    });
+    setState(() {
+      isCollectionLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    getEntryCollection();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +54,6 @@ class CollectionPage extends StatelessWidget {
             label: "Search for an Entry",
             onclick: () => Navigator.pushReplacementNamed(context, "/find"),
           ),
-          const XDropdown(
-            label: "Sort By:",
-            list: ["Yearly", "Monthly", "Date"],
-          ),
           Expanded(
             child: Container(
               margin: const EdgeInsets.all(5.0),
@@ -52,8 +73,16 @@ class CollectionPage extends StatelessWidget {
                   ]),
               child: SingleChildScrollView(
                 child: Column(
-                  children: getCollection(),
-                ),
+                    children: isCollectionLoading
+                        ? [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: CircularProgressIndicator(
+                                color: Colors.orange,
+                              ),
+                            )
+                          ]
+                        : Entries),
               ),
             ),
           ),
