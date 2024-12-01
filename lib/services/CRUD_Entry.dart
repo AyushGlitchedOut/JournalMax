@@ -24,7 +24,8 @@ Future<void> pushEntry(Entry entry) async {
         "location": entry.location,
         "audio_record": entry.audio_record,
         "image": entry.image,
-        "date": '${entry.date.day}/${entry.date.month}/${entry.date.year}'
+        "date":
+            '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}'
       },
       conflictAlgorithm: ConflictAlgorithm.replace);
 }
@@ -63,7 +64,8 @@ Future<void> updateEntry(int id, Entry entry) async {
         "location": entry.location,
         "audio_record": entry.audio_record,
         "image": entry.image,
-        "date": '${entry.date.day}/${entry.date.month}/${entry.date.year}'
+        "date":
+            '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}'
       },
       where: "id = $id",
       conflictAlgorithm: ConflictAlgorithm.replace);

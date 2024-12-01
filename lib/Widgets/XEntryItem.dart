@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:journalmax/services/CRUD_Entry.dart';
 
 //
 //
@@ -58,8 +59,8 @@ final class EntryItemMoods {
   };
 
   static Map<String, Color> happy = {
-    "surface": Colors.yellow.shade300,
-    "text": Colors.orange.shade700,
+    "surface": Colors.yellow[900]!,
+    "text": Colors.blue.shade800,
     "secondary": Colors.green.shade700
   };
 
@@ -101,18 +102,25 @@ final class EntryItemMoods {
 }
 
 class XEntryItem extends StatelessWidget {
+  final int id;
   final Map<String, Color> mood;
   final String title;
   final String date;
+  final void Function() renderParent;
   const XEntryItem(
-      {super.key, required this.mood, required this.date, required this.title});
+      {super.key,
+      required this.mood,
+      required this.date,
+      required this.title,
+      required this.id,
+      required this.renderParent});
 
   @override
   Widget build(BuildContext context) {
     final ColorScheme colors = Theme.of(context).colorScheme;
     return GestureDetector(
       onLongPressStart: (LongPressStartDetails details) {
-        DeleteDialog(context);
+        DeleteDialog(context, id);
       },
       child: Container(
         width: MediaQuery.sizeOf(context).width,
@@ -166,7 +174,7 @@ class XEntryItem extends StatelessWidget {
     );
   }
 
-  Future<dynamic> DeleteDialog(BuildContext context) {
+  Future<dynamic> DeleteDialog(BuildContext context, int id) {
     final ColorScheme colors = Theme.of(context).colorScheme;
     HapticFeedback.selectionClick();
     return showDialog(
@@ -184,7 +192,7 @@ class XEntryItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15.0)),
             title: Center(
                 child: Text(
-              "Do you Really want to delete this Entry?",
+              'Do you Really want to delete this Entry? {id:$id}',
               style: TextStyle(color: colors.onPrimary),
               textAlign: TextAlign.center,
             )),
@@ -198,7 +206,9 @@ class XEntryItem extends StatelessWidget {
                           backgroundColor:
                               WidgetStatePropertyAll(colors.onPrimary)),
                       onPressed: () {
+                        deleteEntry(id);
                         Navigator.of(context).pop();
+                        renderParent();
                       },
                       child: Text(
                         "Yes",

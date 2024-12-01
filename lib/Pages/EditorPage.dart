@@ -5,6 +5,8 @@ import 'package:journalmax/Widgets/XDrawer.dart';
 import 'package:journalmax/Widgets/XFloatingButton.dart';
 import 'package:journalmax/Widgets/XIconLabelButton.dart';
 import 'package:journalmax/Widgets/XEntryItem.dart';
+import 'package:journalmax/services/InsertEntry.dart';
+import 'package:provider/provider.dart';
 
 class EditorPage extends StatefulWidget {
   const EditorPage({super.key});
@@ -14,6 +16,11 @@ class EditorPage extends StatefulWidget {
 }
 
 class _EditorPageState extends State<EditorPage> {
+  Future<void> CreateEntry() async {
+    await insertEntry(_titleController.text, _contentController.text,
+        currentmood, DateTime.now().toString(), null, null, null);
+  }
+
   final TextEditingController _contentController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
   void setMood(Map<String, Color> mood) {
@@ -22,6 +29,14 @@ class _EditorPageState extends State<EditorPage> {
     });
   }
 
+  void setCurrentMoodString(String mood) {
+    print(currentmood);
+    setState(() {
+      currentmood = mood;
+    });
+  }
+
+  String currentmood = "Happy";
   Map<String, dynamic> moods = EntryItemMoods.happy;
 
   @override
@@ -48,6 +63,7 @@ class _EditorPageState extends State<EditorPage> {
                 builder: (BuildContext context) {
                   return MoodChangeDialog(
                     changeMoodFunction: setMood,
+                    returnMood: setCurrentMoodString,
                   );
                 }),
           ),
@@ -60,49 +76,13 @@ class _EditorPageState extends State<EditorPage> {
                   return const Center(child: XMultimediaAddDialog());
                 }),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _titleController,
-              decoration: InputDecoration(
-                  hintText: "Enter the title here...",
-                  hintStyle: TextStyle(color: moods["text"]),
-                  filled: true,
-                  fillColor: moods["surface"],
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: moods["text"]))),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.all(5.0),
-              // decoration: BoxDecoration(),
-              child: SingleChildScrollView(
-                child: TextField(
-                  controller: _contentController,
-                  autofocus: true,
-                  enabled: true,
-                  style: TextStyle(color: moods["text"]),
-                  decoration: InputDecoration(
-                      hintText: "Enter your thoughts here!",
-                      hintStyle: TextStyle(color: moods["secondary"]),
-                      filled: true,
-                      fillColor: moods["surface"],
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: moods["secondary"]))),
-                  minLines: 12,
-                  maxLines: 20,
-                ),
-              ),
-            ),
-          ),
+          TitleBar(),
+          ContentBox(),
           XIconLabelButton(
             icon: Icons.save_as_rounded,
             label: "Save Entry",
             onclick: () {
-              print(_contentController.text);
+              CreateEntry();
             },
           )
         ],
@@ -114,12 +94,58 @@ class _EditorPageState extends State<EditorPage> {
       ),
     );
   }
+
+  Expanded ContentBox() {
+    return Expanded(
+      child: Container(
+        margin: const EdgeInsets.all(5.0),
+        // decoration: BoxDecoration(),
+        child: SingleChildScrollView(
+          child: TextField(
+            controller: _contentController,
+            autofocus: true,
+            enabled: true,
+            style: TextStyle(color: moods["text"]),
+            decoration: InputDecoration(
+                hintText: "Enter your thoughts here!",
+                hintStyle: TextStyle(color: moods["secondary"]),
+                filled: true,
+                fillColor: moods["surface"],
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(color: moods["secondary"]))),
+            minLines: 12,
+            maxLines: 20,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Padding TitleBar() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextField(
+        controller: _titleController,
+        decoration: InputDecoration(
+            hintText: "Enter the title here...",
+            hintStyle: TextStyle(color: moods["text"]),
+            filled: true,
+            fillColor: moods["surface"],
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide(color: moods["text"]))),
+      ),
+    );
+  }
 }
 
 // ignore: must_be_immutable
 class MoodChangeDialog extends StatefulWidget {
   void Function(Map<String, Color> mood)? changeMoodFunction;
-  MoodChangeDialog({super.key, required this.changeMoodFunction});
+  void Function(String currentmood) returnMood;
+  MoodChangeDialog(
+      {super.key, required this.changeMoodFunction, required this.returnMood});
 
   @override
   State<MoodChangeDialog> createState() => _MoodChangeDialogState();
@@ -156,6 +182,7 @@ class _MoodChangeDialogState extends State<MoodChangeDialog> {
                   value: mood,
                   groupValue: currentMood,
                   onChanged: (value) {
+                    widget.returnMood(currentMood);
                     print(value);
                     setState(() {
                       currentMood = value!;

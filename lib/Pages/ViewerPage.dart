@@ -16,11 +16,11 @@ class ViewerPage extends StatefulWidget {
 }
 
 class _ViewerPageState extends State<ViewerPage> {
-  Text text = const Text("Lorem Ipsum Dolor Amet");
+  dynamic Content = "Content";
 
-  void setContent(String test) {
+  void setContent(dynamic content) {
     setState(() {
-      text = Text(test);
+      Content = content;
     });
   }
 
@@ -40,6 +40,29 @@ class _ViewerPageState extends State<ViewerPage> {
       backgroundColor: colors.surface,
       body: Column(
         children: [
+          Container(
+              height: MediaQuery.of(context).size.height * 0.075,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                  border: Border.all(color: colors.outline),
+                  color: widget.mood!["surface"],
+                  boxShadow: [
+                    BoxShadow(
+                        color: widget.mood!["text"] ?? colors.shadow,
+                        offset: const Offset(1.5, 1.5)),
+                    BoxShadow(
+                        color: widget.mood!["secondary"] ?? colors.outline,
+                        offset: const Offset(-1.5, -1.5))
+                  ],
+                  borderRadius: BorderRadius.circular(10.0)),
+              padding: const EdgeInsets.all(5.0),
+              margin:
+                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 5.0),
+              child: SelectableText(
+                "Title",
+                style: TextStyle(color: widget.mood!["text"], fontSize: 30.0),
+                textAlign: TextAlign.center,
+              )),
           Expanded(
             child: Container(
               width: MediaQuery.of(context).size.width,
@@ -56,8 +79,12 @@ class _ViewerPageState extends State<ViewerPage> {
                   ],
                   borderRadius: BorderRadius.circular(10.0)),
               padding: const EdgeInsets.all(5.0),
-              margin: const EdgeInsets.all(20.0),
-              child: SingleChildScrollView(child: text),
+              margin: const EdgeInsets.all(15.0),
+              child: SingleChildScrollView(
+                  child: SelectableText(
+                "Content",
+                style: TextStyle(color: widget.mood!["text"], fontSize: 20.0),
+              )),
             ),
           ),
           XIconLabelButton(

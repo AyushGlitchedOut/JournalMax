@@ -18,7 +18,7 @@ class _CollectionPageState extends State<CollectionPage> {
     setState(() {
       isCollectionLoading = true;
     });
-    final awaitedEntries = await getCollection();
+    final awaitedEntries = await getCollection(getEntryCollection);
     setState(() {
       Entries = awaitedEntries;
     });

@@ -5,7 +5,7 @@ class Entry {
   final dynamic location;
   final dynamic audio_record;
   final dynamic image;
-  final DateTime date;
+  final String date;
 
   Entry(
       {required this.title,
