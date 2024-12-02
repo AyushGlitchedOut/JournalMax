@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:journalmax/Pages/EditorPage.dart';
 import 'package:journalmax/services/CRUD_Entry.dart';
 
 //
@@ -122,6 +123,15 @@ class XEntryItem extends StatelessWidget {
       onLongPressStart: (LongPressStartDetails details) {
         DeleteDialog(context, id);
       },
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => EditorPage(
+                      createNewEntry: false,
+                      UpdateId: id,
+                    )));
+      },
       child: Container(
         width: MediaQuery.sizeOf(context).width,
         decoration: BoxDecoration(
@@ -216,7 +226,7 @@ class XEntryItem extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             color: Colors.red[900]),
                       )),
-                  SizedBox(
+                  const SizedBox(
                     width: 10.0,
                   ),
                   ElevatedButton(

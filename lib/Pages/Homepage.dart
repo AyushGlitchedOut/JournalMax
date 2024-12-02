@@ -121,18 +121,18 @@ class _HomePageState extends State<HomePage> {
           XIconLabelButton(
             icon: Icons.sync_sharp,
             label: "Synchronize your Diary",
-            onclick: () => Navigator.pushReplacementNamed(context, "/sync"),
+            onclick: () => Navigator.pushNamed(context, "/sync"),
           ),
           XIconLabelButton(
             icon: Icons.search_sharp,
             label: "Find an Entry",
-            onclick: () => Navigator.pushReplacementNamed(context, "/find"),
+            onclick: () => Navigator.pushNamed(context, "/find"),
           )
         ],
       ),
       floatingActionButton: XFloatingButton(
         icon: Icons.add,
-        onclick: () => Navigator.pushReplacementNamed(context, "/editor"),
+        onclick: () => Navigator.pushNamed(context, "/editor"),
       ),
     );
   }

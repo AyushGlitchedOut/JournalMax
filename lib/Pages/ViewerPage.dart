@@ -16,6 +16,7 @@ class ViewerPage extends StatefulWidget {
 }
 
 class _ViewerPageState extends State<ViewerPage> {
+  String routeName = "/view";
   dynamic Content = "Content";
 
   void setContent(dynamic content) {
@@ -26,6 +27,8 @@ class _ViewerPageState extends State<ViewerPage> {
 
   @override
   Widget build(BuildContext context) {
+    final int id = ModalRoute.of(context)!.settings.arguments as int;
+    print(id);
     widget.mood ??= EntryItemMoods.happy;
     final ColorScheme colors = Theme.of(context).colorScheme;
     return Scaffold(
@@ -100,7 +103,7 @@ class _ViewerPageState extends State<ViewerPage> {
       floatingActionButton: XFloatingButton(
         icon: Icons.edit,
         //pass arguments later
-        onclick: () => Navigator.pushReplacementNamed(context, "/editor"),
+        onclick: () => Navigator.pushNamed(context, "/editor"),
       ),
     );
   }

@@ -68,7 +68,7 @@ class XDrawer extends StatelessWidget {
           XExitDialog(context);
           return;
         }
-        Navigator.pushReplacementNamed(context, path!);
+        Navigator.pushNamed(context, path!);
       },
       child: Container(
         margin: const EdgeInsets.all(5.0),

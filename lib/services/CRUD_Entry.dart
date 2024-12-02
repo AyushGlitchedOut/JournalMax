@@ -53,6 +53,12 @@ Future<List<Map<String, Object?>>> getEntry(String query) async {
   return res;
 }
 
+Future<List<Map<String, Object?>>> getEntryById(int id) async {
+  final db = await Initdatabase().database;
+  final res = await db.query("items", where: "id = ?", whereArgs: [id]);
+  return res;
+}
+
 Future<void> updateEntry(int id, Entry entry) async {
   final db = await Initdatabase().database;
   db.update(

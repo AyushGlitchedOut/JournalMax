@@ -52,7 +52,7 @@ class _CollectionPageState extends State<CollectionPage> {
           XIconLabelButton(
             icon: Icons.search,
             label: "Search for an Entry",
-            onclick: () => Navigator.pushReplacementNamed(context, "/find"),
+            onclick: () => Navigator.pushNamed(context, "/find"),
           ),
           Expanded(
             child: Container(
@@ -75,8 +75,8 @@ class _CollectionPageState extends State<CollectionPage> {
                 child: Column(
                     children: isCollectionLoading
                         ? [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
                               child: CircularProgressIndicator(
                                 color: Colors.orange,
                               ),
