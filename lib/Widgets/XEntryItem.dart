@@ -73,7 +73,7 @@ final class EntryItemMoods {
 
   static Map<String, Color> mundane = {
     "surface": Colors.grey.shade300,
-    "text": Colors.grey.shade700,
+    "text": Colors.black87,
     "secondary": Colors.brown.shade700
   };
 

@@ -5,6 +5,7 @@ import 'package:journalmax/Widgets/XDrawer.dart';
 import 'package:journalmax/Widgets/XEntryItem.dart';
 import 'package:journalmax/Widgets/XFloatingButton.dart';
 import 'package:journalmax/Widgets/XIconLabelButton.dart';
+import 'package:journalmax/Widgets/XSnackBar.dart';
 import 'package:journalmax/models/EntryModel.dart';
 import 'package:journalmax/services/CRUD_Entry.dart';
 import 'package:journalmax/services/InsertEntry.dart';
@@ -78,15 +79,10 @@ class _EditorPageState extends State<EditorPage> {
     }
   }
 
-  void setMood(Map<String, Color> mood) {
-    setState(() {
-      moods = mood;
-    });
-  }
-
   void setCurrentMoodString(String mood) {
     setState(() {
       currentMood = mood;
+      moods = EntryItemMoods.NameToColor(mood);
     });
   }
 
@@ -114,7 +110,6 @@ class _EditorPageState extends State<EditorPage> {
               context: context,
               builder: (BuildContext context) {
                 return MoodChangeDialog(
-                  changeMoodFunction: setMood,
                   returnMood: setCurrentMoodString,
                 );
               },
@@ -137,6 +132,7 @@ class _EditorPageState extends State<EditorPage> {
             label: "Save Entry",
             onclick: () async {
               await UpdateEntry();
+              showSnackBar("Updated Entry", context);
             },
           ),
         ],
@@ -182,6 +178,7 @@ class _EditorPageState extends State<EditorPage> {
       child: TextField(
         autofocus: true,
         controller: _titleController,
+        style: TextStyle(color: moods["text"]),
         decoration: InputDecoration(
           hintText: "Enter the title here...",
           hintStyle: TextStyle(color: moods["text"]),
@@ -201,10 +198,8 @@ class _EditorPageState extends State<EditorPage> {
 
 // ignore: must_be_immutable
 class MoodChangeDialog extends StatefulWidget {
-  void Function(Map<String, Color> mood)? changeMoodFunction;
   void Function(String currentmood) returnMood;
-  MoodChangeDialog(
-      {super.key, required this.changeMoodFunction, required this.returnMood});
+  MoodChangeDialog({super.key, required this.returnMood});
 
   @override
   State<MoodChangeDialog> createState() => _MoodChangeDialogState();
@@ -242,7 +237,6 @@ class _MoodChangeDialogState extends State<MoodChangeDialog> {
                   groupValue: currentMood,
                   onChanged: (value) {
                     widget.returnMood(currentMood);
-                    print(value);
                     setState(() {
                       currentMood = value!;
                     });
@@ -257,8 +251,8 @@ class _MoodChangeDialogState extends State<MoodChangeDialog> {
         actions: [
           ElevatedButton(
               onPressed: () {
-                widget.changeMoodFunction!(
-                    EntryItemMoods.NameToColor(currentMood));
+                widget.returnMood(currentMood);
+                showSnackBar('Changed Entry Mood To $currentMood', context);
                 Navigator.pop(context);
               },
               child: const Text("Done!")),
