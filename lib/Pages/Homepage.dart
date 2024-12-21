@@ -22,8 +22,6 @@ class _HomePageState extends State<HomePage> {
   bool isLoading = true; // Track loading state
   Future<void> loadTheme(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
-    print(Provider.of<Themeprovider>(context, listen: false).isDarkMode ==
-        prefs.getBool("isDarkMode"));
 
     if (Provider.of<Themeprovider>(context, listen: false).isDarkMode ==
         prefs.getBool("isDarkMode")) {

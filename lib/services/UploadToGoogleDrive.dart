@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 void uploadToGoogleDrive() {
-  print("Data Upload");
+  if (kDebugMode) print("Data Upload");
 }

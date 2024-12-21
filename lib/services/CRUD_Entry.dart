@@ -12,8 +12,6 @@ Future<List<Map<String, dynamic>>> getRecentEntries() async {
 }
 
 Future<void> pushEntry(Entry entry) async {
-  print(
-      'Pushing Entry :\n --${entry.title} \n-- ${entry.Content} \n-- ${entry.mood} \n-- ${entry.date}');
   final db = await Initdatabase().database;
   await db.insert(
       "items",

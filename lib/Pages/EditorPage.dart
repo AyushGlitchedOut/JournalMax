@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:journalmax/Pages/ViewerPage.dart';
 import 'package:journalmax/Widgets/MultimediaAddDialog.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';
@@ -12,9 +14,9 @@ import 'package:journalmax/services/InsertEntry.dart';
 
 class EditorPage extends StatefulWidget {
   final bool? createNewEntry;
-  final int? UpdateId;
+  int? UpdateId;
 
-  const EditorPage({super.key, this.createNewEntry = true, this.UpdateId});
+  EditorPage({super.key, this.createNewEntry = true, this.UpdateId});
 
   @override
   State<EditorPage> createState() => _EditorPageState();
@@ -26,33 +28,18 @@ class _EditorPageState extends State<EditorPage> {
   String currentMood = "Happy";
   Map<String, dynamic> moods = EntryItemMoods.happy;
 
-  @override
-  void initState() {
-    super.initState();
-    if (widget.createNewEntry!) {
-      CreateEntry();
-    } else if (widget.UpdateId != null) {
-      fetchExistingEntry(widget.UpdateId!);
+  Future<void> setUpdateIDForNewEntry() async {
+    if (!widget.createNewEntry!) {
+      return;
     }
+    final result = await getRecentEntries();
+    widget.UpdateId = result.last["id"];
+    return;
   }
 
   Future<void> CreateEntry() async {
     await insertEntry(
         "Untitled", "", "Happy", DateTime.now().toString(), null, null, null);
-  }
-
-  Future<void> fetchExistingEntry(int id) async {
-    try {
-      final entryDetails = await getEntryDetailsById(id);
-      setState(() {
-        _titleController.text = entryDetails["title"] ?? "Untitled";
-        _contentController.text = entryDetails["content"] ?? "";
-        currentMood = entryDetails["mood"] ?? "Happy";
-        moods = EntryItemMoods.NameToColor(currentMood);
-      });
-    } catch (e) {
-      debugPrint("Error fetching entry: $e");
-    }
   }
 
   Future<void> UpdateEntry() async {
@@ -79,6 +66,20 @@ class _EditorPageState extends State<EditorPage> {
     }
   }
 
+  Future<void> fetchExistingEntry(int id) async {
+    try {
+      final entryDetails = await getEntryDetailsById(id);
+      setState(() {
+        _titleController.text = entryDetails["title"] ?? "Untitled";
+        _contentController.text = entryDetails["content"] ?? "";
+        currentMood = entryDetails["mood"] ?? "Happy";
+        moods = EntryItemMoods.NameToColor(currentMood);
+      });
+    } catch (e) {
+      if (kDebugMode) debugPrint("Error fetching entry: $e");
+    }
+  }
+
   void setCurrentMoodString(String mood) {
     setState(() {
       currentMood = mood;
@@ -87,62 +88,74 @@ class _EditorPageState extends State<EditorPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final ColorScheme colors = Theme.of(context).colorScheme;
-    if (!widget.createNewEntry!) {
+  void initState() {
+    if (widget.createNewEntry!) {
+      CreateEntry();
+    } else if (widget.UpdateId != null) {
       fetchExistingEntry(widget.UpdateId!);
     }
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    setUpdateIDForNewEntry();
+    final ColorScheme colors = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(60.0),
-        child: XAppBar(title: "Editor Page"),
-      ),
-      drawer: const XDrawer(currentPage: "editor"),
-      backgroundColor: colors.surface,
-      body: Column(
-        children: [
-          XIconLabelButton(
-            icon: Icons.mood,
-            label: "What's your current mood?",
-            customFontSize: 19.0,
-            onclick: () => showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return MoodChangeDialog(
-                  returnMood: setCurrentMoodString,
+        appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(60.0),
+          child: XAppBar(title: "Editor Page"),
+        ),
+        drawer: const XDrawer(currentPage: "editor"),
+        backgroundColor: colors.surface,
+        body: Column(
+          children: [
+            XIconLabelButton(
+              icon: Icons.mood,
+              label: "What's your current mood?",
+              customFontSize: 19.0,
+              onclick: () => showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return MoodChangeDialog(
+                    returnMood: setCurrentMoodString,
+                  );
+                },
+              ),
+            ),
+            XIconLabelButton(
+              icon: Icons.image_outlined,
+              label: "Add Multimedia",
+              onclick: () => showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return const Center(child: XMultimediaAddDialog());
+                },
+              ),
+            ),
+            TitleBar(),
+            ContentBox(),
+            XIconLabelButton(
+              icon: Icons.save_as_rounded,
+              label: "Save Entry",
+              onclick: () async {
+                await UpdateEntry();
+                showSnackBar("Updated Entry", context);
+              },
+            ),
+          ],
+        ),
+        floatingActionButton: XFloatingButton(
+            icon: Icons.remove_red_eye_outlined,
+            onclick: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (BuildContext context) {
+                return ViewerPage(
+                  Id: widget.UpdateId,
                 );
-              },
-            ),
-          ),
-          XIconLabelButton(
-            icon: Icons.image_outlined,
-            label: "Add Multimedia",
-            onclick: () => showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return const Center(child: XMultimediaAddDialog());
-              },
-            ),
-          ),
-          TitleBar(),
-          ContentBox(),
-          XIconLabelButton(
-            icon: Icons.save_as_rounded,
-            label: "Save Entry",
-            onclick: () async {
-              await UpdateEntry();
-              showSnackBar("Updated Entry", context);
-            },
-          ),
-        ],
-      ),
-      floatingActionButton: XFloatingButton(
-        icon: Icons.remove_red_eye_outlined,
-        onclick: () => Navigator.pushNamed(context, "/view",
-            arguments: widget.UpdateId ?? 1),
-      ),
-    );
+              }));
+            }));
   }
 
   Expanded ContentBox() {

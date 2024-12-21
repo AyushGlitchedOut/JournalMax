@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';
@@ -24,8 +25,8 @@ class TestPage extends StatelessWidget {
         children: [
           ElevatedButton(
               onPressed: () async {
-                print(await getEntry("push"));
-                print('\n ${await getAllEntry()}');
+                if (kDebugMode) print(await getEntry("push"));
+                if (kDebugMode) print('\n ${await getAllEntry()}');
               },
               child: const Text("GET Entry")),
           ElevatedButton(

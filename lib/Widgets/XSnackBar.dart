@@ -4,7 +4,7 @@ void showSnackBar(String message, BuildContext context) {
   final ColorScheme colors = Theme.of(context).colorScheme;
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     elevation: 10.0,
-    margin: EdgeInsets.all(7.0),
+    margin: const EdgeInsets.all(7.0),
     behavior: SnackBarBehavior.floating,
     backgroundColor: colors.onPrimary,
     content: Container(

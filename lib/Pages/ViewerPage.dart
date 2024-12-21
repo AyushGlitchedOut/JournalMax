@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:journalmax/Widgets/XDialogButton.dart';
 import 'package:journalmax/Widgets/XEntryItem.dart';
@@ -5,31 +6,49 @@ import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';
 import 'package:journalmax/Widgets/XFloatingButton.dart';
 import 'package:journalmax/Widgets/XIconLabelButton.dart';
+import 'package:journalmax/services/CRUD_Entry.dart';
 
 // ignore: must_be_immutable
 class ViewerPage extends StatefulWidget {
-  Map<String, Color>? mood;
-  ViewerPage({super.key, this.mood});
+  final int? Id;
+  const ViewerPage({super.key, this.Id});
 
   @override
   State<ViewerPage> createState() => _ViewerPageState();
 }
 
 class _ViewerPageState extends State<ViewerPage> {
-  String routeName = "/view";
-  dynamic Content = "Content";
+  Map<String, Color>? mood;
+  Map<String, Object?>? Content;
 
-  void setContent(dynamic content) {
+  void setContent(Map<String, Object?> content) {
     setState(() {
       Content = content;
     });
   }
 
+  void setMood(String Mood) {
+    setState(() {
+      mood = EntryItemMoods.NameToColor(Mood);
+    });
+  }
+
+  Future<void> getEntry() async {
+    if (kDebugMode) print('Id:${widget.Id}');
+    final res = await getEntryById(widget.Id!);
+    setContent(res.first);
+    setMood(res.first["mood"].toString());
+  }
+
+  @override
+  void initState() {
+    getEntry();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final int id = ModalRoute.of(context)!.settings.arguments as int;
-    print(id);
-    widget.mood ??= EntryItemMoods.happy;
+    mood ??= EntryItemMoods.happy;
     final ColorScheme colors = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: const PreferredSize(
@@ -48,13 +67,13 @@ class _ViewerPageState extends State<ViewerPage> {
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   border: Border.all(color: colors.outline),
-                  color: widget.mood!["surface"],
+                  color: mood!["surface"],
                   boxShadow: [
                     BoxShadow(
-                        color: widget.mood!["text"] ?? colors.shadow,
+                        color: mood!["text"] ?? colors.shadow,
                         offset: const Offset(1.5, 1.5)),
                     BoxShadow(
-                        color: widget.mood!["secondary"] ?? colors.outline,
+                        color: mood!["secondary"] ?? colors.outline,
                         offset: const Offset(-1.5, -1.5))
                   ],
                   borderRadius: BorderRadius.circular(10.0)),
@@ -62,8 +81,8 @@ class _ViewerPageState extends State<ViewerPage> {
               margin:
                   const EdgeInsets.symmetric(horizontal: 12.0, vertical: 5.0),
               child: SelectableText(
-                "Title",
-                style: TextStyle(color: widget.mood!["text"], fontSize: 30.0),
+                Content!["title"].toString(),
+                style: TextStyle(color: mood!["text"], fontSize: 30.0),
                 textAlign: TextAlign.center,
               )),
           Expanded(
@@ -71,13 +90,13 @@ class _ViewerPageState extends State<ViewerPage> {
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   border: Border.all(color: colors.outline),
-                  color: widget.mood!["surface"],
+                  color: mood!["surface"],
                   boxShadow: [
                     BoxShadow(
-                        color: widget.mood!["text"] ?? colors.shadow,
+                        color: mood!["text"] ?? colors.shadow,
                         offset: const Offset(1.5, 1.5)),
                     BoxShadow(
-                        color: widget.mood!["secondary"] ?? colors.outline,
+                        color: mood!["secondary"] ?? colors.outline,
                         offset: const Offset(-1.5, -1.5))
                   ],
                   borderRadius: BorderRadius.circular(10.0)),
@@ -85,8 +104,8 @@ class _ViewerPageState extends State<ViewerPage> {
               margin: const EdgeInsets.all(15.0),
               child: SingleChildScrollView(
                   child: SelectableText(
-                "Content",
-                style: TextStyle(color: widget.mood!["text"], fontSize: 20.0),
+                Content!["content"].toString(),
+                style: TextStyle(color: mood!["secondary"], fontSize: 20.0),
               )),
             ),
           ),
@@ -136,25 +155,25 @@ class _ViewerPageState extends State<ViewerPage> {
                   colors: colors,
                   icon: Icons.book,
                   title: "View Diary Entry",
-                  onclick: () => setContent("Diary Entry"),
+                  onclick: () => {},
                 ),
                 XDialogButton(
                   colors: colors,
                   icon: Icons.location_on,
                   title: "View where you were",
-                  onclick: () => setContent("Location"),
+                  onclick: () => {},
                 ),
                 XDialogButton(
                   colors: colors,
                   icon: Icons.mic,
                   title: "View Voice Notes",
-                  onclick: () => setContent("Voice Notes"),
+                  onclick: () => {},
                 ),
                 XDialogButton(
                   colors: colors,
                   icon: Icons.image,
                   title: "View Attached Images",
-                  onclick: () => setContent("Images "),
+                  onclick: () => {},
                 )
               ],
             ),

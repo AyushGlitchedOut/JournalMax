@@ -15,7 +15,6 @@ Future<List<XEntryItem>> loadRecentEntries(void Function() renderParent) async {
         mood: NameToColor(i["mood"]),
         date: i["date"],
         title: i["title"]));
-    print(i["id"]);
   }
   return ResultArray;
 }

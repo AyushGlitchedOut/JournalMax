@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:journalmax/Pages/EditorPage.dart';
 import 'package:journalmax/Widgets/XExitDialog.dart';
 
 class XDrawer extends StatelessWidget {
@@ -63,9 +64,16 @@ class XDrawer extends StatelessWidget {
       {required bool highlight}) {
     final ColorScheme colors = Theme.of(context).colorScheme;
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         if (path == "/exit") {
           XExitDialog(context);
+          return;
+        }
+        if (path == "/editor") {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (BuildContext context) {
+            return EditorPage();
+          }));
           return;
         }
         Navigator.pushNamed(context, path!);

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class XSearchBar extends StatelessWidget {
@@ -50,7 +51,10 @@ class XSearchBar extends StatelessWidget {
           IconButton(
             padding: const EdgeInsets.all(5.0),
             onPressed: () =>
-                searchFunction!(controller.text) ?? () => print("Clicked"),
+                searchFunction!(controller.text) ??
+                () {
+                  if (kDebugMode) print("Clicked");
+                },
             style: ButtonStyle(
                 shadowColor: WidgetStatePropertyAll(colors.shadow),
                 backgroundColor: WidgetStatePropertyAll(colors.onSurface),
