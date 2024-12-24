@@ -6,7 +6,8 @@ import 'package:journalmax/Widgets/XSearchBar.dart';
 import 'package:journalmax/services/searchEntries.dart';
 
 class FindDiaryEntryPage extends StatefulWidget {
-  const FindDiaryEntryPage({super.key});
+  FindDiaryEntryPage({super.key});
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   State<FindDiaryEntryPage> createState() => _FindDiaryEntryPageState();
@@ -14,9 +15,11 @@ class FindDiaryEntryPage extends StatefulWidget {
 
 class _FindDiaryEntryPageState extends State<FindDiaryEntryPage> {
   List<XEntryItem> results = [];
-  void Search(String query) {
+
+  void Search(String query) async {
+    final searchResults = await searchEntries(query, Search);
     setState(() {
-      results = searchEntries(query);
+      results = searchResults;
     });
   }
 
@@ -37,6 +40,7 @@ class _FindDiaryEntryPageState extends State<FindDiaryEntryPage> {
         children: [
           XSearchBar(
             searchFunction: Search,
+            controller: widget._searchController,
           ),
           Expanded(
             child: Container(

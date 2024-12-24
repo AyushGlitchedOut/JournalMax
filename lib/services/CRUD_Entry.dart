@@ -2,15 +2,7 @@ import 'package:journalmax/models/EntryModel.dart';
 import 'package:journalmax/services/InitDataBase.dart';
 import 'package:sqflite/sqflite.dart';
 
-Future<List<Map<String, dynamic>>> getRecentEntries() async {
-  final db = await Initdatabase().database;
-  return await db.query(
-    'items',
-    orderBy: 'date DESC',
-    limit: 10,
-  );
-}
-
+//Create
 Future<void> pushEntry(Entry entry) async {
   final db = await Initdatabase().database;
   await db.insert(
@@ -28,14 +20,12 @@ Future<void> pushEntry(Entry entry) async {
       conflictAlgorithm: ConflictAlgorithm.replace);
 }
 
-Future<void> deleteEntry(int id) async {
+// Read
+Future<List<Map<String, Object?>>> getEntry(String query) async {
   final db = await Initdatabase().database;
-  db.delete("items", where: "id = ?", whereArgs: ["$id"]);
-}
-
-Future<void> Wipe_deleteAllEntry() async {
-  final db = await Initdatabase().database;
-  db.delete("items");
+  final res =
+      await db.query("items", where: "title LIKE ?", whereArgs: ["%$query%"]);
+  return res;
 }
 
 Future<List<Map<String, Object?>>> getAllEntry() async {
@@ -44,18 +34,22 @@ Future<List<Map<String, Object?>>> getAllEntry() async {
   return res;
 }
 
-Future<List<Map<String, Object?>>> getEntry(String query) async {
-  final db = await Initdatabase().database;
-  final res =
-      await db.query("items", where: "title LIKE ?", whereArgs: ["%$query%"]);
-  return res;
-}
-
 Future<List<Map<String, Object?>>> getEntryById(int id) async {
   final db = await Initdatabase().database;
   final res = await db.query("items", where: "id = ?", whereArgs: [id]);
   return res;
 }
+
+Future<List<Map<String, dynamic>>> getRecentEntries() async {
+  final db = await Initdatabase().database;
+  return await db.query(
+    'items',
+    orderBy: 'date DESC',
+    limit: 10,
+  );
+}
+
+//Update
 
 Future<void> updateEntry(int id, Entry entry) async {
   final db = await Initdatabase().database;
@@ -73,4 +67,16 @@ Future<void> updateEntry(int id, Entry entry) async {
       },
       where: "id = $id",
       conflictAlgorithm: ConflictAlgorithm.replace);
+}
+
+//Delete
+
+Future<void> deleteEntry(int id) async {
+  final db = await Initdatabase().database;
+  db.delete("items", where: "id = ?", whereArgs: ["$id"]);
+}
+
+Future<void> Wipe_deleteAllEntry() async {
+  final db = await Initdatabase().database;
+  db.delete("items");
 }

@@ -12,6 +12,7 @@ import 'package:journalmax/models/EntryModel.dart';
 import 'package:journalmax/services/CRUD_Entry.dart';
 import 'package:journalmax/services/InsertEntry.dart';
 
+// ignore: must_be_immutable
 class EditorPage extends StatefulWidget {
   final bool? createNewEntry;
   int? UpdateId;

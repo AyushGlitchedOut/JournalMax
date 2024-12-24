@@ -4,6 +4,7 @@ import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';
 import 'package:journalmax/Widgets/XIconLabelButton.dart';
 import 'package:journalmax/Widgets/XToggle.dart';
+import 'package:journalmax/services/CRUD_Entry.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -40,6 +41,42 @@ class SettingsPage extends StatelessWidget {
                   .isDarkMode);
             },
           ),
+          XIconLabelButton(
+              icon: Icons.delete_forever,
+              label: "Delete All Entries",
+              onclick: () => showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(width: 2.0, color: colors.outline),
+                          borderRadius: BorderRadius.circular(15.0)),
+                      title: const Row(children: [
+                        Icon(
+                          Icons.warning_amber_outlined,
+                          color: Colors.red,
+                        ),
+                        Text("Wipe All Entries!!")
+                      ]),
+                      content: const Text(
+                          "This action will permanently delete all the Entries. Do you really wanna do it?"),
+                      actions: [
+                        ElevatedButton(
+                            onPressed: () {
+                              Wipe_deleteAllEntry();
+                            },
+                            child: const Text(
+                              "Yes",
+                              style: TextStyle(color: Colors.red),
+                            )),
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text("No"))
+                      ],
+                    );
+                  })),
           const XIconLabelButton(
             icon: Icons.book,
             label: "App Licenses",

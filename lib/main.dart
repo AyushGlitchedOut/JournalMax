@@ -18,7 +18,7 @@ class App extends StatelessWidget {
     "/settings": (context) => const SettingsPage(),
     "/sync": (context) => const SyncPage(),
     "/view": (context) => const ViewerPage(),
-    "/find": (context) => const FindDiaryEntryPage(),
+    "/find": (context) => FindDiaryEntryPage(),
     "/editor": (context) => EditorPage(
           createNewEntry: true,
         ),

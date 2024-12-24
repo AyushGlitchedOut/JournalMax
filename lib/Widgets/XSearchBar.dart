@@ -1,14 +1,14 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class XSearchBar extends StatelessWidget {
-  final Function(String query)? searchFunction;
+  final void Function(String query) searchFunction;
+  final TextEditingController controller;
 
-  const XSearchBar({super.key, this.searchFunction});
+  const XSearchBar(
+      {super.key, required this.searchFunction, required this.controller});
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController controller = TextEditingController();
     final ColorScheme colors = Theme.of(context).colorScheme;
 
     return Container(
@@ -34,6 +34,7 @@ class XSearchBar extends StatelessWidget {
         children: [
           Expanded(
             child: TextField(
+              onChanged: searchFunction,
               controller: controller,
               decoration: const InputDecoration(
                   fillColor: Colors.transparent,
@@ -50,11 +51,7 @@ class XSearchBar extends StatelessWidget {
           ),
           IconButton(
             padding: const EdgeInsets.all(5.0),
-            onPressed: () =>
-                searchFunction!(controller.text) ??
-                () {
-                  if (kDebugMode) print("Clicked");
-                },
+            onPressed: () => searchFunction(controller.text),
             style: ButtonStyle(
                 shadowColor: WidgetStatePropertyAll(colors.shadow),
                 backgroundColor: WidgetStatePropertyAll(colors.onSurface),

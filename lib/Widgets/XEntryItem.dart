@@ -107,7 +107,7 @@ class XEntryItem extends StatelessWidget {
   final Map<String, Color> mood;
   final String title;
   final String date;
-  final void Function() renderParent;
+  final dynamic renderParent;
   const XEntryItem(
       {super.key,
       required this.mood,
