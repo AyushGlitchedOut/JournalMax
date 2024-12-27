@@ -103,60 +103,68 @@ class _EditorPageState extends State<EditorPage> {
     setUpdateIDForNewEntry();
     final ColorScheme colors = Theme.of(context).colorScheme;
 
-    return Scaffold(
-        appBar: const PreferredSize(
-          preferredSize: Size.fromHeight(60.0),
-          child: XAppBar(title: "Editor Page"),
-        ),
-        drawer: const XDrawer(currentPage: "editor"),
-        backgroundColor: colors.surface,
-        body: Column(
-          children: [
-            XIconLabelButton(
-              icon: Icons.mood,
-              label: "What's your current mood?",
-              customFontSize: 19.0,
-              onclick: () => showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return MoodChangeDialog(
-                    returnMood: setCurrentMoodString,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        await UpdateEntry();
+        Navigator.pop(context);
+      },
+      child: Scaffold(
+          appBar: const PreferredSize(
+            preferredSize: Size.fromHeight(60.0),
+            child: XAppBar(title: "Editor Page"),
+          ),
+          drawer: const XDrawer(currentPage: "editor"),
+          onDrawerChanged: (isOpened) => UpdateEntry(),
+          backgroundColor: colors.surface,
+          body: Column(
+            children: [
+              XIconLabelButton(
+                icon: Icons.mood,
+                label: "What's your current mood?",
+                customFontSize: 19.0,
+                onclick: () => showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return MoodChangeDialog(
+                      returnMood: setCurrentMoodString,
+                    );
+                  },
+                ),
+              ),
+              XIconLabelButton(
+                icon: Icons.image_outlined,
+                label: "Add Multimedia",
+                onclick: () => showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const Center(child: XMultimediaAddDialog());
+                  },
+                ),
+              ),
+              TitleBar(),
+              ContentBox(),
+              XIconLabelButton(
+                icon: Icons.save_as_rounded,
+                label: "Save Entry",
+                onclick: () async {
+                  await UpdateEntry();
+                  showSnackBar("Updated Entry", context);
+                },
+              ),
+            ],
+          ),
+          floatingActionButton: XFloatingButton(
+              icon: Icons.remove_red_eye_outlined,
+              onclick: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (BuildContext context) {
+                  return ViewerPage(
+                    Id: widget.UpdateId ?? 1,
                   );
-                },
-              ),
-            ),
-            XIconLabelButton(
-              icon: Icons.image_outlined,
-              label: "Add Multimedia",
-              onclick: () => showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return const Center(child: XMultimediaAddDialog());
-                },
-              ),
-            ),
-            TitleBar(),
-            ContentBox(),
-            XIconLabelButton(
-              icon: Icons.save_as_rounded,
-              label: "Save Entry",
-              onclick: () async {
-                await UpdateEntry();
-                showSnackBar("Updated Entry", context);
-              },
-            ),
-          ],
-        ),
-        floatingActionButton: XFloatingButton(
-            icon: Icons.remove_red_eye_outlined,
-            onclick: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (BuildContext context) {
-                return ViewerPage(
-                  Id: widget.UpdateId ?? 1,
-                );
-              }));
-            }));
+                }));
+              })),
+    );
   }
 
   Expanded ContentBox() {
