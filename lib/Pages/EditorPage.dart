@@ -153,7 +153,7 @@ class _EditorPageState extends State<EditorPage> {
               Navigator.push(context,
                   MaterialPageRoute(builder: (BuildContext context) {
                 return ViewerPage(
-                  Id: widget.UpdateId,
+                  Id: widget.UpdateId ?? 1,
                 );
               }));
             }));

@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:journalmax/Pages/ViewerPage.dart';
 import 'package:journalmax/Themes/ThemeProvider.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';
@@ -6,6 +9,7 @@ import 'package:journalmax/Widgets/XEntryItem.dart';
 import 'package:journalmax/Widgets/XFloatingButton.dart';
 import 'package:journalmax/Widgets/XIconLabelButton.dart';
 import 'package:journalmax/Widgets/XLabel.dart';
+import 'package:journalmax/services/CRUD_Entry.dart';
 import 'package:journalmax/services/RecentEntries.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -52,6 +56,17 @@ class _HomePageState extends State<HomePage> {
       recentEntries = loadedEntries;
       isLoading = false; // End loading
     });
+  }
+
+  Future<void> openRandomEntry(BuildContext context) async {
+    final list = await getAllEntry();
+    final int random = Random().nextInt(list.length);
+    final entry = list[random];
+    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+      return ViewerPage(
+        Id: int.parse(entry["id"].toString()),
+      );
+    }));
   }
 
   @override
@@ -112,9 +127,10 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           const XLabel(label: "Options"),
-          const XIconLabelButton(
+          XIconLabelButton(
             icon: Icons.auto_awesome_sharp,
             label: "Get a random memory",
+            onclick: () => openRandomEntry(context),
           ),
           XIconLabelButton(
             icon: Icons.sync_sharp,

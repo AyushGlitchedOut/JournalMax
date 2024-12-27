@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:journalmax/Pages/EditorPage.dart';
 import 'package:journalmax/Widgets/XDialogButton.dart';
 import 'package:journalmax/Widgets/XEntryItem.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
@@ -10,8 +11,8 @@ import 'package:journalmax/services/CRUD_Entry.dart';
 
 // ignore: must_be_immutable
 class ViewerPage extends StatefulWidget {
-  final int? Id;
-  const ViewerPage({super.key, this.Id});
+  final int Id;
+  const ViewerPage({super.key, required this.Id});
 
   @override
   State<ViewerPage> createState() => _ViewerPageState();
@@ -35,7 +36,7 @@ class _ViewerPageState extends State<ViewerPage> {
 
   Future<void> getEntry() async {
     if (kDebugMode) print('Id:${widget.Id}');
-    final res = await getEntryById(widget.Id!);
+    final res = await getEntryById(widget.Id);
     setContent(res.first);
     setMood(res.first["mood"].toString());
   }
@@ -48,7 +49,7 @@ class _ViewerPageState extends State<ViewerPage> {
 
   @override
   Widget build(BuildContext context) {
-    mood ??= EntryItemMoods.happy;
+    // ignore: prefer_conditional_assignment
     final ColorScheme colors = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: const PreferredSize(
@@ -67,7 +68,7 @@ class _ViewerPageState extends State<ViewerPage> {
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   border: Border.all(color: colors.outline),
-                  color: mood!["surface"],
+                  color: mood!["surface"] ?? colors.surface,
                   boxShadow: [
                     BoxShadow(
                         color: mood!["text"] ?? colors.shadow,
@@ -90,7 +91,7 @@ class _ViewerPageState extends State<ViewerPage> {
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   border: Border.all(color: colors.outline),
-                  color: mood!["surface"],
+                  color: mood!["surface"] ?? colors.surface,
                   boxShadow: [
                     BoxShadow(
                         color: mood!["text"] ?? colors.shadow,
@@ -120,10 +121,15 @@ class _ViewerPageState extends State<ViewerPage> {
         ],
       ),
       floatingActionButton: XFloatingButton(
-        icon: Icons.edit,
-        //pass arguments later
-        onclick: () => Navigator.pushNamed(context, "/editor"),
-      ),
+          icon: Icons.edit,
+          //pass arguments later
+          onclick: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (BuildContext context) {
+                return EditorPage(
+                  createNewEntry: false,
+                  UpdateId: widget.Id,
+                );
+              }))),
     );
   }
 
