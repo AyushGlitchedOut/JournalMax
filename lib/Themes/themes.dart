@@ -22,4 +22,4 @@ ThemeData darkmode = ThemeData(
         secondary: Colors.white38,
         tertiary: Colors.grey.shade500,
         outline: Colors.grey.shade800,
-        shadow: Colors.white38));
+        shadow: Colors.black38));

@@ -1,4 +1,4 @@
-package com.ayushispro2011.journalmax
+package com.Ayushispro2011.journalmax
 
 import io.flutter.embedding.android.FlutterActivity
 
