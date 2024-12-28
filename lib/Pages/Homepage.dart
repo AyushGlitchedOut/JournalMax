@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:journalmax/Pages/ViewerPage.dart';
 import 'package:journalmax/Themes/ThemeProvider.dart';
@@ -9,6 +8,7 @@ import 'package:journalmax/Widgets/XEntryItem.dart';
 import 'package:journalmax/Widgets/XFloatingButton.dart';
 import 'package:journalmax/Widgets/XIconLabelButton.dart';
 import 'package:journalmax/Widgets/XLabel.dart';
+import 'package:journalmax/Widgets/XSnackBar.dart';
 import 'package:journalmax/services/CRUD_Entry.dart';
 import 'package:journalmax/services/RecentEntries.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +24,25 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<XEntryItem> recentEntries = [];
   bool isLoading = true; // Track loading state
+
+  //READ
+  Future<void> openRandomEntry(BuildContext context) async {
+    final list = await getAllEntry();
+    if (list.length == 0) {
+      showSnackBar("There isn't any existing Entry!", context);
+      return;
+    }
+    final int random = Random().nextInt(list.length);
+    final entry = list[random];
+    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+      return ViewerPage(
+        Id: int.parse(entry["id"].toString()),
+      );
+    }));
+  }
+
+  //UI
+
   Future<void> loadTheme(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -33,15 +52,6 @@ class _HomePageState extends State<HomePage> {
     } else {
       Provider.of<Themeprovider>(context, listen: false).toggleThemes();
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      loadTheme(context);
-      awaitRecentEntries();
-    });
   }
 
   Future<void> awaitRecentEntries() async {
@@ -58,15 +68,13 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Future<void> openRandomEntry(BuildContext context) async {
-    final list = await getAllEntry();
-    final int random = Random().nextInt(list.length);
-    final entry = list[random];
-    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-      return ViewerPage(
-        Id: int.parse(entry["id"].toString()),
-      );
-    }));
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      loadTheme(context);
+      awaitRecentEntries();
+    });
   }
 
   @override
@@ -88,44 +96,7 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           const XLabel(label: "Recent Entries"),
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.all(5.0),
-              decoration: BoxDecoration(
-                  color: colors.onSurface,
-                  border: Border.all(color: colors.outline),
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: [
-                    BoxShadow(
-                        color: colors.primary,
-                        offset: const Offset(-1.5, -1.5),
-                        blurRadius: 1.0),
-                    BoxShadow(
-                        color: colors.shadow,
-                        offset: const Offset(2.0, 2.0),
-                        blurRadius: 1.0),
-                  ]),
-              child: isLoading
-                  ? const Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.orange,
-                      ), // Loader widget
-                    )
-                  : recentEntries.isEmpty
-                      ? const Center(
-                          child: Text(
-                            "No recent entries",
-                            style: TextStyle(fontSize: 16.0),
-                          ),
-                        )
-                      : SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: recentEntries,
-                          ),
-                        ),
-            ),
-          ),
+          RecentEntriesBox(colors),
           const XLabel(label: "Options"),
           XIconLabelButton(
             icon: Icons.auto_awesome_sharp,
@@ -147,6 +118,47 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: XFloatingButton(
         icon: Icons.add,
         onclick: () => Navigator.pushNamed(context, "/editor"),
+      ),
+    );
+  }
+
+  Expanded RecentEntriesBox(ColorScheme colors) {
+    return Expanded(
+      child: Container(
+        margin: const EdgeInsets.all(5.0),
+        decoration: BoxDecoration(
+            color: colors.onSurface,
+            border: Border.all(color: colors.outline),
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              BoxShadow(
+                  color: colors.primary,
+                  offset: const Offset(-1.5, -1.5),
+                  blurRadius: 1.0),
+              BoxShadow(
+                  color: colors.shadow,
+                  offset: const Offset(2.0, 2.0),
+                  blurRadius: 1.0),
+            ]),
+        child: isLoading
+            ? const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.orange,
+                ), // Loader widget
+              )
+            : recentEntries.isEmpty
+                ? const Center(
+                    child: Text(
+                      "No recent entries",
+                      style: TextStyle(fontSize: 16.0),
+                    ),
+                  )
+                : SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: recentEntries,
+                    ),
+                  ),
       ),
     );
   }

@@ -7,6 +7,7 @@ import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';
 import 'package:journalmax/Widgets/XFloatingButton.dart';
 import 'package:journalmax/Widgets/XIconLabelButton.dart';
+import 'package:journalmax/models/EntryModel.dart';
 import 'package:journalmax/services/CRUD_Entry.dart';
 
 // ignore: must_be_immutable
@@ -22,6 +23,15 @@ class _ViewerPageState extends State<ViewerPage> {
   Map<String, Color>? mood;
   Map<String, Object?>? Content;
 
+  //READ
+  Future<void> getEntry() async {
+    if (kDebugMode) print('Id:${widget.Id}');
+    final res = await getEntryById(widget.Id);
+    setContent(res.first);
+    setMood(res.first["mood"].toString());
+  }
+
+  //UI
   void setContent(Map<String, Object?> content) {
     setState(() {
       Content = content;
@@ -32,13 +42,6 @@ class _ViewerPageState extends State<ViewerPage> {
     setState(() {
       mood = EntryItemMoods.NameToColor(Mood);
     });
-  }
-
-  Future<void> getEntry() async {
-    if (kDebugMode) print('Id:${widget.Id}');
-    final res = await getEntryById(widget.Id);
-    setContent(res.first);
-    setMood(res.first["mood"].toString());
   }
 
   @override

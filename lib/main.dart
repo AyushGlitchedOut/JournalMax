@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:journalmax/Pages/%5BTestPage%5D.dart';
 import 'package:journalmax/Pages/CollectionPage.dart';
@@ -12,6 +13,7 @@ import 'package:provider/provider.dart';
 class App extends StatelessWidget {
   App({super.key});
 
+  //All the App Routes
   final Map<String, WidgetBuilder> routes = {
     "/homepage": (context) => const HomePage(),
     "/settings": (context) => const SettingsPage(),
@@ -21,7 +23,7 @@ class App extends StatelessWidget {
           createNewEntry: true,
         ),
     "/collection": (context) => const CollectionPage(),
-    "/test": (context) => const TestPage()
+    if (kDebugMode) "/test": (context) => const TestPage()
   };
 
   @override
@@ -36,6 +38,7 @@ class App extends StatelessWidget {
   }
 }
 
+//Main function
 void main() {
   runApp(ChangeNotifierProvider(
     create: (context) => Themeprovider(),

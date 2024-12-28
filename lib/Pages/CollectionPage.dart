@@ -14,6 +14,8 @@ class CollectionPage extends StatefulWidget {
 class _CollectionPageState extends State<CollectionPage> {
   List<Widget> Entries = [];
   bool isCollectionLoading = true;
+
+  //READ
   Future<void> getEntryCollection() async {
     setState(() {
       isCollectionLoading = true;

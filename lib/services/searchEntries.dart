@@ -1,4 +1,5 @@
 import 'package:journalmax/Widgets/XEntryItem.dart';
+import 'package:journalmax/models/EntryModel.dart';
 import 'package:journalmax/services/CRUD_Entry.dart';
 
 Future<List<XEntryItem>> searchEntries(

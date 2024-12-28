@@ -18,6 +18,8 @@ Future<void> saveTheme(bool isDarkMode) async {
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
+
+  //UI
   Future<void> openLink(String url, BuildContext context) async {
     try {
       await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
@@ -56,40 +58,7 @@ class SettingsPage extends StatelessWidget {
               label: "Delete All Entries",
               onclick: () {
                 HapticFeedback.heavyImpact();
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        shape: RoundedRectangleBorder(
-                            side: BorderSide(width: 2.0, color: colors.outline),
-                            borderRadius: BorderRadius.circular(15.0)),
-                        title: const Row(children: [
-                          Icon(
-                            Icons.warning_amber_outlined,
-                            color: Colors.red,
-                          ),
-                          Text("Wipe All Entries!!")
-                        ]),
-                        content: const Text(
-                            "This action will permanently delete all the Entries. Do you really wanna do it?"),
-                        actions: [
-                          ElevatedButton(
-                              onPressed: () async {
-                                Wipe_deleteAllEntry();
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text(
-                                "Yes",
-                                style: TextStyle(color: Colors.red),
-                              )),
-                          ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text("No"))
-                        ],
-                      );
-                    });
+                WipeEntriesDialog(context, colors);
               }),
           XIconLabelButton(
             icon: Icons.book,
@@ -112,5 +81,42 @@ class SettingsPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<dynamic> WipeEntriesDialog(BuildContext context, ColorScheme colors) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                side: BorderSide(width: 2.0, color: colors.outline),
+                borderRadius: BorderRadius.circular(15.0)),
+            title: const Row(children: [
+              Icon(
+                Icons.warning_amber_outlined,
+                color: Colors.red,
+              ),
+              Text("Wipe All Entries!!")
+            ]),
+            content: const Text(
+                "This action will permanently delete all the Entries. Do you really wanna do it?"),
+            actions: [
+              ElevatedButton(
+                  onPressed: () async {
+                    Wipe_deleteAllEntry();
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text(
+                    "Yes",
+                    style: TextStyle(color: Colors.red),
+                  )),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("No"))
+            ],
+          );
+        });
   }
 }

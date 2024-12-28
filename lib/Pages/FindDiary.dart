@@ -15,12 +15,27 @@ class FindDiaryEntryPage extends StatefulWidget {
 
 class _FindDiaryEntryPageState extends State<FindDiaryEntryPage> {
   List<XEntryItem> results = [];
+  late FocusNode focus;
 
+  //READ
   void Search(String query) async {
     final searchResults = await searchEntries(query, Search);
     setState(() {
       results = searchResults;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    focus = FocusNode();
+    focus.requestFocus();
+  }
+
+  @override
+  void dispose() {
+    focus.dispose();
+    super.dispose();
   }
 
   @override
@@ -41,6 +56,7 @@ class _FindDiaryEntryPageState extends State<FindDiaryEntryPage> {
           XSearchBar(
             searchFunction: Search,
             controller: widget._searchController,
+            focus: focus,
           ),
           Expanded(
             child: Container(

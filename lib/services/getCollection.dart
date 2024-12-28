@@ -1,9 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:journalmax/Widgets/XEntryItem.dart';
+import 'package:journalmax/models/EntryModel.dart';
 import 'package:journalmax/services/CRUD_Entry.dart';
 
-//TODO: implement the actual collection
 Future<List<Widget>> getCollection(void Function() renderParent) async {
   const Map<String, Color> Function(String query) NametoColor =
       EntryItemMoods.NameToColor;

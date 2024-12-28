@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:journalmax/Pages/EditorPage.dart';
 import 'package:journalmax/Widgets/XExitDialog.dart';
@@ -36,26 +37,30 @@ class XDrawer extends StatelessWidget {
                   fontWeight: FontWeight.bold),
             ),
           ),
-          Column(
-            children: [
-              XDrawerTile(Icons.home, context, "Homepage", "/homepage",
-                  highlight: currentPage == "homepage"),
-              XDrawerTile(Icons.storage, context, "Collection", "/collection",
-                  highlight: currentPage == "collection"),
-              XDrawerTile(Icons.create, context, "New Entry", "/editor",
-                  highlight: currentPage == "editor"),
-              XDrawerTile(Icons.settings, context, "Settings", "/settings",
-                  highlight: currentPage == "settings"),
-              XDrawerTile(Icons.sync, context, "Synchronise", "/sync",
-                  highlight: currentPage == "sync"),
-              XDrawerTile(Icons.adb, context, "Test DB", "/test",
-                  highlight: false)
-            ],
-          ),
+          ScreensList(context),
           XDrawerTile(Icons.exit_to_app_rounded, context, "Quit App", "/exit",
               highlight: false)
         ],
       ),
+    );
+  }
+
+  Column ScreensList(BuildContext context) {
+    return Column(
+      children: [
+        XDrawerTile(Icons.home, context, "Homepage", "/homepage",
+            highlight: currentPage == "homepage"),
+        XDrawerTile(Icons.storage, context, "Collection", "/collection",
+            highlight: currentPage == "collection"),
+        XDrawerTile(Icons.create, context, "New Entry", "/editor",
+            highlight: currentPage == "editor"),
+        XDrawerTile(Icons.settings, context, "Settings", "/settings",
+            highlight: currentPage == "settings"),
+        XDrawerTile(Icons.sync, context, "Synchronise", "/sync",
+            highlight: currentPage == "sync"),
+        if (kDebugMode)
+          XDrawerTile(Icons.adb, context, "Test DB", "/test", highlight: false)
+      ],
     );
   }
 

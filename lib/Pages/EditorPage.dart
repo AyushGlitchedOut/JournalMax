@@ -29,20 +29,37 @@ class _EditorPageState extends State<EditorPage> {
   String currentMood = "Happy";
   Map<String, dynamic> moods = EntryItemMoods.happy;
 
-  Future<void> setUpdateIDForNewEntry() async {
-    if (!widget.createNewEntry!) {
-      return;
-    }
-    final result = await getRecentEntries();
-    widget.UpdateId = result.last["id"];
-    return;
-  }
-
+  //CREATE
   Future<void> CreateEntry() async {
     await insertEntry(
         "Untitled", "", "Happy", DateTime.now().toString(), null, null, null);
   }
 
+  Future<Map<String, dynamic>> getEntryDetailsById(int id) async {
+    final res = await getEntryById(id);
+    if (res.isNotEmpty) {
+      return res.first; // Return the first entry if it exists
+    } else {
+      throw Exception("No entry found with ID $id");
+    }
+  }
+
+  //READ
+  Future<void> fetchExistingEntry(int id) async {
+    try {
+      final entryDetails = await getEntryDetailsById(id);
+      setState(() {
+        _titleController.text = entryDetails["title"] ?? "Untitled";
+        _contentController.text = entryDetails["content"] ?? "";
+        currentMood = entryDetails["mood"] ?? "Happy";
+        moods = EntryItemMoods.NameToColor(currentMood);
+      });
+    } catch (e) {
+      if (kDebugMode) debugPrint("Error fetching entry: $e");
+    }
+  }
+
+  //UPDATE
   Future<void> UpdateEntry() async {
     final int id;
     final entries = await getRecentEntries();
@@ -58,29 +75,16 @@ class _EditorPageState extends State<EditorPage> {
     );
   }
 
-  Future<Map<String, dynamic>> getEntryDetailsById(int id) async {
-    final res = await getEntryById(id);
-    if (res.isNotEmpty) {
-      return res.first; // Return the first entry if it exists
-    } else {
-      throw Exception("No entry found with ID $id");
+  Future<void> setUpdateIDForNewEntry() async {
+    if (!widget.createNewEntry!) {
+      return;
     }
+    final result = await getRecentEntries();
+    widget.UpdateId = result.last["id"];
+    return;
   }
 
-  Future<void> fetchExistingEntry(int id) async {
-    try {
-      final entryDetails = await getEntryDetailsById(id);
-      setState(() {
-        _titleController.text = entryDetails["title"] ?? "Untitled";
-        _contentController.text = entryDetails["content"] ?? "";
-        currentMood = entryDetails["mood"] ?? "Happy";
-        moods = EntryItemMoods.NameToColor(currentMood);
-      });
-    } catch (e) {
-      if (kDebugMode) debugPrint("Error fetching entry: $e");
-    }
-  }
-
+  //UI
   void setCurrentMoodString(String mood) {
     setState(() {
       currentMood = mood;
@@ -90,17 +94,20 @@ class _EditorPageState extends State<EditorPage> {
 
   @override
   void initState() {
-    if (widget.createNewEntry!) {
-      CreateEntry();
-    } else if (widget.UpdateId != null) {
-      fetchExistingEntry(widget.UpdateId!);
-    }
+    Future.delayed(Duration(seconds: 0), () async {
+      if (widget.createNewEntry ?? true) {
+        await CreateEntry();
+      } else if (widget.UpdateId != null) {
+        await fetchExistingEntry(widget.UpdateId!);
+      }
+      setUpdateIDForNewEntry();
+    });
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    setUpdateIDForNewEntry();
     final ColorScheme colors = Theme.of(context).colorScheme;
 
     return PopScope(
