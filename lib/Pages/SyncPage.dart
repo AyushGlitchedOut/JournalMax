@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';
 import 'package:journalmax/Widgets/XIconLabelButton.dart';
+import 'package:journalmax/Widgets/XSnackBar.dart';
 import 'package:journalmax/services/UploadToGoogleDrive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -50,11 +51,15 @@ class SyncProgress extends StatefulWidget {
 
 class _SyncProgressState extends State<SyncProgress> {
   Future<void> getGmail() async {
-    final prefs = await SharedPreferences.getInstance();
-    String res = prefs.getString("gmail") ?? "Not found";
-    setState(() {
-      email = res;
-    });
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      String res = prefs.getString("gmail") ?? "Not found";
+      setState(() {
+        email = res;
+      });
+    } catch (e) {
+      showSnackBar(e.toString(), context);
+    }
   }
 
   String email = "not Given";

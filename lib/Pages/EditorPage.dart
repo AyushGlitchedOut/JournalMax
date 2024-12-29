@@ -1,12 +1,11 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:journalmax/Pages/ViewerPage.dart';
 import 'package:journalmax/Widgets/MultimediaAddDialog.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';
-import 'package:journalmax/Widgets/XEntryItem.dart';
 import 'package:journalmax/Widgets/XFloatingButton.dart';
 import 'package:journalmax/Widgets/XIconLabelButton.dart';
+import 'package:journalmax/Widgets/XProgress.dart';
 import 'package:journalmax/Widgets/XSnackBar.dart';
 import 'package:journalmax/models/EntryModel.dart';
 import 'package:journalmax/services/CRUD_Entry.dart';
@@ -27,20 +26,30 @@ class _EditorPageState extends State<EditorPage> {
   final TextEditingController _contentController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
   String currentMood = "Happy";
+  bool isLoading = false;
   Map<String, dynamic> moods = EntryItemMoods.happy;
 
   //CREATE
   Future<void> CreateEntry() async {
-    await insertEntry(
-        "Untitled", "", "Happy", DateTime.now().toString(), null, null, null);
+    try {
+      await insertEntry(
+          "Untitled", "", "Happy", DateTime.now().toString(), null, null, null);
+    } catch (e) {
+      showSnackBar(e.toString(), context);
+    }
   }
 
   Future<Map<String, dynamic>> getEntryDetailsById(int id) async {
-    final res = await getEntryById(id);
-    if (res.isNotEmpty) {
-      return res.first; // Return the first entry if it exists
-    } else {
-      throw Exception("No entry found with ID $id");
+    try {
+      final res = await getEntryById(id);
+      if (res.isNotEmpty) {
+        return res.first; // Return the first entry if it exists
+      } else {
+        throw Exception("No entry found with ID $id");
+      }
+    } catch (e) {
+      showSnackBar(e.toString(), context);
+      throw Exception(e);
     }
   }
 
@@ -55,33 +64,42 @@ class _EditorPageState extends State<EditorPage> {
         moods = EntryItemMoods.NameToColor(currentMood);
       });
     } catch (e) {
-      if (kDebugMode) debugPrint("Error fetching entry: $e");
+      showSnackBar(e.toString(), context);
     }
   }
 
   //UPDATE
   Future<void> UpdateEntry() async {
-    final int id;
-    final entries = await getRecentEntries();
-    id = widget.createNewEntry ?? true ? entries.last["id"] : widget.UpdateId!;
-    await updateEntry(
-      id,
-      Entry(
-        title: _titleController.text,
-        Content: _contentController.text,
-        mood: currentMood,
-        date: DateTime.now().toString(),
-      ),
-    );
+    try {
+      final int id;
+      final entries = await getRecentEntries();
+      id =
+          widget.createNewEntry ?? true ? entries.last["id"] : widget.UpdateId!;
+      await updateEntry(
+        id,
+        Entry(
+          title: _titleController.text,
+          Content: _contentController.text,
+          mood: currentMood,
+          date: DateTime.now().toString(),
+        ),
+      );
+    } catch (e) {
+      showSnackBar(e.toString(), context);
+    }
   }
 
   Future<void> setUpdateIDForNewEntry() async {
-    if (!widget.createNewEntry!) {
+    try {
+      if (!widget.createNewEntry!) {
+        return;
+      }
+      final result = await getRecentEntries();
+      widget.UpdateId = result.last["id"];
       return;
+    } catch (e) {
+      showSnackBar(e.toString(), context);
     }
-    final result = await getRecentEntries();
-    widget.UpdateId = result.last["id"];
-    return;
   }
 
   //UI
@@ -94,16 +112,28 @@ class _EditorPageState extends State<EditorPage> {
 
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 0), () async {
-      if (widget.createNewEntry ?? true) {
-        await CreateEntry();
-      } else if (widget.UpdateId != null) {
-        await fetchExistingEntry(widget.UpdateId!);
-      }
-      setUpdateIDForNewEntry();
-    });
-
     super.initState();
+    Future.delayed(const Duration(seconds: 0), () async {
+      try {
+        setState(() {
+          isLoading = true;
+        });
+        if (widget.createNewEntry ?? true) {
+          await CreateEntry();
+        } else if (widget.UpdateId != null) {
+          await fetchExistingEntry(widget.UpdateId!);
+        }
+        await setUpdateIDForNewEntry();
+        setState(() {
+          isLoading = false;
+        });
+      } catch (e) {
+        setState(() {
+          isLoading = false;
+        });
+        showSnackBar(e.toString(), context);
+      }
+    });
   }
 
   @override
@@ -150,7 +180,7 @@ class _EditorPageState extends State<EditorPage> {
                 ),
               ),
               TitleBar(),
-              ContentBox(),
+              ContentBox(context),
               XIconLabelButton(
                 icon: Icons.save_as_rounded,
                 label: "Save Entry",
@@ -174,29 +204,31 @@ class _EditorPageState extends State<EditorPage> {
     );
   }
 
-  Expanded ContentBox() {
+  Expanded ContentBox(BuildContext context) {
     return Expanded(
       child: Container(
         margin: const EdgeInsets.all(5.0),
-        child: SingleChildScrollView(
-          child: TextField(
-            controller: _contentController,
-            enabled: true,
-            style: TextStyle(color: moods["text"]),
-            decoration: InputDecoration(
-              hintText: "Enter your thoughts here!",
-              hintStyle: TextStyle(color: moods["secondary"]),
-              filled: true,
-              fillColor: moods["surface"],
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide(color: moods["secondary"]),
+        child: isLoading
+            ? XProgress(colors: Theme.of(context).colorScheme)
+            : SingleChildScrollView(
+                child: TextField(
+                  controller: _contentController,
+                  enabled: true,
+                  style: TextStyle(color: moods["text"]),
+                  decoration: InputDecoration(
+                    hintText: "Enter your thoughts here!",
+                    hintStyle: TextStyle(color: moods["secondary"]),
+                    filled: true,
+                    fillColor: moods["surface"],
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: moods["secondary"]),
+                    ),
+                  ),
+                  minLines: 12,
+                  maxLines: 20,
+                ),
               ),
-            ),
-            minLines: 12,
-            maxLines: 20,
-          ),
-        ),
       ),
     );
   }
@@ -223,9 +255,6 @@ class _EditorPageState extends State<EditorPage> {
   }
 }
 
-// Dialog class remains unchanged from your original code
-
-// ignore: must_be_immutable
 class MoodChangeDialog extends StatefulWidget {
   void Function(String currentmood) returnMood;
   MoodChangeDialog({super.key, required this.returnMood});

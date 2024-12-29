@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';
 import 'package:journalmax/Widgets/XEntryItem.dart';
+import 'package:journalmax/Widgets/XProgress.dart';
 import 'package:journalmax/Widgets/XSearchBar.dart';
+import 'package:journalmax/Widgets/XSnackBar.dart';
 import 'package:journalmax/services/searchEntries.dart';
 
 class FindDiaryEntryPage extends StatefulWidget {
@@ -14,15 +16,27 @@ class FindDiaryEntryPage extends StatefulWidget {
 }
 
 class _FindDiaryEntryPageState extends State<FindDiaryEntryPage> {
+  bool isLoading = false;
   List<XEntryItem> results = [];
   late FocusNode focus;
 
   //READ
   void Search(String query) async {
-    final searchResults = await searchEntries(query, Search);
-    setState(() {
-      results = searchResults;
-    });
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      final searchResults = await searchEntries(query, Search);
+      setState(() {
+        results = searchResults;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      showSnackBar(e.toString(), context);
+    }
   }
 
   @override
@@ -79,9 +93,11 @@ class _FindDiaryEntryPageState extends State<FindDiaryEntryPage> {
                 ],
               ),
               child: SingleChildScrollView(
-                child: Column(
-                  children: results,
-                ),
+                child: isLoading
+                    ? XProgress(colors: colors)
+                    : Column(
+                        children: results,
+                      ),
               ),
             ),
           )

@@ -2,11 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:journalmax/Pages/EditorPage.dart';
 import 'package:journalmax/Widgets/XDialogButton.dart';
-import 'package:journalmax/Widgets/XEntryItem.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';
 import 'package:journalmax/Widgets/XFloatingButton.dart';
 import 'package:journalmax/Widgets/XIconLabelButton.dart';
+import 'package:journalmax/Widgets/XProgress.dart';
+import 'package:journalmax/Widgets/XSnackBar.dart';
 import 'package:journalmax/models/EntryModel.dart';
 import 'package:journalmax/services/CRUD_Entry.dart';
 
@@ -20,15 +21,29 @@ class ViewerPage extends StatefulWidget {
 }
 
 class _ViewerPageState extends State<ViewerPage> {
+  bool isLoading = false;
   Map<String, Color>? mood;
   Map<String, Object?>? Content;
 
   //READ
   Future<void> getEntry() async {
-    if (kDebugMode) print('Id:${widget.Id}');
-    final res = await getEntryById(widget.Id);
-    setContent(res.first);
-    setMood(res.first["mood"].toString());
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      if (kDebugMode) print('Id:${widget.Id}');
+      final res = await getEntryById(widget.Id);
+      setContent(res.first);
+      setMood(res.first["mood"].toString());
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      showSnackBar(e.toString(), context);
+    }
   }
 
   //UI
@@ -46,8 +61,8 @@ class _ViewerPageState extends State<ViewerPage> {
 
   @override
   void initState() {
-    getEntry();
     super.initState();
+    getEntry();
   }
 
   @override
@@ -107,10 +122,13 @@ class _ViewerPageState extends State<ViewerPage> {
               padding: const EdgeInsets.all(5.0),
               margin: const EdgeInsets.all(15.0),
               child: SingleChildScrollView(
-                  child: SelectableText(
-                Content!["content"].toString(),
-                style: TextStyle(color: mood!["secondary"], fontSize: 20.0),
-              )),
+                  child: isLoading
+                      ? XProgress(colors: colors)
+                      : SelectableText(
+                          Content!["content"].toString(),
+                          style: TextStyle(
+                              color: mood!["secondary"], fontSize: 20.0),
+                        )),
             ),
           ),
           XIconLabelButton(

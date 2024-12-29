@@ -5,4 +5,4 @@
 5. Introduction Page (using the intro_page package)
 6. *** DONE *** App Icon 
 8. Source Code Refactoring (Add comments and add sensible kdebugmode print statements)
-9. Add loading screens and buffering animations everywhere
+9. **DONE **Add loading screens and buffering animations everywhere

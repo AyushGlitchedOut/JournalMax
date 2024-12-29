@@ -8,6 +8,7 @@ import 'package:journalmax/Widgets/XEntryItem.dart';
 import 'package:journalmax/Widgets/XFloatingButton.dart';
 import 'package:journalmax/Widgets/XIconLabelButton.dart';
 import 'package:journalmax/Widgets/XLabel.dart';
+import 'package:journalmax/Widgets/XProgress.dart';
 import 'package:journalmax/Widgets/XSnackBar.dart';
 import 'package:journalmax/services/CRUD_Entry.dart';
 import 'package:journalmax/services/RecentEntries.dart';
@@ -28,7 +29,7 @@ class _HomePageState extends State<HomePage> {
   //READ
   Future<void> openRandomEntry(BuildContext context) async {
     final list = await getAllEntry();
-    if (list.length == 0) {
+    if (list.isEmpty) {
       showSnackBar("There isn't any existing Entry!", context);
       return;
     }
@@ -55,17 +56,24 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> awaitRecentEntries() async {
-    setState(() {
-      isLoading = true; // Start loading
-    });
+    try {
+      setState(() {
+        isLoading = true; // Start loading
+      });
 
-    // Simulate fetching entries (Replace with actual data fetching logic)
-    final loadedEntries = await loadRecentEntries(awaitRecentEntries);
+      // Simulate fetching entries (Replace with actual data fetching logic)
+      final loadedEntries = await loadRecentEntries(awaitRecentEntries);
 
-    setState(() {
-      recentEntries = loadedEntries;
-      isLoading = false; // End loading
-    });
+      setState(() {
+        recentEntries = loadedEntries;
+        isLoading = false; // End loading
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      showSnackBar(e.toString(), context);
+    }
   }
 
   @override
@@ -141,11 +149,7 @@ class _HomePageState extends State<HomePage> {
                   blurRadius: 1.0),
             ]),
         child: isLoading
-            ? const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.orange,
-                ), // Loader widget
-              )
+            ? XProgress(colors: colors)
             : recentEntries.isEmpty
                 ? const Center(
                     child: Text(

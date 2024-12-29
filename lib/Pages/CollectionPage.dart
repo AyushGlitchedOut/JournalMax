@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';
 import 'package:journalmax/Widgets/XIconLabelButton.dart';
+import 'package:journalmax/Widgets/XProgress.dart';
+import 'package:journalmax/Widgets/XSnackBar.dart';
 import 'package:journalmax/services/getCollection.dart';
 
 class CollectionPage extends StatefulWidget {
@@ -13,20 +15,25 @@ class CollectionPage extends StatefulWidget {
 
 class _CollectionPageState extends State<CollectionPage> {
   List<Widget> Entries = [];
-  bool isCollectionLoading = true;
+  bool isLoading = true;
 
   //READ
   Future<void> getEntryCollection() async {
-    setState(() {
-      isCollectionLoading = true;
-    });
-    final awaitedEntries = await getCollection(getEntryCollection);
-    setState(() {
-      Entries = awaitedEntries;
-    });
-    setState(() {
-      isCollectionLoading = false;
-    });
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      final awaitedEntries = await getCollection(getEntryCollection);
+      setState(() {
+        Entries = awaitedEntries;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      showSnackBar(e.toString(), context);
+    }
   }
 
   @override
@@ -75,16 +82,8 @@ class _CollectionPageState extends State<CollectionPage> {
                   ]),
               child: SingleChildScrollView(
                 child: Column(
-                    children: isCollectionLoading
-                        ? [
-                            const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: CircularProgressIndicator(
-                                color: Colors.orange,
-                              ),
-                            )
-                          ]
-                        : Entries),
+                    children:
+                        isLoading ? [XProgress(colors: colors)] : Entries),
               ),
             ),
           ),

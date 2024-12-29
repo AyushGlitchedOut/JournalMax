@@ -15,13 +15,17 @@ class Initdatabase {
   }
 
   Future<Database> initDatabase() async {
-    final DBpath = await getDatabasesPath();
-    return await openDatabase(join(DBpath, "app_database.db"), version: 1,
-        onCreate: (db, version) async {
-      await db.execute(
-          '''CREATE TABLE items (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL,
-           content TEXT NOT NULL, mood TEXT NOT NULL,
-           location TEXT, audio_record TEXT, image TEXT, date TEXT NOT NULL);''');
-    });
+    try {
+      final DBpath = await getDatabasesPath();
+      return await openDatabase(join(DBpath, "app_database.db"), version: 1,
+          onCreate: (db, version) async {
+        await db.execute(
+            '''CREATE TABLE items (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL,
+         content TEXT NOT NULL, mood TEXT NOT NULL,
+         location TEXT, audio_record TEXT, image TEXT, date TEXT NOT NULL);''');
+      });
+    } on Exception {
+      throw Exception("Error creating DataBase: ");
+    }
   }
 }
