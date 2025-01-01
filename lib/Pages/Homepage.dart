@@ -28,30 +28,39 @@ class _HomePageState extends State<HomePage> {
 
   //READ
   Future<void> openRandomEntry(BuildContext context) async {
-    final list = await getAllEntry();
-    if (list.isEmpty) {
-      showSnackBar("There isn't any existing Entry!", context);
-      return;
+    try {
+      final list = await getAllEntry();
+      if (list.isEmpty) {
+        showSnackBar("There isn't any existing Entry!", context);
+        return;
+      }
+      final int random = Random().nextInt(list.length);
+      final entry = list[random];
+      Navigator.push(context,
+          MaterialPageRoute(builder: (BuildContext context) {
+        return ViewerPage(
+          Id: int.parse(entry["id"].toString()),
+        );
+      }));
+    } catch (e) {
+      showSnackBar(e.toString(), context);
     }
-    final int random = Random().nextInt(list.length);
-    final entry = list[random];
-    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-      return ViewerPage(
-        Id: int.parse(entry["id"].toString()),
-      );
-    }));
   }
 
   //UI
 
   Future<void> loadTheme(BuildContext context) async {
-    final prefs = await SharedPreferences.getInstance();
+    try {
+      final prefs = await SharedPreferences.getInstance();
 
-    if (Provider.of<Themeprovider>(context, listen: false).isDarkMode ==
-        prefs.getBool("isDarkMode")) {
-      return;
-    } else {
-      Provider.of<Themeprovider>(context, listen: false).toggleThemes();
+      if (Provider.of<Themeprovider>(context, listen: false).isDarkMode ==
+          prefs.getBool("isDarkMode")) {
+        return;
+      } else {
+        Provider.of<Themeprovider>(context, listen: false).toggleThemes();
+      }
+    } on Exception {
+      showSnackBar("Error loading the ThemeData", context);
     }
   }
 

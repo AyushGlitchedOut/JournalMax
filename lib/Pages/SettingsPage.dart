@@ -48,9 +48,14 @@ class SettingsPage extends StatelessWidget {
             value:
                 Provider.of<Themeprovider>(context, listen: false).isDarkMode,
             onclick: () {
-              Provider.of<Themeprovider>(context, listen: false).toggleThemes();
-              saveTheme(Provider.of<Themeprovider>(context, listen: false)
-                  .isDarkMode);
+              try {
+                Provider.of<Themeprovider>(context, listen: false)
+                    .toggleThemes();
+                saveTheme(Provider.of<Themeprovider>(context, listen: false)
+                    .isDarkMode);
+              } on Exception {
+                showSnackBar("Error changing Theme", context);
+              }
             },
           ),
           XIconLabelButton(
