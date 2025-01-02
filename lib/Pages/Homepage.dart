@@ -122,6 +122,7 @@ class _HomePageState extends State<HomePage> {
           ),
           XIconLabelButton(
             icon: Icons.sync_sharp,
+            customFontSize: 18.5,
             label: "Synchronize your Diary",
             onclick: () => Navigator.pushNamed(context, "/sync"),
           ),

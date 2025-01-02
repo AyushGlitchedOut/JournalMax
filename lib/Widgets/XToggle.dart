@@ -44,7 +44,10 @@ class _XToggleState extends State<XToggle> {
             ),
           ),
           CupertinoSwitch(
-              value: widget.value, onChanged: (value) => widget.onclick!())
+            value: widget.value,
+            onChanged: (value) => widget.onclick!(),
+            inactiveTrackColor: colors.onPrimary,
+          )
         ],
       ),
     );

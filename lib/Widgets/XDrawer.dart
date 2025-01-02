@@ -23,20 +23,31 @@ class XDrawer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            margin: const EdgeInsets.only(top: 70.0),
-            padding: const EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-                border: Border(
-                    bottom: BorderSide(color: colors.outline, width: 3.0))),
-            child: Text(
-              "JournalMax",
-              style: TextStyle(
-                  color: colors.onSurface,
-                  fontSize: 35.0,
-                  letterSpacing: 1.5,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
+              margin: const EdgeInsets.only(top: 40.0),
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                  border: Border(
+                      bottom: BorderSide(color: colors.outline, width: 3.0))),
+              child: Container(
+                decoration: BoxDecoration(boxShadow: [
+                  BoxShadow(
+                      offset: const Offset(2, 2),
+                      color: colors.shadow,
+                      blurRadius: 2.0),
+                  BoxShadow(
+                      offset: const Offset(-2, -2),
+                      color: colors.shadow,
+                      blurRadius: 2.0)
+                ], borderRadius: const BorderRadius.all(Radius.circular(15.0))),
+                child: const Image(
+                  fit: BoxFit.fill,
+                  height: 150,
+                  width: 150,
+                  image: AssetImage(
+                    'assets/AppIcon.png',
+                  ),
+                ),
+              )),
           ScreensList(context),
           XDrawerTile(Icons.exit_to_app_rounded, context, "Quit App", "/exit",
               highlight: false)
@@ -51,9 +62,9 @@ class XDrawer extends StatelessWidget {
         XDrawerTile(Icons.home, context, "Homepage", "/homepage",
             highlight: currentPage == "homepage"),
         XDrawerTile(Icons.storage, context, "Collection", "/collection",
-            highlight: currentPage == "collection"),
+            highlight: currentPage == "collection" || currentPage == "find"),
         XDrawerTile(Icons.create, context, "New Entry", "/editor",
-            highlight: currentPage == "editor"),
+            highlight: currentPage == "editor" || currentPage == "view"),
         XDrawerTile(Icons.settings, context, "Settings", "/settings",
             highlight: currentPage == "settings"),
         XDrawerTile(Icons.sync, context, "Synchronise", "/sync",

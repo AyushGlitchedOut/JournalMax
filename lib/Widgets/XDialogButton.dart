@@ -37,7 +37,7 @@ class XDialogButton extends StatelessWidget {
               Icon(
                 icon,
                 size: 40.0,
-                color: colors.primary,
+                color: colors.onPrimary,
               ),
               const SizedBox(
                 width: 20.0,

@@ -48,9 +48,9 @@ class XIconLabelButton extends StatelessWidget {
                 label,
                 style: TextStyle(
                     color: colors.onPrimary,
-                    fontSize: customFontSize ?? 22.0,
+                    fontSize: customFontSize ?? 20.0,
                     overflow: TextOverflow.ellipsis,
-                    fontWeight: FontWeight.w500),
+                    fontWeight: FontWeight.w600),
               ),
             )
           ],

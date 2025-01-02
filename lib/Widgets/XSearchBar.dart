@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class XSearchBar extends StatelessWidget {
@@ -48,17 +49,22 @@ class XSearchBar extends StatelessWidget {
 
   Expanded SearchBarField(ColorScheme colors) {
     return Expanded(
-      child: TextField(
+      child: SearchBar(
         onChanged: searchFunction,
         controller: controller,
         focusNode: focus,
-        decoration: const InputDecoration(
-            fillColor: Colors.transparent, hintText: "Search for an Entry...."),
-        style: TextStyle(
+        onSubmitted: searchFunction,
+        textStyle: WidgetStatePropertyAll(TextStyle(
             color: colors.primary,
             fontSize: 20.0,
             fontWeight: FontWeight.w500,
-            decorationColor: Colors.transparent),
+            decorationColor: Colors.transparent)),
+        hintStyle: WidgetStatePropertyAll(TextStyle(
+            color: colors.onPrimary,
+            fontSize: 20.0,
+            fontWeight: FontWeight.w500,
+            decorationColor: Colors.transparent)),
+        hintText: "Type the title of Entry.....",
       ),
     );
   }
@@ -74,7 +80,7 @@ class XSearchBar extends StatelessWidget {
               side: const BorderSide(),
               borderRadius: BorderRadius.circular(10.0)))),
       icon: Icon(
-        Icons.search,
+        CupertinoIcons.search,
         size: 40.0,
         color: colors.onPrimary,
         shadows: [

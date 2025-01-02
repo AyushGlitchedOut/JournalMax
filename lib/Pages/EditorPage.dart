@@ -159,7 +159,7 @@ class _EditorPageState extends State<EditorPage> {
               XIconLabelButton(
                 icon: Icons.mood,
                 label: "What's your current mood?",
-                customFontSize: 19.0,
+                customFontSize: 16.5,
                 onclick: () => showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -255,6 +255,7 @@ class _EditorPageState extends State<EditorPage> {
   }
 }
 
+// ignore: must_be_immutable
 class MoodChangeDialog extends StatefulWidget {
   void Function(String currentmood) returnMood;
   MoodChangeDialog({super.key, required this.returnMood});

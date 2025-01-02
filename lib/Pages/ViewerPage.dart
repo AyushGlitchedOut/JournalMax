@@ -99,10 +99,13 @@ class _ViewerPageState extends State<ViewerPage> {
               padding: const EdgeInsets.all(5.0),
               margin:
                   const EdgeInsets.symmetric(horizontal: 12.0, vertical: 5.0),
-              child: SelectableText(
+              child: Text(
                 Content!["title"].toString(),
-                style: TextStyle(color: mood!["text"], fontSize: 30.0),
-                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: mood!["text"],
+                    fontSize: 25.0,
+                    overflow: TextOverflow.ellipsis),
+                textAlign: TextAlign.left,
               )),
           Expanded(
             child: Container(
@@ -133,8 +136,8 @@ class _ViewerPageState extends State<ViewerPage> {
           ),
           XIconLabelButton(
             icon: Icons.collections,
-            label: "View memories in the entry",
-            customFontSize: 19.0,
+            label: "View memories in the Entry",
+            customFontSize: 16.0,
             onclick: () {
               ViewPageContentDialog(context, colors);
             },

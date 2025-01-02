@@ -101,12 +101,22 @@ class SettingsPage extends StatelessWidget {
                 Icons.warning_amber_outlined,
                 color: Colors.red,
               ),
-              Text("Wipe All Entries!!")
+              SizedBox(
+                width: 10.0,
+              ),
+              Text(
+                "Wipe All Entries!!",
+                style: TextStyle(fontSize: 20.0),
+              )
             ]),
             content: const Text(
                 "This action will permanently delete all the Entries. Do you really wanna do it?"),
             actions: [
               ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStatePropertyAll(colors.secondary),
+                    elevation: const WidgetStatePropertyAll(5.0),
+                  ),
                   onPressed: () async {
                     Wipe_deleteAllEntry();
                     Navigator.of(context).pop();
@@ -116,6 +126,10 @@ class SettingsPage extends StatelessWidget {
                     style: TextStyle(color: Colors.red),
                   )),
               ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStatePropertyAll(colors.secondary),
+                    elevation: const WidgetStatePropertyAll(5.0),
+                  ),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
