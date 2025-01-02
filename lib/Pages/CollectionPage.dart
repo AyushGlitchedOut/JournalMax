@@ -28,6 +28,9 @@ class _CollectionPageState extends State<CollectionPage> {
         Entries = awaitedEntries;
         isLoading = false;
       });
+      if (Entries.isEmpty) {
+        showSnackBar("There isn't any Entry to show", context);
+      }
     } catch (e) {
       setState(() {
         isLoading = false;
@@ -80,11 +83,14 @@ class _CollectionPageState extends State<CollectionPage> {
                         offset: const Offset(2.0, 2.0),
                         blurRadius: 1.0),
                   ]),
-              child: SingleChildScrollView(
-                child: Column(
-                    children:
-                        isLoading ? [XProgress(colors: colors)] : Entries),
-              ),
+              child: isLoading
+                  ? XProgress(colors: colors)
+                  : ListView.builder(
+                      itemCount: Entries.length,
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (BuildContext context, int Itemindex) {
+                        return Entries[Itemindex];
+                      }),
             ),
           ),
         ],

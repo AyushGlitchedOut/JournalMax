@@ -17,7 +17,7 @@ class FindDiaryEntryPage extends StatefulWidget {
 
 class _FindDiaryEntryPageState extends State<FindDiaryEntryPage> {
   bool isLoading = false;
-  List<XEntryItem> results = [];
+  List<XEntryItem> Entries = [];
   late FocusNode focus;
 
   //READ
@@ -28,7 +28,7 @@ class _FindDiaryEntryPageState extends State<FindDiaryEntryPage> {
       });
       final searchResults = await searchEntries(query, Search);
       setState(() {
-        results = searchResults;
+        Entries = searchResults;
         isLoading = false;
       });
     } catch (e) {
@@ -92,13 +92,22 @@ class _FindDiaryEntryPageState extends State<FindDiaryEntryPage> {
                       blurRadius: 1.0),
                 ],
               ),
-              child: SingleChildScrollView(
-                child: isLoading
-                    ? XProgress(colors: colors)
-                    : Column(
-                        children: results,
-                      ),
-              ),
+              child: isLoading
+                  ? XProgress(colors: colors)
+                  : Entries.isEmpty
+                      ? const Expanded(
+                          child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [Text("No Entries found..")],
+                        ))
+                      : ListView.builder(
+                          itemCount: Entries.length,
+                          physics: const BouncingScrollPhysics(),
+                          itemBuilder: (BuildContext context, int Itemindex) {
+                            return Entries[Itemindex];
+                          },
+                        ),
             ),
           )
         ],

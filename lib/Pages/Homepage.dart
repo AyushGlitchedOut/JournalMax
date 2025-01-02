@@ -143,37 +143,35 @@ class _HomePageState extends State<HomePage> {
   Expanded RecentEntriesBox(ColorScheme colors) {
     return Expanded(
       child: Container(
-        margin: const EdgeInsets.all(5.0),
-        decoration: BoxDecoration(
-            color: colors.onSurface,
-            border: Border.all(color: colors.outline),
-            borderRadius: BorderRadius.circular(10.0),
-            boxShadow: [
-              BoxShadow(
-                  color: colors.primary,
-                  offset: const Offset(-1.5, -1.5),
-                  blurRadius: 1.0),
-              BoxShadow(
-                  color: colors.shadow,
-                  offset: const Offset(2.0, 2.0),
-                  blurRadius: 1.0),
-            ]),
-        child: isLoading
-            ? XProgress(colors: colors)
-            : recentEntries.isEmpty
-                ? const Center(
-                    child: Text(
-                      "No recent entries",
-                      style: TextStyle(fontSize: 16.0),
-                    ),
-                  )
-                : SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: recentEntries,
-                    ),
-                  ),
-      ),
+          margin: const EdgeInsets.all(5.0),
+          decoration: BoxDecoration(
+              color: colors.onSurface,
+              border: Border.all(color: colors.outline),
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: [
+                BoxShadow(
+                    color: colors.primary,
+                    offset: const Offset(-1.5, -1.5),
+                    blurRadius: 1.0),
+                BoxShadow(
+                    color: colors.shadow,
+                    offset: const Offset(2.0, 2.0),
+                    blurRadius: 1.0),
+              ]),
+          child: isLoading
+              ? XProgress(colors: colors)
+              : recentEntries.isEmpty
+                  ? const Center(
+                      child: Text(
+                        "No recent entries",
+                        style: TextStyle(fontSize: 16.0),
+                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: recentEntries.length,
+                      itemBuilder: (BuildContext context, int ItemIndex) {
+                        return recentEntries[ItemIndex];
+                      })),
     );
   }
 }

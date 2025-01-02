@@ -26,8 +26,17 @@ class XDrawer extends StatelessWidget {
               margin: const EdgeInsets.only(top: 40.0),
               padding: const EdgeInsets.all(8.0),
               decoration: BoxDecoration(
-                  border: Border(
-                      bottom: BorderSide(color: colors.outline, width: 3.0))),
+                boxShadow: [
+                  BoxShadow(
+                      offset: const Offset(-2, -2),
+                      color: colors.shadow,
+                      blurRadius: 2.0),
+                  BoxShadow(
+                      offset: const Offset(2, 2),
+                      color: colors.shadow,
+                      blurRadius: 2.0)
+                ],
+              ),
               child: Container(
                 decoration: BoxDecoration(boxShadow: [
                   BoxShadow(
@@ -36,6 +45,14 @@ class XDrawer extends StatelessWidget {
                       blurRadius: 2.0),
                   BoxShadow(
                       offset: const Offset(-2, -2),
+                      color: colors.shadow,
+                      blurRadius: 2.0),
+                  BoxShadow(
+                      offset: const Offset(-2, 2),
+                      color: colors.shadow,
+                      blurRadius: 2.0),
+                  BoxShadow(
+                      offset: const Offset(2, -2),
                       color: colors.shadow,
                       blurRadius: 2.0)
                 ], borderRadius: const BorderRadius.all(Radius.circular(15.0))),
