@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:journalmax/Pages/ViewerPage.dart';
-import 'package:journalmax/Widgets/MultimediaAddDialog.dart';
+import 'package:journalmax/Pages/MultimediaAddPage.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';
 import 'package:journalmax/Widgets/XFloatingButton.dart';
@@ -26,6 +26,7 @@ class _EditorPageState extends State<EditorPage> {
   final TextEditingController _contentController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
   String currentMood = "Happy";
+  String? Location;
   bool isLoading = false;
   Map<String, dynamic> moods = EntryItemMoods.happy;
 
@@ -62,6 +63,7 @@ class _EditorPageState extends State<EditorPage> {
         _contentController.text = entryDetails["content"] ?? "";
         currentMood = entryDetails["mood"] ?? "Happy";
         moods = EntryItemMoods.NameToColor(currentMood);
+        Location = entryDetails["location"] ?? "Not Given";
       });
     } catch (e) {
       showSnackBar(e.toString(), context);
@@ -78,11 +80,11 @@ class _EditorPageState extends State<EditorPage> {
       await updateEntry(
         id,
         Entry(
-          title: _titleController.text,
-          Content: _contentController.text,
-          mood: currentMood,
-          date: DateTime.now().toString(),
-        ),
+            title: _titleController.text,
+            Content: _contentController.text,
+            mood: currentMood,
+            date: DateTime.now().toString(),
+            location: Location),
       );
     } catch (e) {
       showSnackBar(e.toString(), context);
@@ -170,15 +172,12 @@ class _EditorPageState extends State<EditorPage> {
                 ),
               ),
               XIconLabelButton(
-                icon: Icons.image_outlined,
-                label: "Add Multimedia",
-                onclick: () => showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return const Center(child: XMultimediaAddDialog());
-                  },
-                ),
-              ),
+                  icon: Icons.image_outlined,
+                  label: "Add Multimedia",
+                  onclick: () => Navigator.push(context,
+                          MaterialPageRoute(builder: (BuildContext context) {
+                        return const MultimediaAddPage();
+                      }))),
               TitleBar(),
               ContentBox(context),
               XIconLabelButton(
