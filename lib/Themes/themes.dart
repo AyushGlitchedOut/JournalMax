@@ -26,4 +26,4 @@ ThemeData darkmode = ThemeData(
         secondary: const Color(0xFFE6E8E6),
         tertiary: const Color(0xFF566C5E),
         shadow: Colors.grey.shade700,
-        outline: Colors.black));
+        outline: const Color.fromARGB(255, 135, 27, 230)));

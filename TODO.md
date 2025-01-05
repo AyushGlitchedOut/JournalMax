@@ -14,3 +14,4 @@
 15. Export the DataBase as a folder in downloads folder with each entry as a different file
 16. Make the snackBar fade In and Out
 17. Update everything to a single naming convention, preferabbly to lowerCamelCase for consistency
+18. Consistency in font sizes and border-radius, color etc for interface

@@ -4,9 +4,14 @@ import 'package:flutter/material.dart';
 class XToggle extends StatefulWidget {
   final String title;
   final bool value;
-  final void Function()? onclick;
+  final double? customFontSize;
+  final void Function(bool onclick)? onclick;
   const XToggle(
-      {super.key, required this.title, required this.value, this.onclick});
+      {super.key,
+      required this.title,
+      required this.value,
+      this.onclick,
+      this.customFontSize});
 
   @override
   State<XToggle> createState() => _XToggleState();
@@ -33,19 +38,19 @@ class _XToggleState extends State<XToggle> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 10.0),
+            padding: const EdgeInsets.only(left: 7.0),
             child: Text(
               widget.title,
               style: TextStyle(
                   color: colors.onPrimary,
-                  fontSize: 22.0,
+                  fontSize: widget.customFontSize ?? 22.0,
                   overflow: TextOverflow.ellipsis,
                   fontWeight: FontWeight.w500),
             ),
           ),
           CupertinoSwitch(
             value: widget.value,
-            onChanged: (value) => widget.onclick!(),
+            onChanged: (value) => widget.onclick!(value),
             inactiveTrackColor: colors.onPrimary,
           )
         ],
