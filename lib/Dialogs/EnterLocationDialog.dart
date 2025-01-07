@@ -4,7 +4,8 @@ import 'package:journalmax/Widgets/XToggle.dart';
 import 'package:journalmax/services/getLocation.dart';
 
 class enterLocationDialog extends StatefulWidget {
-  const enterLocationDialog({super.key});
+  final void Function(String location) reportLocation;
+  const enterLocationDialog({super.key, required this.reportLocation});
 
   @override
   State<enterLocationDialog> createState() => _enterLocationDialogState();
@@ -80,14 +81,14 @@ class _enterLocationDialogState extends State<enterLocationDialog> {
                                   borderSide: BorderSide(
                                     color: colors.outline,
                                   ),
-                                  borderRadius:
-                                      const BorderRadius.all(Radius.circular(5.0))),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(5.0))),
                               border: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     color: colors.outline,
                                   ),
-                                  borderRadius:
-                                      const BorderRadius.all(Radius.circular(5.0))),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(5.0))),
                               hintText: "Enter a location or get automatically",
                               hintStyle: TextStyle(
                                   fontSize: 12.0, color: colors.tertiary)),
@@ -124,6 +125,7 @@ class _enterLocationDialogState extends State<enterLocationDialog> {
                           elevation: const WidgetStatePropertyAll(2.0),
                           shadowColor: WidgetStatePropertyAll(colors.shadow)),
                       onPressed: () {
+                        widget.reportLocation(_locationController.text);
                         Navigator.of(context).pop();
                       },
                       child: Text(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:journalmax/Dialogs/moodChangeDialogEditorPage.dart';
 import 'package:journalmax/Pages/ViewerPage.dart';
 import 'package:journalmax/Pages/MultimediaAddPage.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
@@ -26,7 +27,7 @@ class _EditorPageState extends State<EditorPage> {
   final TextEditingController _contentController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
   String currentMood = "Happy";
-  String? Location;
+  String Location = "Not Entered";
   bool isLoading = false;
   Map<String, dynamic> moods = EntryItemMoods.happy;
 
@@ -104,6 +105,10 @@ class _EditorPageState extends State<EditorPage> {
     }
   }
 
+  void getLocationFromDialog(String ObtainedLocation) {
+    Location = ObtainedLocation;
+  }
+
   //UI
   void setCurrentMoodString(String mood) {
     setState(() {
@@ -176,7 +181,9 @@ class _EditorPageState extends State<EditorPage> {
                   label: "Add Multimedia",
                   onclick: () => Navigator.push(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return const MultimediaAddPage();
+                        return MultimediaAddPage(
+                          saveLocation: getLocationFromDialog,
+                        );
                       }))),
               TitleBar(),
               ContentBox(context),
@@ -251,69 +258,5 @@ class _EditorPageState extends State<EditorPage> {
         ),
       ),
     );
-  }
-}
-
-// ignore: must_be_immutable
-class MoodChangeDialog extends StatefulWidget {
-  void Function(String currentmood) returnMood;
-  MoodChangeDialog({super.key, required this.returnMood});
-
-  @override
-  State<MoodChangeDialog> createState() => _MoodChangeDialogState();
-}
-
-class _MoodChangeDialogState extends State<MoodChangeDialog> {
-  String currentMood = "Happy";
-  final moods = EntryItemMoods.moods;
-
-  @override
-  Widget build(BuildContext context) {
-    final ColorScheme colors = Theme.of(context).colorScheme;
-    return AlertDialog(
-        insetPadding: const EdgeInsets.only(top: 85),
-        backgroundColor: colors.onSurface,
-        actionsAlignment: MainAxisAlignment.start,
-        alignment: Alignment.topCenter,
-        shape: RoundedRectangleBorder(
-            side: BorderSide(width: 2.0, color: colors.outline),
-            borderRadius: BorderRadius.circular(15.0)),
-        title: Center(
-            child: Text(
-          "Choose your current Mood",
-          style: TextStyle(color: colors.onPrimary),
-        )),
-        content: Column(
-            children: moods.map<Widget>((mood) {
-          return Container(
-              child: Row(
-            children: [
-              Radio(
-                  activeColor: Colors.red,
-                  fillColor: WidgetStatePropertyAll(Colors.grey.shade500),
-                  value: mood,
-                  groupValue: currentMood,
-                  onChanged: (value) {
-                    widget.returnMood(currentMood);
-                    setState(() {
-                      currentMood = value!;
-                    });
-                  }),
-              Text(
-                mood,
-                style: TextStyle(color: colors.onPrimary, fontSize: 17.0),
-              ),
-            ],
-          ));
-        }).toList()),
-        actions: [
-          ElevatedButton(
-              onPressed: () {
-                widget.returnMood(currentMood);
-                showSnackBar('Changed Entry Mood To $currentMood', context);
-                Navigator.pop(context);
-              },
-              child: const Text("Done!")),
-        ]);
   }
 }
