@@ -27,7 +27,7 @@ class MultimediaAddPage extends StatelessWidget {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return enterLocationDialog();
+                    return const enterLocationDialog();
                   });
             },
           ),
@@ -36,11 +36,16 @@ class MultimediaAddPage extends StatelessWidget {
           Center(
             child: ElevatedButton(
                 style: ButtonStyle(
-                    backgroundColor: WidgetStatePropertyAll(colors.onSurface)),
+                    backgroundColor: WidgetStatePropertyAll(colors.onSurface),
+                    elevation: const WidgetStatePropertyAll(2.0)),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text("OK")),
+                child: Text(
+                  "OK",
+                  style: TextStyle(
+                      color: colors.onPrimary, fontWeight: FontWeight.bold),
+                )),
           )
         ],
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:journalmax/Widgets/XSnackBar.dart';
 import 'package:journalmax/Widgets/XToggle.dart';
 import 'package:journalmax/services/getLocation.dart';
 
@@ -10,14 +11,32 @@ class enterLocationDialog extends StatefulWidget {
 }
 
 class _enterLocationDialogState extends State<enterLocationDialog> {
-  TextEditingController _locationController = TextEditingController();
+  final TextEditingController _locationController = TextEditingController();
+  bool isLoading = false;
   bool showInCoordinates = false;
+  Future<void> SyncLocation(BuildContext context) async {
+    _locationController.text = "Loading.....";
+    try {
+      String result = "Unknown";
+      if (showInCoordinates) {
+        final coordinates = await getLocationInCoordinates();
+        result =
+            '${coordinates.latitude.toStringAsFixed(5)} , ${coordinates.longitude.toStringAsFixed(5)}';
+      } else {
+        result = await getLocationInName();
+      }
+      _locationController.text = result;
+    } catch (exception) {
+      _locationController.text = "Not found";
+      showSnackBar(exception.toString(), context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     ColorScheme colors = Theme.of(context).colorScheme;
     return Dialog(
-      insetPadding: EdgeInsets.all(0.0),
+      insetPadding: const EdgeInsets.all(0.0),
       elevation: 5.0,
       shadowColor: colors.shadow,
       child: SizedBox(
@@ -26,8 +45,8 @@ class _enterLocationDialogState extends State<enterLocationDialog> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
+            const Padding(
+              padding: EdgeInsets.only(top: 10),
               child: Center(
                 child: Text(
                   "Attach Location",
@@ -43,12 +62,8 @@ class _enterLocationDialogState extends State<enterLocationDialog> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
-                          onPressed: () async {
-                            _locationController.text = showInCoordinates
-                                ? await getLocationInCoordinates()
-                                : await getLocationInName();
-                          },
-                          icon: Icon(
+                          onPressed: () => SyncLocation(context),
+                          icon: const Icon(
                             Icons.sync,
                             size: 30.0,
                             applyTextScaling: true,
@@ -59,20 +74,20 @@ class _enterLocationDialogState extends State<enterLocationDialog> {
                           controller: _locationController,
                           autocorrect: false,
                           onSubmitted: (value) {},
-                          style: TextStyle(),
+                          style: const TextStyle(),
                           decoration: InputDecoration(
                               focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     color: colors.outline,
                                   ),
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(5.0))),
+                                      const BorderRadius.all(Radius.circular(5.0))),
                               border: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     color: colors.outline,
                                   ),
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(5.0))),
+                                      const BorderRadius.all(Radius.circular(5.0))),
                               hintText: "Enter a location or get automatically",
                               hintStyle: TextStyle(
                                   fontSize: 12.0, color: colors.tertiary)),
@@ -81,7 +96,7 @@ class _enterLocationDialogState extends State<enterLocationDialog> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10.0,
                 ),
                 XToggle(
@@ -90,8 +105,8 @@ class _enterLocationDialogState extends State<enterLocationDialog> {
                   onclick: (value) {
                     setState(() {
                       showInCoordinates = !showInCoordinates;
-                      print(showInCoordinates);
                     });
+                    SyncLocation(context);
                   },
                   customFontSize: 19.0,
                 )
@@ -106,12 +121,17 @@ class _enterLocationDialogState extends State<enterLocationDialog> {
                       style: ButtonStyle(
                           backgroundColor:
                               WidgetStatePropertyAll(colors.secondary),
-                          elevation: const WidgetStatePropertyAll(5.0),
+                          elevation: const WidgetStatePropertyAll(2.0),
                           shadowColor: WidgetStatePropertyAll(colors.shadow)),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      child: const Text("OK")),
+                      child: Text(
+                        "OK",
+                        style: TextStyle(
+                            color: colors.onPrimary,
+                            fontWeight: FontWeight.bold),
+                      )),
                 ],
               ),
             )

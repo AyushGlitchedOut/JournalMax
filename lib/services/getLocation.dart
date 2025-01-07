@@ -1,20 +1,47 @@
+import "package:geocoding/geocoding.dart";
+import "package:geolocator/geolocator.dart";
+
 Future<String> getLocationInName() async {
   try {
-    final LocationInCoordinates = getLocationInCoordinates();
-    //convert co-ordinates to place name using geocoder
-    return "Unknown";
+    final LocationInCoordinates = await getLocationInCoordinates();
+    final result = await placemarkFromCoordinates(
+        LocationInCoordinates.latitude, LocationInCoordinates.longitude);
+    if (result.isNotEmpty) {
+      Placemark location = result[0];
+      return '${location.locality}, ${location.administrativeArea}';
+    }
+    throw Exception();
   } catch (exception) {
-    //Use this for permission Error from : throw Exception(exception.toString());
+    if (exception.toString() == "Permssion is denied Forever! :(") {
+      throw Exception(exception.toString());
+    }
+    if (exception.toString() == "Permssion is denied! :(") {
+      throw Exception(exception.toString());
+    }
+    if (exception.toString() == "Turn on Location for the feature! ") {
+      throw Exception(exception.toString());
+    }
     throw Exception("Error Getting Location Automatically");
   }
 }
 
-Future<String> getLocationInCoordinates() async {
+Future<Position> getLocationInCoordinates() async {
+  if (await Geolocator.checkPermission() == LocationPermission.deniedForever) {
+    throw Exception("Permssion is denied Forever! :(");
+  }
+  if (await Geolocator.checkPermission() == LocationPermission.denied) {
+    Geolocator.requestPermission();
+    throw Exception("Permssion is denied! :(");
+  }
+  if (!await Geolocator.isLocationServiceEnabled()) {
+    throw Exception("Turn on Location for the feature! ");
+  }
   try {
-    //get co-ordinates from geo-locater
-    return "Unknown*N/S and Unknown*E/W";
+    final location = await Geolocator.getCurrentPosition(
+      locationSettings: const LocationSettings(accuracy: LocationAccuracy.high),
+    );
+    return location;
   } catch (exception) {
-    //Use this for permission Error: throw Exception("Permission not Given");
-    throw Exception("Error loading location values automatically");
+    throw Exception("Error retrieving device Location");
   }
 }

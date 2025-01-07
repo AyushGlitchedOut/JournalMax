@@ -37,8 +37,14 @@ class XIconLabelButton extends StatelessWidget {
               icon,
               color: colors.onPrimary,
               shadows: [
-                Shadow(color: colors.primary, offset: const Offset(-1.5, -1.5)),
-                Shadow(color: colors.shadow, offset: const Offset(1.5, 1.5))
+                Shadow(
+                  color: colors.primary,
+                  offset: const Offset(-1.0, -1.0),
+                ),
+                Shadow(
+                  color: colors.shadow,
+                  offset: const Offset(1.0, 1.0),
+                )
               ],
               size: 40.0,
             ),

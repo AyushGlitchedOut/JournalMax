@@ -11,7 +11,7 @@ void showSnackBar(String message, BuildContext context) {
     content: Container(
       child: Text(
         message,
-        style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold),
+        style: TextStyle(color: colors.secondary, fontWeight: FontWeight.bold),
         textAlign: TextAlign.left,
       ),
     ),

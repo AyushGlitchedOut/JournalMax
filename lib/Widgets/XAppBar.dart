@@ -32,7 +32,10 @@ class XAppBar extends StatelessWidget {
               letterSpacing: 1.0,
               fontSize: 23.0,
               shadows: [
-                Shadow(color: colors.shadow, offset: const Offset(-1.5, -1.5))
+                Shadow(
+                    color: colors.shadow,
+                    offset: const Offset(-1.5, -1.5),
+                    blurRadius: 1.0)
               ]),
         ),
       ),

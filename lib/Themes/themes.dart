@@ -11,8 +11,8 @@ ThemeData lightmode = ThemeData(
         onPrimary: Colors.black54,
         secondary: Colors.white38,
         tertiary: Colors.grey.shade500,
-        outline: Colors.grey.shade800,
-        shadow: Colors.black38));
+        outline: Colors.black87,
+        shadow: Colors.white70));
 
 ThemeData darkmode = ThemeData(
     fontFamily: "Poppins",
