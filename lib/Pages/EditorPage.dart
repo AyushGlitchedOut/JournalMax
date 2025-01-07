@@ -154,6 +154,7 @@ class _EditorPageState extends State<EditorPage> {
         Navigator.pop(context);
       },
       child: Scaffold(
+          resizeToAvoidBottomInset: false,
           appBar: const PreferredSize(
             preferredSize: Size.fromHeight(60.0),
             child: XAppBar(title: "Editor Page"),

@@ -50,6 +50,8 @@ class XSearchBar extends StatelessWidget {
   Expanded SearchBarField(ColorScheme colors) {
     return Expanded(
       child: SearchBar(
+        shape: const WidgetStatePropertyAll(RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)))),
         onChanged: searchFunction,
         controller: controller,
         focusNode: focus,

@@ -56,6 +56,7 @@ class _FindDiaryEntryPageState extends State<FindDiaryEntryPage> {
   Widget build(BuildContext context) {
     final ColorScheme colors = Theme.of(context).colorScheme;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: const PreferredSize(
           preferredSize: Size.fromHeight(60.0),
           child: XAppBar(
