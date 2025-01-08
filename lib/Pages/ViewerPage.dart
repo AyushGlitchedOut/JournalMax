@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:journalmax/Dialogs/ViewPageContentDialog.dart';
+import 'package:journalmax/Widgets/Dialogs/ViewPageContentDialog.dart';
 import 'package:journalmax/Pages/EditorPage.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';

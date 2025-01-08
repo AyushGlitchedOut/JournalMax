@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:journalmax/Dialogs/EnterLocationDialog.dart';
+import 'package:journalmax/Widgets/Dialogs/EnterLocationDialog.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';
 import 'package:journalmax/Widgets/XIconLabelButton.dart';
 
 class MultimediaAddPage extends StatelessWidget {
-  void Function(String location) saveLocation;
-  MultimediaAddPage({super.key, required this.saveLocation});
+  final void Function(String location) saveLocation;
+  const MultimediaAddPage({super.key, required this.saveLocation});
 
   @override
   Widget build(BuildContext context) {

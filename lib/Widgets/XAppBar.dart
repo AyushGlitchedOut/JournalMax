@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:journalmax/Dialogs/XExitDialog.dart';
+import 'package:journalmax/Widgets/Dialogs/XExitDialog.dart';
 
 class XAppBar extends StatelessWidget {
   final String title;

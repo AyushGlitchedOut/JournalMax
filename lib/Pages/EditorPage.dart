@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:journalmax/Dialogs/moodChangeDialogEditorPage.dart';
+import 'package:journalmax/Widgets/Dialogs/moodChangeDialogEditorPage.dart';
 import 'package:journalmax/Pages/ViewerPage.dart';
 import 'package:journalmax/Pages/MultimediaAddPage.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';

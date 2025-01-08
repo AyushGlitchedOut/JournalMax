@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:journalmax/Dialogs/WipeEntriesDialogSettingsPage.dart';
+import 'package:journalmax/Widgets/Dialogs/WipeEntriesDialogSettingsPage.dart';
 import 'package:journalmax/Themes/ThemeProvider.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';

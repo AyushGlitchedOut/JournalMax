@@ -1,6 +1,6 @@
-1. Add error handlign with alertdialogs everywhere (Including sending reports) (Make a reusable error handling widget and put it wherever there is DB operation, api calling or something like that)
+1. Add error handlign with snackbars everywhere (Including sending reports) (Make a reusable error handling widget and put it wherever there is DB operation, api calling or something like that)
 2. *** DONE *** Opening websites in the settings page for source code, author etc. (The github page for me, source code and a simple licenses page)
-3. Adding multimedia options (using apis and custom screens)
+3. Adding multimedia options (using apis and custom screens) **Location Done**
 4. Google Drive integration
 5. Introduction Page (using the intro_page package)
 6. *** DONE *** App Icon 
