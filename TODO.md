@@ -10,7 +10,7 @@
 11. **DONE** Use good fonts for aesthetics
 12. **DONE** Make improvements in color schemes (if possible)
 13. **DONE** Add the AppIcon in the App Drawer
-14. Add a gradient background to the Drawer
+14. **DONE** Add a gradient background to the Drawer
 15. Export the DataBase as a folder in downloads folder with each entry as a different file
 16. Make the snackBar fade In and Out
 17. Update everything to a single naming convention, preferabbly to lowerCamelCase for consistency

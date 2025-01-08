@@ -86,13 +86,13 @@ class _ViewerPageState extends State<ViewerPage> {
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   border: Border.all(color: colors.outline),
-                  color: mood!["surface"] ?? colors.surface,
+                  color: mood?["surface"] ?? colors.surface,
                   boxShadow: [
                     BoxShadow(
-                        color: mood!["text"] ?? colors.shadow,
+                        color: mood?["text"] ?? colors.shadow,
                         offset: const Offset(1.5, 1.5)),
                     BoxShadow(
-                        color: mood!["secondary"] ?? colors.outline,
+                        color: mood?["secondary"] ?? colors.outline,
                         offset: const Offset(-1.5, -1.5))
                   ],
                   borderRadius: BorderRadius.circular(10.0)),
@@ -115,10 +115,10 @@ class _ViewerPageState extends State<ViewerPage> {
                   color: mood!["surface"] ?? colors.surface,
                   boxShadow: [
                     BoxShadow(
-                        color: mood!["text"] ?? colors.shadow,
+                        color: mood?["text"] ?? colors.shadow,
                         offset: const Offset(1.5, 1.5)),
                     BoxShadow(
-                        color: mood!["secondary"] ?? colors.outline,
+                        color: mood?["secondary"] ?? colors.outline,
                         offset: const Offset(-1.5, -1.5))
                   ],
                   borderRadius: BorderRadius.circular(10.0)),
@@ -128,7 +128,7 @@ class _ViewerPageState extends State<ViewerPage> {
                   child: isLoading
                       ? XProgress(colors: colors)
                       : SelectableText(
-                          Content!["content"].toString(),
+                          Content?["content"].toString() ?? "Content Not Found",
                           style: TextStyle(
                               color: mood!["secondary"], fontSize: 20.0),
                         )),

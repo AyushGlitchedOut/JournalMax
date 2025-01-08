@@ -19,56 +19,66 @@ class XDrawer extends StatelessWidget {
       shadowColor: colors.primary,
       width: 300,
       backgroundColor: colors.surface,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-              margin: const EdgeInsets.only(top: 40.0),
-              padding: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      offset: const Offset(-2, -2),
-                      color: colors.shadow,
-                      blurRadius: 2.0),
-                  BoxShadow(
-                      offset: const Offset(2, 2),
-                      color: colors.shadow,
-                      blurRadius: 2.0)
-                ],
-              ),
-              child: Container(
-                decoration: BoxDecoration(boxShadow: [
-                  BoxShadow(
-                      offset: const Offset(2, 2),
-                      color: colors.shadow,
-                      blurRadius: 2.0),
-                  BoxShadow(
-                      offset: const Offset(-2, -2),
-                      color: colors.shadow,
-                      blurRadius: 2.0),
-                  BoxShadow(
-                      offset: const Offset(-2, 2),
-                      color: colors.shadow,
-                      blurRadius: 2.0),
-                  BoxShadow(
-                      offset: const Offset(2, -2),
-                      color: colors.shadow,
-                      blurRadius: 2.0)
-                ], borderRadius: const BorderRadius.all(Radius.circular(15.0))),
-                child: const Image(
-                  fit: BoxFit.fill,
-                  height: 150,
-                  width: 150,
-                  image: AssetImage(
-                    'assets/AppIcon.png',
-                  ),
+      child: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                colors: [colors.primary, colors.secondary, colors.tertiary],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+                margin: const EdgeInsets.only(top: 40.0),
+                padding: const EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                        offset: const Offset(-2, -2),
+                        color: colors.shadow,
+                        blurRadius: 2.0),
+                    BoxShadow(
+                        offset: const Offset(2, 2),
+                        color: colors.shadow,
+                        blurRadius: 2.0)
+                  ],
                 ),
-              )),
-          ScreensList(context),
-          XDrawerTile(Icons.exit_to_app_rounded, context, "Quit App", "/exit",
-              highlight: false)
-        ],
+                child: Container(
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            offset: const Offset(2, 2),
+                            color: colors.shadow,
+                            blurRadius: 2.0),
+                        BoxShadow(
+                            offset: const Offset(-2, -2),
+                            color: colors.shadow,
+                            blurRadius: 2.0),
+                        BoxShadow(
+                            offset: const Offset(-2, 2),
+                            color: colors.shadow,
+                            blurRadius: 2.0),
+                        BoxShadow(
+                            offset: const Offset(2, -2),
+                            color: colors.shadow,
+                            blurRadius: 2.0)
+                      ],
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(15.0))),
+                  child: const Image(
+                    fit: BoxFit.fill,
+                    height: 150,
+                    width: 150,
+                    image: AssetImage(
+                      'assets/AppIcon.png',
+                    ),
+                  ),
+                )),
+            ScreensList(context),
+            XDrawerTile(Icons.exit_to_app_rounded, context, "Quit App", "/exit",
+                highlight: false)
+          ],
+        ),
       ),
     );
   }
