@@ -15,9 +15,9 @@ import 'package:journalmax/services/InsertEntry.dart';
 // ignore: must_be_immutable
 class EditorPage extends StatefulWidget {
   final bool? createNewEntry;
-  int? UpdateId;
+  int? updateId;
 
-  EditorPage({super.key, this.createNewEntry = true, this.UpdateId});
+  EditorPage({super.key, this.createNewEntry = true, this.updateId});
 
   @override
   State<EditorPage> createState() => _EditorPageState();
@@ -27,12 +27,12 @@ class _EditorPageState extends State<EditorPage> {
   final TextEditingController _contentController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
   String currentMood = "Happy";
-  String Location = "Not Entered";
+  String location = "Not Entered";
   bool isLoading = false;
   Map<String, dynamic> moods = EntryItemMoods.happy;
 
   //CREATE
-  Future<void> CreateEntry() async {
+  Future<void> createEntry() async {
     try {
       await insertEntry(
           "Untitled", "", "Happy", DateTime.now().toString(), null, null, null);
@@ -63,8 +63,8 @@ class _EditorPageState extends State<EditorPage> {
         _titleController.text = entryDetails["title"] ?? "Untitled";
         _contentController.text = entryDetails["content"] ?? "";
         currentMood = entryDetails["mood"] ?? "Happy";
-        moods = EntryItemMoods.NameToColor(currentMood);
-        Location = entryDetails["location"] ?? "Not Given";
+        moods = EntryItemMoods.nameToColor(currentMood);
+        location = entryDetails["location"] ?? "Not Given";
       });
     } catch (e) {
       showSnackBar(e.toString(), context);
@@ -72,20 +72,20 @@ class _EditorPageState extends State<EditorPage> {
   }
 
   //UPDATE
-  Future<void> UpdateEntry() async {
+  Future<void> callUpdateEntry() async {
     try {
       final int id;
       final entries = await getRecentEntries();
       id =
-          widget.createNewEntry ?? true ? entries.last["id"] : widget.UpdateId!;
+          widget.createNewEntry ?? true ? entries.last["id"] : widget.updateId!;
       await updateEntry(
         id,
         Entry(
             title: _titleController.text,
-            Content: _contentController.text,
+            content: _contentController.text,
             mood: currentMood,
             date: DateTime.now().toString(),
-            location: Location),
+            location: location),
       );
     } catch (e) {
       showSnackBar(e.toString(), context);
@@ -98,22 +98,22 @@ class _EditorPageState extends State<EditorPage> {
         return;
       }
       final result = await getRecentEntries();
-      widget.UpdateId = result.last["id"];
+      widget.updateId = result.last["id"];
       return;
     } catch (e) {
       showSnackBar(e.toString(), context);
     }
   }
 
-  void getLocationFromDialog(String ObtainedLocation) {
-    Location = ObtainedLocation;
+  void getLocationFromDialog(String obtainedLocation) {
+    location = obtainedLocation;
   }
 
   //UI
   void setCurrentMoodString(String mood) {
     setState(() {
       currentMood = mood;
-      moods = EntryItemMoods.NameToColor(mood);
+      moods = EntryItemMoods.nameToColor(mood);
     });
   }
 
@@ -126,9 +126,9 @@ class _EditorPageState extends State<EditorPage> {
           isLoading = true;
         });
         if (widget.createNewEntry ?? true) {
-          await CreateEntry();
-        } else if (widget.UpdateId != null) {
-          await fetchExistingEntry(widget.UpdateId!);
+          await createEntry();
+        } else if (widget.updateId != null) {
+          await fetchExistingEntry(widget.updateId!);
         }
         await setUpdateIDForNewEntry();
         setState(() {
@@ -150,7 +150,7 @@ class _EditorPageState extends State<EditorPage> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
-        await UpdateEntry();
+        await callUpdateEntry();
         Navigator.pop(context);
       },
       child: Scaffold(
@@ -160,7 +160,7 @@ class _EditorPageState extends State<EditorPage> {
             child: XAppBar(title: "Editor Page"),
           ),
           drawer: const XDrawer(currentPage: "editor"),
-          onDrawerChanged: (isOpened) => UpdateEntry(),
+          onDrawerChanged: (isOpened) => callUpdateEntry(),
           backgroundColor: colors.surface,
           body: Column(
             children: [
@@ -186,13 +186,13 @@ class _EditorPageState extends State<EditorPage> {
                           saveLocation: getLocationFromDialog,
                         );
                       }))),
-              TitleBar(),
-              ContentBox(context),
+              titleBar(),
+              contentBox(context),
               XIconLabelButton(
                 icon: Icons.save_as_rounded,
                 label: "Save Entry",
                 onclick: () async {
-                  await UpdateEntry();
+                  await callUpdateEntry();
                   showSnackBar("Updated Entry", context);
                 },
               ),
@@ -204,14 +204,14 @@ class _EditorPageState extends State<EditorPage> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (BuildContext context) {
                   return ViewerPage(
-                    Id: widget.UpdateId ?? 1,
+                    Id: widget.updateId ?? 1,
                   );
                 }));
               })),
     );
   }
 
-  Expanded ContentBox(BuildContext context) {
+  Expanded contentBox(BuildContext context) {
     return Expanded(
       child: Container(
         margin: const EdgeInsets.all(5.0),
@@ -240,7 +240,7 @@ class _EditorPageState extends State<EditorPage> {
     );
   }
 
-  Padding TitleBar() {
+  Padding titleBar() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextField(

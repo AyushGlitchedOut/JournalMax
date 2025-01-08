@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:journalmax/services/CRUD_Entry.dart';
 
-Future<void> WipeEntriesDialog(BuildContext context, ColorScheme colors) {
+Future<void> wipeEntriesDialog(BuildContext context, ColorScheme colors) {
   return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -31,7 +31,7 @@ Future<void> WipeEntriesDialog(BuildContext context, ColorScheme colors) {
                   elevation: const WidgetStatePropertyAll(5.0),
                 ),
                 onPressed: () async {
-                  Wipe_deleteAllEntry();
+                  wipeOrdeleteAllEntry();
                   Navigator.of(context).pop();
                 },
                 child: const Text(

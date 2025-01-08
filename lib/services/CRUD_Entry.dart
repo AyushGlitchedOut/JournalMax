@@ -10,10 +10,10 @@ Future<void> pushEntry(Entry entry) async {
         "items",
         {
           "title": entry.title,
-          "content": entry.Content,
+          "content": entry.content,
           "mood": entry.mood,
           "location": entry.location,
-          "audio_record": entry.audio_record,
+          "audio_record": entry.audioRecord,
           "image": entry.image,
           "date":
               '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}'
@@ -78,10 +78,10 @@ Future<void> updateEntry(int id, Entry entry) async {
         "items",
         {
           "title": entry.title,
-          "content": entry.Content,
+          "content": entry.content,
           "mood": entry.mood.toString(),
           "location": entry.location,
-          "audio_record": entry.audio_record,
+          "audio_record": entry.audioRecord,
           "image": entry.image,
           "date":
               '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}'
@@ -104,7 +104,7 @@ Future<void> deleteEntry(int id) async {
   }
 }
 
-Future<void> Wipe_deleteAllEntry() async {
+Future<void> wipeOrdeleteAllEntry() async {
   try {
     final db = await Initdatabase().database;
     db.delete("items");

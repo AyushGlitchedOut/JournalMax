@@ -63,7 +63,7 @@ class SettingsPage extends StatelessWidget {
               label: "Delete All Entries",
               onclick: () {
                 HapticFeedback.heavyImpact();
-                WipeEntriesDialog(context, colors);
+                wipeEntriesDialog(context, colors);
               }),
           XIconLabelButton(
             icon: Icons.book,

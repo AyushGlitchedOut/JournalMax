@@ -28,7 +28,7 @@ class MultimediaAddPage extends StatelessWidget {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return enterLocationDialog(
+                    return EnterLocationDialog(
                       reportLocation: saveLocation,
                     );
                   });

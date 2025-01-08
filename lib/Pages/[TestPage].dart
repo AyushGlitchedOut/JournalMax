@@ -40,7 +40,7 @@ class TestPage extends StatelessWidget {
                     7,
                     Entry(
                         title: "Title",
-                        Content: "Lorem Ipsum Dolor Amet",
+                        content: "Lorem Ipsum Dolor Amet",
                         mood: "Happy",
                         date: "Now"));
               },
@@ -48,7 +48,7 @@ class TestPage extends StatelessWidget {
           ElevatedButton(
               onPressed: () {
                 pushEntry(Entry(
-                    Content: "Push Entry Content",
+                    content: "Push Entry Content",
                     title: "pushEntry",
                     date: "Now",
                     mood: "Frustrated"));
@@ -56,7 +56,7 @@ class TestPage extends StatelessWidget {
               child: const Text("PUSH")),
           ElevatedButton(
               onPressed: () {
-                Wipe_deleteAllEntry();
+                wipeOrdeleteAllEntry();
               },
               child: const Text("Wipe ")),
         ],

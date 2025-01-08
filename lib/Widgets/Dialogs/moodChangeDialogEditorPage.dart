@@ -32,8 +32,7 @@ class _MoodChangeDialogState extends State<MoodChangeDialog> {
         )),
         content: Column(
             children: moods.map<Widget>((mood) {
-          return Container(
-              child: Row(
+          return Row(
             children: [
               Radio(
                   activeColor: Colors.red,
@@ -51,7 +50,7 @@ class _MoodChangeDialogState extends State<MoodChangeDialog> {
                 style: TextStyle(color: colors.onPrimary, fontSize: 17.0),
               ),
             ],
-          ));
+          );
         }).toList()),
         actions: [
           ElevatedButton(

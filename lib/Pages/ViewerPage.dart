@@ -23,7 +23,7 @@ class ViewerPage extends StatefulWidget {
 class _ViewerPageState extends State<ViewerPage> {
   bool isLoading = false;
   Map<String, Color>? mood;
-  Map<String, Object?>? Content;
+  Map<String, Object?>? content;
 
   //READ
   Future<void> getEntry() async {
@@ -47,15 +47,15 @@ class _ViewerPageState extends State<ViewerPage> {
   }
 
   //UI
-  void setContent(Map<String, Object?> content) {
+  void setContent(Map<String, Object?> obtainedContent) {
     setState(() {
-      Content = content;
+      content = obtainedContent;
     });
   }
 
   void setMood(String Mood) {
     setState(() {
-      mood = EntryItemMoods.NameToColor(Mood);
+      mood = EntryItemMoods.nameToColor(Mood);
     });
   }
 
@@ -100,7 +100,7 @@ class _ViewerPageState extends State<ViewerPage> {
               margin:
                   const EdgeInsets.symmetric(horizontal: 12.0, vertical: 5.0),
               child: Text(
-                Content!["title"].toString(),
+                content!["title"].toString(),
                 style: TextStyle(
                     color: mood!["text"],
                     fontSize: 25.0,
@@ -128,7 +128,7 @@ class _ViewerPageState extends State<ViewerPage> {
                   child: isLoading
                       ? XProgress(colors: colors)
                       : SelectableText(
-                          Content?["content"].toString() ?? "Content Not Found",
+                          content?["content"].toString() ?? "Content Not Found",
                           style: TextStyle(
                               color: mood!["secondary"], fontSize: 20.0),
                         )),
@@ -139,7 +139,7 @@ class _ViewerPageState extends State<ViewerPage> {
             label: "View memories in the Entry",
             customFontSize: 16.0,
             onclick: () {
-              ViewPageContentDialog(context, colors);
+              viewPageContentDialog(context, colors);
             },
           )
         ],
@@ -151,7 +151,7 @@ class _ViewerPageState extends State<ViewerPage> {
                   MaterialPageRoute(builder: (BuildContext context) {
                 return EditorPage(
                   createNewEntry: false,
-                  UpdateId: widget.Id,
+                  updateId: widget.Id,
                 );
               }))),
     );

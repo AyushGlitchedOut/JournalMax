@@ -14,7 +14,7 @@ class CollectionPage extends StatefulWidget {
 }
 
 class _CollectionPageState extends State<CollectionPage> {
-  List<Widget> Entries = [];
+  List<Widget> entries = [];
   bool isLoading = true;
 
   //READ
@@ -25,10 +25,10 @@ class _CollectionPageState extends State<CollectionPage> {
       });
       final awaitedEntries = await getCollection(getEntryCollection);
       setState(() {
-        Entries = awaitedEntries;
+        entries = awaitedEntries;
         isLoading = false;
       });
-      if (Entries.isEmpty) {
+      if (entries.isEmpty) {
         showSnackBar("There isn't any Entry to show", context);
       }
     } catch (e) {
@@ -86,10 +86,10 @@ class _CollectionPageState extends State<CollectionPage> {
               child: isLoading
                   ? XProgress(colors: colors)
                   : ListView.builder(
-                      itemCount: Entries.length,
+                      itemCount: entries.length,
                       physics: const BouncingScrollPhysics(),
-                      itemBuilder: (BuildContext context, int Itemindex) {
-                        return Entries[Itemindex];
+                      itemBuilder: (BuildContext context, int itemIndex) {
+                        return entries[itemIndex];
                       }),
             ),
           ),

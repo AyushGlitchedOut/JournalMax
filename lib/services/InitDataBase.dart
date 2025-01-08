@@ -16,8 +16,8 @@ class Initdatabase {
 
   Future<Database> initDatabase() async {
     try {
-      final DBpath = await getDatabasesPath();
-      return await openDatabase(join(DBpath, "app_database.db"), version: 1,
+      final dbPath = await getDatabasesPath();
+      return await openDatabase(join(dbPath, "app_database.db"), version: 1,
           onCreate: (db, version) async {
         await db.execute(
             '''CREATE TABLE items (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL,

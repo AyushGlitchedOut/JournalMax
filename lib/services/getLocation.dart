@@ -3,9 +3,9 @@ import "package:geolocator/geolocator.dart";
 
 Future<String> getLocationInName() async {
   try {
-    final LocationInCoordinates = await getLocationInCoordinates();
+    final locationInCoordinates = await getLocationInCoordinates();
     final result = await placemarkFromCoordinates(
-        LocationInCoordinates.latitude, LocationInCoordinates.longitude);
+        locationInCoordinates.latitude, locationInCoordinates.longitude);
     if (result.isNotEmpty) {
       Placemark location = result[0];
       return '${location.locality}, ${location.administrativeArea}';

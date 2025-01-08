@@ -27,7 +27,7 @@ class XEntryItem extends StatelessWidget {
     final ColorScheme colors = Theme.of(context).colorScheme;
     return GestureDetector(
       onLongPressStart: (LongPressStartDetails details) {
-        DeleteDialog(context, id, renderParent);
+        deleteDialog(context, id, renderParent);
       },
       onTap: () {
         Navigator.push(
@@ -35,7 +35,7 @@ class XEntryItem extends StatelessWidget {
             MaterialPageRoute(
                 builder: (BuildContext context) => EditorPage(
                       createNewEntry: false,
-                      UpdateId: id,
+                      updateId: id,
                     )));
       },
       child: Container(

@@ -2,25 +2,25 @@ import 'package:flutter/material.dart';
 
 class Entry {
   final String title;
-  final String Content;
+  final String content;
   final String mood;
   final dynamic location;
-  final dynamic audio_record;
+  final dynamic audioRecord;
   final dynamic image;
   final String date;
 
   Entry(
       {required this.title,
-      required this.Content,
+      required this.content,
       required this.mood,
       this.location,
-      this.audio_record,
+      this.audioRecord,
       this.image,
       required this.date});
 }
 
 final class EntryItemMoods {
-  static Map<String, Color> NameToColor(String name) {
+  static Map<String, Color> nameToColor(String name) {
     switch (name) {
       case "Happy":
         return happy;

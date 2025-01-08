@@ -17,18 +17,18 @@ class FindDiaryEntryPage extends StatefulWidget {
 
 class _FindDiaryEntryPageState extends State<FindDiaryEntryPage> {
   bool isLoading = false;
-  List<XEntryItem> Entries = [];
+  List<XEntryItem> entries = [];
   late FocusNode focus;
 
   //READ
-  void Search(String query) async {
+  void search(String query) async {
     try {
       setState(() {
         isLoading = true;
       });
-      final searchResults = await searchEntries(query, Search);
+      final searchResults = await searchEntries(query, search);
       setState(() {
-        Entries = searchResults;
+        entries = searchResults;
         isLoading = false;
       });
     } catch (e) {
@@ -69,7 +69,7 @@ class _FindDiaryEntryPageState extends State<FindDiaryEntryPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           XSearchBar(
-            searchFunction: Search,
+            searchFunction: search,
             controller: widget._searchController,
             focus: focus,
           ),
@@ -95,7 +95,7 @@ class _FindDiaryEntryPageState extends State<FindDiaryEntryPage> {
               ),
               child: isLoading
                   ? XProgress(colors: colors)
-                  : Entries.isEmpty
+                  : entries.isEmpty
                       ? const Expanded(
                           child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -103,10 +103,10 @@ class _FindDiaryEntryPageState extends State<FindDiaryEntryPage> {
                           children: [Text("No Entries found..")],
                         ))
                       : ListView.builder(
-                          itemCount: Entries.length,
+                          itemCount: entries.length,
                           physics: const BouncingScrollPhysics(),
-                          itemBuilder: (BuildContext context, int Itemindex) {
-                            return Entries[Itemindex];
+                          itemBuilder: (BuildContext context, int itemIndex) {
+                            return entries[itemIndex];
                           },
                         ),
             ),

@@ -74,8 +74,8 @@ class XDrawer extends StatelessWidget {
                     ),
                   ),
                 )),
-            ScreensList(context),
-            XDrawerTile(Icons.exit_to_app_rounded, context, "Quit App", "/exit",
+            screensList(context),
+            drawerTile(Icons.exit_to_app_rounded, context, "Quit App", "/exit",
                 highlight: false)
           ],
         ),
@@ -83,26 +83,26 @@ class XDrawer extends StatelessWidget {
     );
   }
 
-  Column ScreensList(BuildContext context) {
+  Column screensList(BuildContext context) {
     return Column(
       children: [
-        XDrawerTile(Icons.home, context, "Homepage", "/homepage",
+        drawerTile(Icons.home, context, "Homepage", "/homepage",
             highlight: currentPage == "homepage"),
-        XDrawerTile(Icons.storage, context, "Collection", "/collection",
+        drawerTile(Icons.storage, context, "Collection", "/collection",
             highlight: currentPage == "collection" || currentPage == "find"),
-        XDrawerTile(Icons.create, context, "New Entry", "/editor",
+        drawerTile(Icons.create, context, "New Entry", "/editor",
             highlight: currentPage == "editor" || currentPage == "view"),
-        XDrawerTile(Icons.settings, context, "Settings", "/settings",
+        drawerTile(Icons.settings, context, "Settings", "/settings",
             highlight: currentPage == "settings"),
-        XDrawerTile(Icons.sync, context, "Synchronise", "/sync",
+        drawerTile(Icons.sync, context, "Synchronise", "/sync",
             highlight: currentPage == "sync"),
         if (kDebugMode)
-          XDrawerTile(Icons.adb, context, "Test DB", "/test", highlight: false)
+          drawerTile(Icons.adb, context, "Test DB", "/test", highlight: false)
       ],
     );
   }
 
-  GestureDetector XDrawerTile(
+  GestureDetector drawerTile(
       IconData icon, BuildContext context, String title, String? path,
       {required bool highlight}) {
     final ColorScheme colors = Theme.of(context).colorScheme;

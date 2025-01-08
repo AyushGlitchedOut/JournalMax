@@ -37,17 +37,17 @@ class XSearchBar extends StatelessWidget {
       ),
       child: Row(
         children: [
-          SearchBarField(colors),
+          searchBarField(colors),
           const SizedBox(
             width: 15.0,
           ),
-          SearchBarButton(colors)
+          searchBarButton(colors)
         ],
       ),
     );
   }
 
-  Expanded SearchBarField(ColorScheme colors) {
+  Expanded searchBarField(ColorScheme colors) {
     return Expanded(
       child: SearchBar(
         shape: const WidgetStatePropertyAll(RoundedRectangleBorder(
@@ -71,7 +71,7 @@ class XSearchBar extends StatelessWidget {
     );
   }
 
-  IconButton SearchBarButton(ColorScheme colors) {
+  IconButton searchBarButton(ColorScheme colors) {
     return IconButton(
       padding: const EdgeInsets.all(5.0),
       onPressed: () => searchFunction(controller.text),

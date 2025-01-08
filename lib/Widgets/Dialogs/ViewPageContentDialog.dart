@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'XDialogButton.dart';
 
-Future<dynamic> ViewPageContentDialog(
+Future<dynamic> viewPageContentDialog(
     BuildContext context, ColorScheme colors) {
   return showDialog(
       context: context,

@@ -8,12 +8,10 @@ void showSnackBar(String message, BuildContext context) {
     margin: const EdgeInsets.all(7.0),
     behavior: SnackBarBehavior.floating,
     backgroundColor: colors.onPrimary,
-    content: Container(
-      child: Text(
-        message,
-        style: TextStyle(color: colors.secondary, fontWeight: FontWeight.bold),
-        textAlign: TextAlign.left,
-      ),
+    content: Text(
+      message,
+      style: TextStyle(color: colors.secondary, fontWeight: FontWeight.bold),
+      textAlign: TextAlign.left,
     ),
   ));
 }

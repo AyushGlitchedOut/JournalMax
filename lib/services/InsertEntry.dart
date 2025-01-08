@@ -6,10 +6,10 @@ Future<void> insertEntry(String title, String content, String mood, String date,
   try {
     await pushEntry(Entry(
         title: title,
-        Content: content,
+        content: content,
         mood: mood,
         location: location,
-        audio_record: audio,
+        audioRecord: audio,
         image: images,
         date: date));
   } catch (e) {

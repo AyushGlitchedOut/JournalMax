@@ -113,7 +113,7 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           const XLabel(label: "Recent Entries"),
-          RecentEntriesBox(colors),
+          recentEntriesBox(colors),
           const XLabel(label: "Options"),
           XIconLabelButton(
             icon: Icons.auto_awesome_sharp,
@@ -140,7 +140,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Expanded RecentEntriesBox(ColorScheme colors) {
+  Expanded recentEntriesBox(ColorScheme colors) {
     return Expanded(
       child: Container(
           margin: const EdgeInsets.all(5.0),
@@ -169,8 +169,8 @@ class _HomePageState extends State<HomePage> {
                     )
                   : ListView.builder(
                       itemCount: recentEntries.length,
-                      itemBuilder: (BuildContext context, int ItemIndex) {
-                        return recentEntries[ItemIndex];
+                      itemBuilder: (BuildContext context, int itemIndex) {
+                        return recentEntries[itemIndex];
                       })),
     );
   }

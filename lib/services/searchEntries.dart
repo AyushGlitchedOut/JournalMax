@@ -8,7 +8,7 @@ Future<List<XEntryItem>> searchEntries(
     final result = await getEntry(query);
     final items = result.map((item) {
       return XEntryItem(
-          mood: EntryItemMoods.NameToColor(item["mood"].toString()),
+          mood: EntryItemMoods.nameToColor(item["mood"].toString()),
           date: item["date"].toString(),
           title: item["title"].toString(),
           id: int.parse(item["id"].toString()),
