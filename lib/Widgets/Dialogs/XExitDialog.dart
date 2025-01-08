@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:journalmax/Widgets/Dialogs/DialogElevatedButton.dart';
 
 Future<void> XExitDialog(BuildContext context) {
   final ColorScheme colors = Theme.of(context).colorScheme;
@@ -7,30 +8,34 @@ Future<void> XExitDialog(BuildContext context) {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          insetPadding: const EdgeInsets.symmetric(horizontal: 0.0),
           shape: RoundedRectangleBorder(
               side: BorderSide(width: 2.0, color: colors.outline),
               borderRadius: BorderRadius.circular(15.0)),
-          title: const Center(child: Text("Exit App")),
-          content: const Text("Do you really want to exit the App"),
+          title: const Center(
+              child: Text(
+            "Exit App",
+            style: TextStyle(fontSize: 25.0),
+          )),
+          content: const Text(
+            "Do you really want to exit the App?",
+            style: TextStyle(fontSize: 17.0),
+          ),
           actions: [
-            ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: WidgetStatePropertyAll(colors.secondary),
-                    elevation: const WidgetStatePropertyAll(5.0),
-                    shadowColor: WidgetStatePropertyAll(colors.shadow)),
-                onPressed: () {
+            actionButton(
+                onclick: () {
                   SystemNavigator.pop();
                 },
-                child: const Text("OK")),
-            ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: WidgetStatePropertyAll(colors.secondary),
-                    elevation: const WidgetStatePropertyAll(5.0),
-                    shadowColor: WidgetStatePropertyAll(colors.onPrimary)),
-                onPressed: () {
+                text: "OK",
+                isForDelete: false,
+                colors: colors),
+            actionButton(
+                onclick: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text("Cancel"))
+                text: "Done",
+                isForDelete: false,
+                colors: colors)
           ],
         );
       });

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:journalmax/Widgets/Dialogs/DialogElevatedButton.dart';
 import 'package:journalmax/Widgets/XSnackBar.dart';
 import 'package:journalmax/Widgets/XToggle.dart';
 import 'package:journalmax/services/getLocation.dart';
@@ -15,7 +16,7 @@ class _EnterLocationDialogState extends State<EnterLocationDialog> {
   final TextEditingController _locationController = TextEditingController();
   bool isLoading = false;
   bool showInCoordinates = false;
-  Future<void> SyncLocation(BuildContext context) async {
+  Future<void> syncLocation(BuildContext context) async {
     _locationController.text = "Loading.....";
     try {
       String result = "Unknown";
@@ -40,6 +41,9 @@ class _EnterLocationDialogState extends State<EnterLocationDialog> {
       insetPadding: const EdgeInsets.all(0.0),
       elevation: 5.0,
       shadowColor: colors.shadow,
+      shape: RoundedRectangleBorder(
+          side: BorderSide(width: 2.0, color: colors.outline),
+          borderRadius: BorderRadius.circular(15.0)),
       child: SizedBox(
         height: MediaQuery.of(context).size.height * 0.55,
         width: MediaQuery.of(context).size.width * 0.95,
@@ -63,7 +67,7 @@ class _EnterLocationDialogState extends State<EnterLocationDialog> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
-                          onPressed: () => SyncLocation(context),
+                          onPressed: () => syncLocation(context),
                           icon: const Icon(
                             Icons.sync,
                             size: 30.0,
@@ -105,7 +109,7 @@ class _EnterLocationDialogState extends State<EnterLocationDialog> {
                     setState(() {
                       showInCoordinates = !showInCoordinates;
                     });
-                    SyncLocation(context);
+                    syncLocation(context);
                   },
                   customFontSize: 19.0,
                 )
@@ -116,22 +120,14 @@ class _EnterLocationDialogState extends State<EnterLocationDialog> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor:
-                              WidgetStatePropertyAll(colors.secondary),
-                          elevation: const WidgetStatePropertyAll(2.0),
-                          shadowColor: WidgetStatePropertyAll(colors.shadow)),
-                      onPressed: () {
+                  actionButton(
+                      onclick: () {
                         widget.reportLocation(_locationController.text);
                         Navigator.of(context).pop();
                       },
-                      child: Text(
-                        "OK",
-                        style: TextStyle(
-                            color: colors.onPrimary,
-                            fontWeight: FontWeight.bold),
-                      )),
+                      text: "Done",
+                      isForDelete: false,
+                      colors: colors)
                 ],
               ),
             )

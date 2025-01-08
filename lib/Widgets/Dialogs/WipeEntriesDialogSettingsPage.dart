@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:journalmax/Widgets/Dialogs/DialogElevatedButton.dart';
 import 'package:journalmax/services/CRUD_Entry.dart';
 
 Future<void> wipeEntriesDialog(BuildContext context, ColorScheme colors) {
@@ -6,10 +7,12 @@ Future<void> wipeEntriesDialog(BuildContext context, ColorScheme colors) {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          insetPadding: const EdgeInsets.all(0),
           shape: RoundedRectangleBorder(
               side: BorderSide(width: 2.0, color: colors.outline),
               borderRadius: BorderRadius.circular(15.0)),
-          title: const Row(children: [
+          title:
+              const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Icon(
               Icons.warning_amber_outlined,
               color: Colors.red,
@@ -22,31 +25,29 @@ Future<void> wipeEntriesDialog(BuildContext context, ColorScheme colors) {
               style: TextStyle(fontSize: 20.0),
             )
           ]),
-          content: const Text(
-              "This action will permanently delete all the Entries. Do you really wanna do it?"),
+          content: const Padding(
+            padding: EdgeInsets.symmetric(vertical: 20.0),
+            child: Text(
+              "This action will permanently delete all the Entries. Do you really wanna do it?",
+              style: TextStyle(fontSize: 17.0),
+            ),
+          ),
           actions: [
-            ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(colors.secondary),
-                  elevation: const WidgetStatePropertyAll(5.0),
-                ),
-                onPressed: () async {
+            actionButton(
+                onclick: () async {
                   wipeOrdeleteAllEntry();
                   Navigator.of(context).pop();
                 },
-                child: const Text(
-                  "Yes",
-                  style: TextStyle(color: Colors.red),
-                )),
-            ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(colors.secondary),
-                  elevation: const WidgetStatePropertyAll(5.0),
-                ),
-                onPressed: () {
+                text: "Yes",
+                isForDelete: true,
+                colors: colors),
+            actionButton(
+                onclick: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text("No"))
+                text: "Cancel",
+                isForDelete: false,
+                colors: colors)
           ],
         );
       });

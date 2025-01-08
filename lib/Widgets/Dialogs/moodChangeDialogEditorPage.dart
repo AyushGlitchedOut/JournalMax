@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:journalmax/Widgets/Dialogs/DialogElevatedButton.dart';
 import 'package:journalmax/Widgets/XSnackBar.dart';
 import 'package:journalmax/models/EntryModel.dart';
 
@@ -19,16 +20,15 @@ class _MoodChangeDialogState extends State<MoodChangeDialog> {
     final ColorScheme colors = Theme.of(context).colorScheme;
     return AlertDialog(
         insetPadding: const EdgeInsets.only(top: 85),
-        backgroundColor: colors.onSurface,
         actionsAlignment: MainAxisAlignment.start,
         alignment: Alignment.topCenter,
         shape: RoundedRectangleBorder(
             side: BorderSide(width: 2.0, color: colors.outline),
             borderRadius: BorderRadius.circular(15.0)),
-        title: Center(
+        title: const Center(
             child: Text(
           "Choose your current Mood",
-          style: TextStyle(color: colors.onPrimary),
+          style: TextStyle(fontSize: 25.0),
         )),
         content: Column(
             children: moods.map<Widget>((mood) {
@@ -47,19 +47,21 @@ class _MoodChangeDialogState extends State<MoodChangeDialog> {
                   }),
               Text(
                 mood,
-                style: TextStyle(color: colors.onPrimary, fontSize: 17.0),
+                style: const TextStyle(fontSize: 17.0),
               ),
             ],
           );
         }).toList()),
         actions: [
-          ElevatedButton(
-              onPressed: () {
+          actionButton(
+              onclick: () {
                 widget.returnMood(currentMood);
                 showSnackBar('Changed Entry Mood To $currentMood', context);
                 Navigator.pop(context);
               },
-              child: const Text("Done!")),
+              text: "OK",
+              isForDelete: false,
+              colors: colors)
         ]);
   }
 }

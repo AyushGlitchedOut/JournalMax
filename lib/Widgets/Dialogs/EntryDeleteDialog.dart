@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:journalmax/Widgets/Dialogs/DialogElevatedButton.dart';
 import 'package:journalmax/services/CRUD_Entry.dart';
 
 Future<dynamic> deleteDialog(
@@ -10,48 +11,48 @@ Future<dynamic> deleteDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          insetPadding: const EdgeInsets.only(top: 200),
-          contentPadding: const EdgeInsets.all(20.0),
-          actionsPadding: const EdgeInsets.all(20.0),
-          backgroundColor: colors.onSurface,
+          insetPadding: const EdgeInsets.symmetric(vertical: 250),
           actionsAlignment: MainAxisAlignment.start,
           alignment: Alignment.topCenter,
           shape: RoundedRectangleBorder(
               side: BorderSide(width: 2.0, color: colors.outline),
               borderRadius: BorderRadius.circular(15.0)),
-          title: Center(
+          title: const Center(
+            child: Text(
+              "Delete Entry?",
+              style: TextStyle(fontSize: 25.0),
+            ),
+          ),
+          content: const Center(
               child: Text(
-            'Do you Really want to delete this Entry? {id:$id}',
-            style: TextStyle(color: colors.onPrimary),
+            'Do you Really want to delete this Entry?',
+            style: TextStyle(fontSize: 17.0),
             textAlign: TextAlign.center,
           )),
           actions: [
             Center(
                 child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            WidgetStatePropertyAll(colors.onPrimary)),
-                    onPressed: () {
+                actionButton(
+                    onclick: () {
                       deleteEntry(id);
                       Navigator.of(context).pop();
                       renderParent();
                     },
-                    child: Text(
-                      "Yes",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.red[900]),
-                    )),
+                    text: "Yes",
+                    isForDelete: true,
+                    colors: colors),
                 const SizedBox(
                   width: 10.0,
                 ),
-                ElevatedButton(
-                    onPressed: () {
+                actionButton(
+                    onclick: () {
                       Navigator.of(context).pop();
                     },
-                    child: const Text("Cancel"))
+                    text: "No",
+                    isForDelete: false,
+                    colors: colors)
               ],
             )),
           ],

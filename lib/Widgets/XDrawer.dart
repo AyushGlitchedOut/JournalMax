@@ -15,16 +15,20 @@ class XDrawer extends StatelessWidget {
           borderRadius: BorderRadius.only(
               topRight: Radius.circular(40.0),
               bottomRight: Radius.circular(40.0))),
-      elevation: 25,
-      shadowColor: colors.primary,
+      elevation: 100,
+      shadowColor: colors.surface,
       width: 300,
       backgroundColor: colors.surface,
       child: Container(
         decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [colors.primary, colors.secondary, colors.tertiary],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight)),
+            gradient: LinearGradient(colors: [
+          colors.primary,
+          colors.onPrimary,
+          colors.secondary,
+          colors.surface,
+          colors.tertiary,
+          colors.onSurface
+        ], begin: Alignment.bottomRight, end: Alignment.topLeft)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
