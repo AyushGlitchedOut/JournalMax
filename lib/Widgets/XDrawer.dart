@@ -128,6 +128,14 @@ class XDrawer extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.all(5.0),
         decoration: BoxDecoration(
+            gradient: LinearGradient(
+                stops: [0.8, 0.95],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  highlight ? colors.primary : colors.tertiary,
+                  Colors.grey[700]!
+                ]),
             color: highlight ? colors.primary : colors.tertiary,
             borderRadius: BorderRadius.circular(25.0),
             boxShadow: [
@@ -139,9 +147,7 @@ class XDrawer extends StatelessWidget {
               size: 35.0,
               color: highlight ? colors.onPrimary : colors.onSurface,
               shadows: [
-                Shadow(
-                    color: highlight ? colors.primary : colors.secondary,
-                    offset: const Offset(-1.0, -1.0))
+                Shadow(color: colors.outline, offset: const Offset(-1.0, -1.0))
               ]),
           title: Text(
             title,

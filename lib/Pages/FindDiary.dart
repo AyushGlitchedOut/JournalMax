@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:journalmax/Widgets/ContentBox.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';
 import 'package:journalmax/Widgets/XEntryItem.dart';
@@ -74,42 +75,29 @@ class _FindDiaryEntryPageState extends State<FindDiaryEntryPage> {
             focus: focus,
           ),
           Expanded(
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              margin: const EdgeInsets.all(5.0),
-              padding: const EdgeInsets.all(5.0),
-              decoration: BoxDecoration(
-                color: colors.surface,
-                border: Border.all(color: colors.outline),
-                borderRadius: BorderRadius.circular(10.0),
-                boxShadow: [
-                  BoxShadow(
-                      color: colors.primary,
-                      offset: const Offset(-1.5, -1.5),
-                      blurRadius: 1.0),
-                  BoxShadow(
-                      color: colors.shadow,
-                      offset: const Offset(2.0, 2.0),
-                      blurRadius: 1.0),
-                ],
-              ),
-              child: isLoading
-                  ? XProgress(colors: colors)
-                  : entries.isEmpty
-                      ? const Expanded(
-                          child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [Text("No Entries found..")],
-                        ))
-                      : ListView.builder(
-                          itemCount: entries.length,
-                          physics: const BouncingScrollPhysics(),
-                          itemBuilder: (BuildContext context, int itemIndex) {
-                            return entries[itemIndex];
-                          },
-                        ),
-            ),
+            child: contentBox(
+                width: MediaQuery.of(context).size.width,
+                child: isLoading
+                    ? XProgress(colors: colors)
+                    : entries.isEmpty
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                child: Text(
+                                  "No Entries Found...",
+                                  style: TextStyle(color: colors.primary),
+                                ),
+                              ),
+                            ],
+                          )
+                        : ListView.builder(
+                            itemCount: entries.length,
+                            physics: const BouncingScrollPhysics(),
+                            itemBuilder: (BuildContext context, int itemIndex) {
+                              return entries[itemIndex];
+                            }),
+                colors: colors),
           )
         ],
       ),

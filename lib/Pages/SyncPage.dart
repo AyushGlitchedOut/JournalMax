@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:journalmax/Widgets/ContentBox.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';
 import 'package:journalmax/Widgets/XIconLabelButton.dart';
@@ -71,40 +72,26 @@ class _SyncProgressState extends State<SyncProgress> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.4,
-      padding: const EdgeInsets.all(10.0),
-      margin: const EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-          color: widget.colors.onSurface,
-          // border: Border.all(
-          //   color: colors.outline,
-          // ),
-          borderRadius: BorderRadius.circular(10.0),
-          boxShadow: [
-            BoxShadow(
-                color: widget.colors.primary, offset: const Offset(-1.5, -1.5)),
-            BoxShadow(
-                color: widget.colors.shadow, offset: const Offset(1.5, 1.5))
-          ]),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0),
-            child: Text(
-              email,
-              style: TextStyle(
-                  color: widget.colors.onPrimary,
-                  fontSize: 22.0,
-                  overflow: TextOverflow.ellipsis,
-                  fontWeight: FontWeight.w500),
-            ),
-          )
-        ],
-      ),
-    );
+    return contentBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height * 0.5,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: Text(
+                email,
+                style: TextStyle(
+                    color: widget.colors.onPrimary,
+                    fontSize: 17.0,
+                    overflow: TextOverflow.ellipsis,
+                    fontWeight: FontWeight.w500),
+              ),
+            )
+          ],
+        ),
+        colors: widget.colors);
   }
 }

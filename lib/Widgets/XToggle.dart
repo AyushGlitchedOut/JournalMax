@@ -27,15 +27,17 @@ class _XToggleState extends State<XToggle> {
         padding: const EdgeInsets.all(10.0),
         margin: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
+            gradient: LinearGradient(
+                stops: [0.7, 0.95],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [colors.onSurface, Colors.grey]),
             color: colors.onSurface,
-            // border: Border.all(
-            //   color: colors.outline,
-            // ),
             borderRadius: BorderRadius.circular(10.0),
             boxShadow: [
               BoxShadow(
                   color: colors.primary, offset: const Offset(-1.5, -1.5)),
-              BoxShadow(color: colors.shadow, offset: const Offset(1.5, 1.5))
+              BoxShadow(color: colors.outline, offset: const Offset(1.5, 1.5))
             ]),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

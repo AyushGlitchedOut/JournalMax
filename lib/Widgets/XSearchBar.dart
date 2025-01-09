@@ -62,8 +62,8 @@ class XSearchBar extends StatelessWidget {
             fontWeight: FontWeight.w500,
             decorationColor: Colors.transparent)),
         hintStyle: WidgetStatePropertyAll(TextStyle(
-            color: colors.onPrimary,
-            fontSize: 20.0,
+            color: colors.secondary,
+            fontSize: 17.0,
             fontWeight: FontWeight.w500,
             decorationColor: Colors.transparent)),
         hintText: "Type the title of Entry.....",

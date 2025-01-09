@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:journalmax/Pages/ViewerPage.dart';
 import 'package:journalmax/Themes/ThemeProvider.dart';
+import 'package:journalmax/Widgets/ContentBox.dart';
 import 'package:journalmax/Widgets/XAppBar.dart';
 import 'package:journalmax/Widgets/XDrawer.dart';
 import 'package:journalmax/Widgets/XEntryItem.dart';
@@ -142,36 +143,21 @@ class _HomePageState extends State<HomePage> {
 
   Expanded recentEntriesBox(ColorScheme colors) {
     return Expanded(
-      child: Container(
-          margin: const EdgeInsets.all(5.0),
-          decoration: BoxDecoration(
-              color: colors.onSurface,
-              border: Border.all(color: colors.outline),
-              borderRadius: BorderRadius.circular(10.0),
-              boxShadow: [
-                BoxShadow(
-                    color: colors.primary,
-                    offset: const Offset(-1.5, -1.5),
-                    blurRadius: 1.0),
-                BoxShadow(
-                    color: colors.shadow,
-                    offset: const Offset(2.0, 2.0),
-                    blurRadius: 1.0),
-              ]),
-          child: isLoading
-              ? XProgress(colors: colors)
-              : recentEntries.isEmpty
-                  ? const Center(
-                      child: Text(
-                        "No recent entries",
-                        style: TextStyle(fontSize: 16.0),
-                      ),
-                    )
-                  : ListView.builder(
-                      itemCount: recentEntries.length,
-                      itemBuilder: (BuildContext context, int itemIndex) {
-                        return recentEntries[itemIndex];
-                      })),
-    );
+        child: contentBox(
+            child: isLoading
+                ? XProgress(colors: colors)
+                : recentEntries.isEmpty
+                    ? const Center(
+                        child: Text(
+                          "No recent entries",
+                          style: TextStyle(fontSize: 16.0),
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: recentEntries.length,
+                        itemBuilder: (BuildContext context, int itemIndex) {
+                          return recentEntries[itemIndex];
+                        }),
+            colors: colors));
   }
 }
