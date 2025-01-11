@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'themes.dart';
+import 'Themes.dart';
 
 class Themeprovider extends ChangeNotifier {
   ThemeData _themeData = lightmode;

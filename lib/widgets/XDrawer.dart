@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:journalmax/Pages/EditorPage.dart';
-import 'package:journalmax/Widgets/Dialogs/XExitDialog.dart';
+import 'package:journalmax/pages/EditorPage.dart';
+import 'package:journalmax/widgets/dialogs/XExitDialog.dart';
 
 class XDrawer extends StatelessWidget {
   final String currentPage;

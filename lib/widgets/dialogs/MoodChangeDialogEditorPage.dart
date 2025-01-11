@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:journalmax/Widgets/Dialogs/DialogElevatedButton.dart';
-import 'package:journalmax/Widgets/XSnackBar.dart';
+import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
+import 'package:journalmax/widgets/XSnackBar.dart';
 import 'package:journalmax/models/EntryModel.dart';
 
 class MoodChangeDialog extends StatefulWidget {

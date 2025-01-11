@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:journalmax/Widgets/ContentBox.dart';
-import 'package:journalmax/Widgets/XAppBar.dart';
-import 'package:journalmax/Widgets/XDrawer.dart';
-import 'package:journalmax/Widgets/XIconLabelButton.dart';
-import 'package:journalmax/Widgets/XSnackBar.dart';
+import 'package:journalmax/widgets/ContentBox.dart';
+import 'package:journalmax/widgets/XAppBar.dart';
+import 'package:journalmax/widgets/XDrawer.dart';
+import 'package:journalmax/widgets/XIconLabelButton.dart';
+import 'package:journalmax/widgets/XSnackBar.dart';
 import 'package:journalmax/services/UploadToGoogleDrive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

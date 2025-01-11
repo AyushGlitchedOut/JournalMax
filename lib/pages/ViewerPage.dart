@@ -1,13 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:journalmax/Widgets/Dialogs/ViewPageContentDialog.dart';
-import 'package:journalmax/Pages/EditorPage.dart';
-import 'package:journalmax/Widgets/XAppBar.dart';
-import 'package:journalmax/Widgets/XDrawer.dart';
-import 'package:journalmax/Widgets/XFloatingButton.dart';
-import 'package:journalmax/Widgets/XIconLabelButton.dart';
-import 'package:journalmax/Widgets/XProgress.dart';
-import 'package:journalmax/Widgets/XSnackBar.dart';
+import 'package:journalmax/widgets/dialogs/ViewPageContentDialog.dart';
+import 'package:journalmax/pages/EditorPage.dart';
+import 'package:journalmax/widgets/XAppBar.dart';
+import 'package:journalmax/widgets/XDrawer.dart';
+import 'package:journalmax/widgets/XFloatingButton.dart';
+import 'package:journalmax/widgets/XIconLabelButton.dart';
+import 'package:journalmax/widgets/XProgress.dart';
+import 'package:journalmax/widgets/XSnackBar.dart';
 import 'package:journalmax/models/EntryModel.dart';
 import 'package:journalmax/services/CRUD_Entry.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:journalmax/Widgets/Dialogs/EntryDeleteDialog.dart';
-import 'package:journalmax/Pages/EditorPage.dart';
+import 'package:journalmax/widgets/dialogs/EntryDeleteDialog.dart';
+import 'package:journalmax/pages/EditorPage.dart';
 
 //
 //

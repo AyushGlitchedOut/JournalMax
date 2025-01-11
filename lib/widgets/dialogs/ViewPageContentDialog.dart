@@ -1,6 +1,6 @@
 // ignore: non_constant_identifier_names
 import 'package:flutter/material.dart';
-import 'package:journalmax/Widgets/Dialogs/DialogElevatedButton.dart';
+import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
 
 Future<dynamic> viewPageContentDialog(
     BuildContext context, ColorScheme colors) {

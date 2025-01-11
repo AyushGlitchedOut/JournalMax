@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:journalmax/Widgets/Dialogs/EnterLocationDialog.dart';
-import 'package:journalmax/Widgets/XAppBar.dart';
-import 'package:journalmax/Widgets/XDrawer.dart';
-import 'package:journalmax/Widgets/XIconLabelButton.dart';
+import 'package:journalmax/widgets/dialogs/EnterLocationDialog.dart';
+import 'package:journalmax/widgets/XAppBar.dart';
+import 'package:journalmax/widgets/XDrawer.dart';
+import 'package:journalmax/widgets/XIconLabelButton.dart';
 
 class MultimediaAddPage extends StatelessWidget {
   final void Function(String location) saveLocation;

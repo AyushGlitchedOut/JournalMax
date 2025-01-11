@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:journalmax/Widgets/ContentBox.dart';
-import 'package:journalmax/Widgets/XAppBar.dart';
-import 'package:journalmax/Widgets/XDrawer.dart';
-import 'package:journalmax/Widgets/XEntryItem.dart';
-import 'package:journalmax/Widgets/XProgress.dart';
-import 'package:journalmax/Widgets/XSearchBar.dart';
-import 'package:journalmax/Widgets/XSnackBar.dart';
-import 'package:journalmax/services/searchEntries.dart';
+import 'package:journalmax/widgets/ContentBox.dart';
+import 'package:journalmax/widgets/XAppBar.dart';
+import 'package:journalmax/widgets/XDrawer.dart';
+import 'package:journalmax/widgets/XEntryItem.dart';
+import 'package:journalmax/widgets/XProgress.dart';
+import 'package:journalmax/widgets/XSearchBar.dart';
+import 'package:journalmax/widgets/XSnackBar.dart';
+import 'package:journalmax/services/SearchEntries.dart';
 
 class FindDiaryEntryPage extends StatefulWidget {
   FindDiaryEntryPage({super.key});

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:journalmax/Widgets/Dialogs/DialogElevatedButton.dart';
-import 'package:journalmax/Widgets/XSnackBar.dart';
-import 'package:journalmax/Widgets/XToggle.dart';
-import 'package:journalmax/services/getLocation.dart';
+import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
+import 'package:journalmax/widgets/XSnackBar.dart';
+import 'package:journalmax/widgets/XToggle.dart';
+import 'package:journalmax/services/GetLocation.dart';
 
 class EnterLocationDialog extends StatefulWidget {
   final void Function(String location) reportLocation;
