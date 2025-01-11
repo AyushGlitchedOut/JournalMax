@@ -28,7 +28,7 @@ class _XToggleState extends State<XToggle> {
         margin: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
             gradient: LinearGradient(
-                stops: [0.7, 0.95],
+                stops: const [0.7, 0.95],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [colors.onSurface, Colors.grey]),

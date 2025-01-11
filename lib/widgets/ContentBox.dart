@@ -10,7 +10,7 @@ Container contentBox(
     height: height,
     decoration: BoxDecoration(
         gradient: LinearGradient(
-            stops: [0.7, 0.95],
+            stops: const [0.7, 0.95],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [colors.onSurface, Colors.grey]),
@@ -20,17 +20,17 @@ Container contentBox(
         boxShadow: [
           BoxShadow(
               color: colors.shadow,
-              offset: Offset(1.5, 1.5),
+              offset: const Offset(1.5, 1.5),
               blurRadius: 1.0,
               spreadRadius: 1.0),
           BoxShadow(
               color: colors.shadow,
-              offset: Offset(-1.0, -1.0),
+              offset: const Offset(-1.0, -1.0),
               blurRadius: 1.5,
               spreadRadius: 1.0)
         ]),
-    padding: EdgeInsets.all(2.0),
-    margin: EdgeInsets.all(5.0),
+    padding: const EdgeInsets.all(2.0),
+    margin: const EdgeInsets.all(5.0),
     child: child,
   );
 }

@@ -59,81 +59,89 @@ class _EnterLocationDialogState extends State<EnterLocationDialog> {
                 ),
               ),
             ),
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                          onPressed: () => syncLocation(context),
-                          icon: const Icon(
-                            Icons.sync,
-                            size: 30.0,
-                            applyTextScaling: true,
-                          )),
-                      Expanded(
-                          child: TextField(
-                        controller: _locationController,
-                        autocorrect: false,
-                        onSubmitted: (value) {},
-                        style: const TextStyle(),
-                        decoration: InputDecoration(
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: colors.outline,
-                                ),
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(5.0))),
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: colors.outline,
-                                ),
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(5.0))),
-                            hintText: "Enter a location or get automatically",
-                            hintStyle: TextStyle(
-                                fontSize: 12.0, color: colors.tertiary)),
-                      ))
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 10.0,
-                ),
-                XToggle(
-                  title: "Show in Coordinates",
-                  value: showInCoordinates,
-                  onclick: (value) {
-                    setState(() {
-                      showInCoordinates = !showInCoordinates;
-                    });
-                    syncLocation(context);
-                  },
-                  customFontSize: 19.0,
-                )
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 15.0, right: 15.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  actionButton(
-                      onclick: () {
-                        widget.reportLocation(_locationController.text);
-                        Navigator.of(context).pop();
-                      },
-                      text: "Done",
-                      isForDelete: false,
-                      colors: colors)
-                ],
-              ),
-            )
+            locationField(context, colors),
+            dialogActions(context, colors)
           ],
         ),
       ),
+    );
+  }
+
+  Padding dialogActions(BuildContext context, ColorScheme colors) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15.0, right: 15.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          actionButton(
+              onclick: () {
+                widget.reportLocation(_locationController.text);
+                Navigator.of(context).pop();
+              },
+              text: "Done",
+              isForDelete: false,
+              colors: colors)
+        ],
+      ),
+    );
+  }
+
+  Column locationField(BuildContext context, ColorScheme colors) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                  onPressed: () => syncLocation(context),
+                  icon: const Icon(
+                    Icons.sync,
+                    size: 30.0,
+                    applyTextScaling: true,
+                  )),
+              Expanded(
+                  child: TextField(
+                controller: _locationController,
+                autocorrect: false,
+                onSubmitted: (value) {},
+                style: const TextStyle(),
+                decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: colors.outline,
+                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(5.0))),
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: colors.outline,
+                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(5.0))),
+                    hintText: "Enter a location or get automatically",
+                    hintStyle:
+                        TextStyle(fontSize: 12.0, color: colors.tertiary)),
+              ))
+            ],
+          ),
+        ),
+        const SizedBox(
+          height: 10.0,
+        ),
+        XToggle(
+          title: "Show in Coordinates",
+          value: showInCoordinates,
+          onclick: (value) {
+            setState(() {
+              showInCoordinates = !showInCoordinates;
+            });
+            syncLocation(context);
+          },
+          customFontSize: 19.0,
+        )
+      ],
     );
   }
 }

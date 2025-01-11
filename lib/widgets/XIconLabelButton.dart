@@ -23,7 +23,7 @@ class XIconLabelButton extends StatelessWidget {
         decoration: BoxDecoration(
             color: colors.onSurface,
             gradient: LinearGradient(
-                stops: [0.7, 0.9],
+                stops: const [0.7, 0.9],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [colors.onSurface, Colors.grey]),

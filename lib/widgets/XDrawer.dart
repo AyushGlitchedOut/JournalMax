@@ -129,7 +129,7 @@ class XDrawer extends StatelessWidget {
         margin: const EdgeInsets.all(5.0),
         decoration: BoxDecoration(
             gradient: LinearGradient(
-                stops: [0.8, 0.95],
+                stops: const [0.8, 0.95],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [

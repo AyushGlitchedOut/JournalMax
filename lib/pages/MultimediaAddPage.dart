@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:journalmax/widgets/dialogs/EnterImage.dart';
 import 'package:journalmax/widgets/dialogs/EnterLocationDialog.dart';
 import 'package:journalmax/widgets/XAppBar.dart';
 import 'package:journalmax/widgets/XDrawer.dart';
@@ -24,7 +25,6 @@ class MultimediaAddPage extends StatelessWidget {
             icon: Icons.location_on,
             label: "Current Location",
             onclick: () {
-              // use stateful builder to update the dialog
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -34,8 +34,17 @@ class MultimediaAddPage extends StatelessWidget {
                   });
             },
           ),
+          XIconLabelButton(
+              icon: Icons.image,
+              label: "Add images",
+              onclick: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return const EnterImageDialog();
+                    });
+              }),
           const XIconLabelButton(icon: Icons.mic, label: "Record Voice"),
-          const XIconLabelButton(icon: Icons.image, label: "Add images"),
           Center(
             child: ElevatedButton(
                 style: ButtonStyle(

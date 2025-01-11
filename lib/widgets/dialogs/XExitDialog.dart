@@ -33,7 +33,7 @@ Future<void> XExitDialog(BuildContext context) {
                 onclick: () {
                   Navigator.of(context).pop();
                 },
-                text: "Done",
+                text: "Cancel",
                 isForDelete: false,
                 colors: colors)
           ],
