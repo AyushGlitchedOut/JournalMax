@@ -213,30 +213,27 @@ class _EditorPageState extends State<EditorPage> {
 
   Expanded contentBox(BuildContext context) {
     return Expanded(
-      child: Container(
-        margin: const EdgeInsets.all(5.0),
-        child: isLoading
-            ? XProgress(colors: Theme.of(context).colorScheme)
-            : SingleChildScrollView(
-                child: TextField(
-                  controller: _contentController,
-                  enabled: true,
-                  style: TextStyle(color: moods["text"]),
-                  decoration: InputDecoration(
-                    hintText: "Enter your thoughts here!",
-                    hintStyle: TextStyle(color: moods["secondary"]),
-                    filled: true,
-                    fillColor: moods["surface"],
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: moods["secondary"]),
-                    ),
+      child: isLoading
+          ? XProgress(colors: Theme.of(context).colorScheme)
+          : Container(
+              child: TextField(
+                controller: _contentController,
+                enabled: true,
+                style: TextStyle(color: moods["text"]),
+                decoration: InputDecoration(
+                  hintText: "Enter your thoughts here!",
+                  hintStyle: TextStyle(color: moods["secondary"]),
+                  filled: true,
+                  fillColor: moods["surface"],
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(color: moods["secondary"]),
                   ),
-                  minLines: 12,
-                  maxLines: 20,
                 ),
+                minLines: 20,
+                maxLines: 20,
               ),
-      ),
+            ),
     );
   }
 

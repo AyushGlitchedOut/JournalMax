@@ -30,8 +30,9 @@ class _MoodChangeDialogState extends State<MoodChangeDialog> {
           "Choose your current Mood",
           style: TextStyle(fontSize: 25.0),
         )),
-        content: Column(
-            children: moods.map<Widget>((mood) {
+        content: SingleChildScrollView(
+            child: Column(
+                children: moods.map<Widget>((mood) {
           return Row(
             children: [
               Radio(
@@ -51,17 +52,19 @@ class _MoodChangeDialogState extends State<MoodChangeDialog> {
               ),
             ],
           );
-        }).toList()),
+        }).toList())),
         actions: [
-          actionButton(
-              onclick: () {
-                widget.returnMood(currentMood);
-                showSnackBar('Changed Entry Mood To $currentMood', context);
-                Navigator.pop(context);
-              },
-              text: "OK",
-              isForDelete: false,
-              colors: colors)
+          Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+            actionButton(
+                onclick: () {
+                  widget.returnMood(currentMood);
+                  showSnackBar('Changed Entry Mood To $currentMood', context);
+                  Navigator.pop(context);
+                },
+                text: "OK",
+                isForDelete: false,
+                colors: colors)
+          ])
         ]);
   }
 }

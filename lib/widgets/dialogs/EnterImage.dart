@@ -30,7 +30,7 @@ class EnterImageDialog extends StatelessWidget {
                 ),
               ),
             ),
-            imageViewer(colors),
+            imageViewer(colors, context),
             dialogActions(colors, context)
           ],
         ),
@@ -67,15 +67,15 @@ class EnterImageDialog extends StatelessWidget {
     );
   }
 
-  Row imageViewer(ColorScheme colors) {
+  Row imageViewer(ColorScheme colors, BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         imageViewerArrow(colors: colors, isLeft: true),
         Container(
-          width: 180,
-          height: 320,
+          width: MediaQuery.of(context).size.width * 0.5,
+          height: MediaQuery.of(context).size.height * 0.5,
           decoration: BoxDecoration(
               color: colors.surface,
               boxShadow: [
@@ -96,8 +96,8 @@ class EnterImageDialog extends StatelessWidget {
                     blurRadius: 1.0,
                     offset: const Offset(-1, 1))
               ],
-              border: Border.all(color: colors.onSurface, width: 2.0)),
-          child: const Placeholder(),
+          //border: Border.all(color: colors.onSurface, width: 2.0),
+)          ,child: const Placeholder(),
         ),
         imageViewerArrow(colors: colors, isLeft: false)
       ],
