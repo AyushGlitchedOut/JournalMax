@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:journalmax/widgets/dialogs/MoodChangeDialogEditorPage.dart';
 import 'package:journalmax/pages/ViewerPage.dart';
@@ -29,6 +31,8 @@ class _EditorPageState extends State<EditorPage> {
   String currentMood = "Happy";
   String location = "Not Entered";
   bool isLoading = false;
+  List<File>? images;
+  List<String>? imagePaths;
   Map<String, dynamic> moods = EntryItemMoods.happy;
 
   //CREATE
@@ -85,7 +89,8 @@ class _EditorPageState extends State<EditorPage> {
             content: _contentController.text,
             mood: currentMood,
             date: DateTime.now().toString(),
-            location: location),
+            location: location,
+            image: imagePaths.toString()),
       );
     } catch (e) {
       showSnackBar(e.toString(), context);
@@ -107,6 +112,13 @@ class _EditorPageState extends State<EditorPage> {
 
   void getLocationFromDialog(String obtainedLocation) {
     location = obtainedLocation;
+  }
+
+  void getImagesFromDialog(List<File> obtainedImages) {
+    images = obtainedImages;
+    imagePaths = images!.map((value) {
+      return value.path;
+    }).toList();
   }
 
   //UI
@@ -173,6 +185,7 @@ class _EditorPageState extends State<EditorPage> {
                   builder: (BuildContext context) {
                     return MoodChangeDialog(
                       returnMood: setCurrentMoodString,
+                      currentmood: currentMood,
                     );
                   },
                 ),
@@ -184,6 +197,8 @@ class _EditorPageState extends State<EditorPage> {
                           MaterialPageRoute(builder: (BuildContext context) {
                         return MultimediaAddPage(
                           saveLocation: getLocationFromDialog,
+                          saveImages: getImagesFromDialog,
+                          contentId: widget.updateId,
                         );
                       }))),
               titleBar(),

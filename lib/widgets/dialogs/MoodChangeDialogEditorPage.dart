@@ -5,7 +5,9 @@ import 'package:journalmax/models/EntryModel.dart';
 
 class MoodChangeDialog extends StatefulWidget {
   final void Function(String currentmood) returnMood;
-  const MoodChangeDialog({super.key, required this.returnMood});
+  final String? currentmood;
+  const MoodChangeDialog(
+      {super.key, required this.returnMood, required this.currentmood});
 
   @override
   State<MoodChangeDialog> createState() => _MoodChangeDialogState();
@@ -14,6 +16,12 @@ class MoodChangeDialog extends StatefulWidget {
 class _MoodChangeDialogState extends State<MoodChangeDialog> {
   String currentMood = "Happy";
   final moods = EntryItemMoods.moods;
+
+  @override
+  void initState() {
+    currentMood = widget.currentmood!;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

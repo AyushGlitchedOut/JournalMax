@@ -2,10 +2,14 @@ import "dart:io";
 
 import "package:flutter/material.dart";
 import "package:image_picker/image_picker.dart";
+import "package:journalmax/services/CRUD_Entry.dart";
 import "package:journalmax/widgets/dialogs/DialogElevatedButton.dart";
 
 class EnterImageDialog extends StatefulWidget {
-  const EnterImageDialog({super.key});
+  final void Function(List<File> images) reportImages;
+  final int contentId;
+  const EnterImageDialog(
+      {super.key, required this.reportImages, required this.contentId});
 
   @override
   State<EnterImageDialog> createState() => _EnterImageDialogState();
@@ -13,6 +17,14 @@ class EnterImageDialog extends StatefulWidget {
 
 class _EnterImageDialogState extends State<EnterImageDialog> {
   List<File> images = [];
+
+  Future<void> getImagesFromEntry() async {
+    final result = await getEntryById(widget.contentId);
+    final String images = result.first["image"].toString() == "null"
+        ? "None"
+        : result.first["image"].toString();
+    print(images);
+  }
 
   Future<void> addImages() async {
     final List<XFile> loadedImages =
@@ -27,6 +39,7 @@ class _EnterImageDialogState extends State<EnterImageDialog> {
 
   @override
   void initState() {
+    getImagesFromEntry();
     addImages();
     super.initState();
   }
@@ -84,7 +97,7 @@ class _EnterImageDialogState extends State<EnterImageDialog> {
           ),
           actionButton(
               onclick: () {
-                //implement image saving logic
+                widget.reportImages(images);
                 Navigator.of(context).pop();
               },
               text: "Done",
@@ -200,7 +213,8 @@ class _ImageViewerState extends State<ImageViewer> {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         gradient: disabled
-            ? const LinearGradient(colors: [Colors.transparent, Colors.transparent])
+            ? const LinearGradient(
+                colors: [Colors.transparent, Colors.transparent])
             : LinearGradient(
                 stops: const [0.7, 0.85],
                 begin: isLeft ? Alignment.topLeft : Alignment.topRight,

@@ -4,6 +4,7 @@ import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
 
 Future<void> XExitDialog(BuildContext context) {
   final ColorScheme colors = Theme.of(context).colorScheme;
+  HapticFeedback.heavyImpact();
   return showDialog(
       context: context,
       builder: (BuildContext context) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:journalmax/services/CRUD_Entry.dart';
 import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
 import 'package:journalmax/widgets/XSnackBar.dart';
 import 'package:journalmax/widgets/XToggle.dart';
@@ -6,7 +7,9 @@ import 'package:journalmax/services/GetLocation.dart';
 
 class EnterLocationDialog extends StatefulWidget {
   final void Function(String location) reportLocation;
-  const EnterLocationDialog({super.key, required this.reportLocation});
+  final int contentId;
+  const EnterLocationDialog(
+      {super.key, required this.reportLocation, required this.contentId});
 
   @override
   State<EnterLocationDialog> createState() => _EnterLocationDialogState();
@@ -16,6 +19,16 @@ class _EnterLocationDialogState extends State<EnterLocationDialog> {
   final TextEditingController _locationController = TextEditingController();
   bool isLoading = false;
   bool showInCoordinates = false;
+
+  Future<void> getLocationFromEntry() async {
+    final result = await getEntryById(widget.contentId);
+    final String obtainedLocation =
+        result.first["location"].toString() == "null"
+            ? "Not Entered"
+            : result.first["location"].toString();
+    _locationController.text = obtainedLocation;
+  }
+
   Future<void> syncLocation(BuildContext context) async {
     _locationController.text = "Loading.....";
     try {
@@ -32,6 +45,12 @@ class _EnterLocationDialogState extends State<EnterLocationDialog> {
       _locationController.text = "Not found";
       showSnackBar(exception.toString(), context);
     }
+  }
+
+  @override
+  void initState() {
+    getLocationFromEntry();
+    super.initState();
   }
 
   @override
