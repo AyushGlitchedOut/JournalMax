@@ -1,9 +1,35 @@
+import "dart:io";
 
 import "package:flutter/material.dart";
+import "package:image_picker/image_picker.dart";
 import "package:journalmax/widgets/dialogs/DialogElevatedButton.dart";
 
-class EnterImageDialog extends StatelessWidget {
+class EnterImageDialog extends StatefulWidget {
   const EnterImageDialog({super.key});
+
+  @override
+  State<EnterImageDialog> createState() => _EnterImageDialogState();
+}
+
+class _EnterImageDialogState extends State<EnterImageDialog> {
+  List<File> images = [];
+
+  Future<void> addImages() async {
+    final List<XFile> loadedImages =
+        await ImagePicker().pickMultiImage(limit: 6);
+    final List<File> selectedImages = loadedImages.map((value) {
+      return File(value.path);
+    }).toList();
+    setState(() {
+      images.addAll(selectedImages);
+    });
+  }
+
+  @override
+  void initState() {
+    addImages();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +56,9 @@ class EnterImageDialog extends StatelessWidget {
                 ),
               ),
             ),
-            imageViewer(colors, context),
+            ImageViewer(
+              images: images,
+            ),
             dialogActions(colors, context)
           ],
         ),
@@ -46,7 +74,7 @@ class EnterImageDialog extends StatelessWidget {
         children: [
           actionButton(
               onclick: () {
-                //open up image picker
+                addImages();
               },
               text: "Add more",
               isForDelete: false,
@@ -66,62 +94,129 @@ class EnterImageDialog extends StatelessWidget {
       ),
     );
   }
+}
 
-  Row imageViewer(ColorScheme colors, BuildContext context) {
+// ignore: must_be_immutable
+class ImageViewer extends StatefulWidget {
+  ImageViewer({super.key, required this.images});
+  List<File> images;
+  @override
+  State<ImageViewer> createState() => _ImageViewerState();
+}
+
+class _ImageViewerState extends State<ImageViewer> {
+  int currentPageIndex = 0;
+  bool noMoreLeft = true;
+  bool noMoreRight = false;
+
+  @override
+  Widget build(BuildContext context) {
+    bool noImageSelected = widget.images.isEmpty;
+    final ColorScheme colors = Theme.of(context).colorScheme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        imageViewerArrow(colors: colors, isLeft: true),
+        imageViewerArrow(
+            colors: colors,
+            isLeft: true,
+            onclick: () {
+              setState(() {
+                //check if its the first picture
+                if (currentPageIndex == 0) {
+                  noMoreLeft = true;
+                  return;
+                } else {
+                  noMoreLeft = false;
+                }
+
+                //shift the pageIndex
+                currentPageIndex -= 1;
+                noMoreRight = false;
+                print(currentPageIndex);
+              });
+            },
+            disabled: noMoreLeft),
         Container(
           width: MediaQuery.of(context).size.width * 0.5,
           height: MediaQuery.of(context).size.height * 0.5,
           decoration: BoxDecoration(
-              color: colors.surface,
-              boxShadow: [
-                BoxShadow(
-                    color: colors.shadow,
-                    blurRadius: 1.0,
-                    offset: const Offset(1, 1)),
-                BoxShadow(
-                    color: colors.shadow,
-                    blurRadius: 1.0,
-                    offset: const Offset(-1, -1)),
-                BoxShadow(
-                    color: colors.shadow,
-                    blurRadius: 1.0,
-                    offset: const Offset(1, -1)),
-                BoxShadow(
-                    color: colors.shadow,
-                    blurRadius: 1.0,
-                    offset: const Offset(-1, 1))
-              ],
-          //border: Border.all(color: colors.onSurface, width: 2.0),
-)          ,child: const Placeholder(),
+            color: colors.surface,
+            // boxShadow: [
+            //   BoxShadow(
+            //       color: colors.shadow,
+            //       blurRadius: 1.0,
+            //       offset: const Offset(1, 1)),
+            //   BoxShadow(
+            //       color: colors.shadow,
+            //       blurRadius: 1.0,
+            //       offset: const Offset(-1, -1)),
+            //   BoxShadow(
+            //       color: colors.shadow,
+            //       blurRadius: 1.0,
+            //       offset: const Offset(1, -1)),
+            //   BoxShadow(
+            //       color: colors.shadow,
+            //       blurRadius: 1.0,
+            //       offset: const Offset(-1, 1))
+            // ],
+          ),
+          child: noImageSelected
+              ? const Image(
+                  fit: BoxFit.contain, image: AssetImage("assets/NoImage.png"))
+              : Image.file(
+                  fit: BoxFit.contain, widget.images[currentPageIndex]),
         ),
-        imageViewerArrow(colors: colors, isLeft: false)
+        imageViewerArrow(
+            colors: colors,
+            isLeft: false,
+            onclick: () {
+              setState(() {
+                //check if its the last picture
+                if (currentPageIndex + 1 >= widget.images.length) {
+                  noMoreRight = true;
+                  return;
+                } else {
+                  noMoreRight = false;
+                }
+
+                //shift pageIndex by 1
+                currentPageIndex += 1;
+                noMoreLeft = false;
+                print(currentPageIndex);
+              });
+            },
+            disabled: noMoreRight)
       ],
     );
   }
 
   Container imageViewerArrow(
-      {required ColorScheme colors, required bool isLeft}) {
+      {required ColorScheme colors,
+      required bool isLeft,
+      void Function()? onclick,
+      required bool disabled}) {
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        gradient: LinearGradient(
-            stops: const [0.7, 0.85],
-            begin: isLeft ? Alignment.topLeft : Alignment.topRight,
-            end: isLeft ? Alignment.bottomRight : Alignment.bottomLeft,
-            colors: [colors.onSurface, Colors.grey]),
+        gradient: disabled
+            ? const LinearGradient(colors: [Colors.transparent, Colors.transparent])
+            : LinearGradient(
+                stops: const [0.7, 0.85],
+                begin: isLeft ? Alignment.topLeft : Alignment.topRight,
+                end: isLeft ? Alignment.bottomRight : Alignment.bottomLeft,
+                colors: [colors.onSurface, Colors.grey]),
       ),
       child: IconButton(
-        onPressed: () {},
+        disabledColor: Colors.transparent,
+        onPressed: onclick,
         icon: Icon(
           isLeft ? Icons.keyboard_arrow_left : Icons.keyboard_arrow_right,
           color: colors.primary,
           size: 30.0,
-          shadows: [Shadow(color: colors.shadow, offset: const Offset(1.0, 1.0))],
+          shadows: [
+            Shadow(color: colors.shadow, offset: const Offset(1.0, 1.0))
+          ],
         ),
         style: const ButtonStyle(
           backgroundColor: WidgetStatePropertyAll(Colors.transparent),

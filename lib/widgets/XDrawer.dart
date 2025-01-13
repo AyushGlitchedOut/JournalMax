@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:journalmax/pages/EditorPage.dart';
 import 'package:journalmax/widgets/dialogs/XExitDialog.dart';
@@ -99,8 +100,8 @@ class XDrawer extends StatelessWidget {
             highlight: currentPage == "settings"),
         drawerTile(Icons.sync, context, "Synchronise", "/sync",
             highlight: currentPage == "sync"),
-        // if (kDebugMode)
-        //   drawerTile(Icons.adb, context, "Test DB", "/test", highlight: false)
+        if (kDebugMode)
+          drawerTile(Icons.adb, context, "Test DB", "/test", highlight: false)
       ],
     );
   }
