@@ -23,7 +23,7 @@ class App extends StatelessWidget {
           createNewEntry: true,
         ),
     "/collection": (context) => const CollectionPage(),
-    if (kDebugMode) "/test": (context) => TestPage()
+    if (kDebugMode) "/test": (context) => const TestPage()
   };
 
   @override

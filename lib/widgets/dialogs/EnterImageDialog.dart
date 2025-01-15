@@ -1,3 +1,4 @@
+import "dart:convert";
 import "dart:io";
 
 import "package:flutter/material.dart";
@@ -8,7 +9,7 @@ import "package:journalmax/widgets/XSnackBar.dart";
 import "package:journalmax/widgets/dialogs/DialogElevatedButton.dart";
 
 class EnterImageDialog extends StatefulWidget {
-  final void Function(List<String> images) reportImages;
+  final void Function(String images) reportImages;
   final int contentId;
   const EnterImageDialog(
       {super.key, required this.reportImages, required this.contentId});
@@ -21,10 +22,13 @@ class _EnterImageDialogState extends State<EnterImageDialog> {
 
   Future<void> getImagesFromEntry() async {
     final result = await getEntryById(widget.contentId);
-    final String images = result.first["image"].toString() == "null"
+    final String obtainedImages = result.first["image"].toString() == "null"
         ? "None"
         : result.first["image"].toString();
-    print(images);
+    final imageArray = jsonDecode(obtainedImages);
+    for (var image in imageArray) {
+      images.add(File(image));
+    }
   }
 
   Future<void> addImages() async {
@@ -40,8 +44,10 @@ class _EnterImageDialogState extends State<EnterImageDialog> {
 
   @override
   void initState() {
-    getImagesFromEntry();
-    addImages();
+    Future.delayed(Duration.zero, () async {
+      await getImagesFromEntry();
+      await addImages();
+    });
     super.initState();
   }
 
@@ -99,7 +105,7 @@ class _EnterImageDialogState extends State<EnterImageDialog> {
           actionButton(
               onclick: () async {
                 try {
-                  final List<String> result =
+                  final String result =
                       await writeTempImagesToFile(tempImages: images);
                   widget.reportImages(result);
                 } catch (e) {

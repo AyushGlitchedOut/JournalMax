@@ -29,7 +29,7 @@ class _EditorPageState extends State<EditorPage> {
   String currentMood = "Happy";
   String location = "Not Entered";
   bool isLoading = false;
-  List<String>? imagePaths;
+  String imagePaths = "null";
   Map<String, dynamic> moods = EntryItemMoods.happy;
 
   //CREATE
@@ -66,6 +66,7 @@ class _EditorPageState extends State<EditorPage> {
         currentMood = entryDetails["mood"] ?? "Happy";
         moods = EntryItemMoods.nameToColor(currentMood);
         location = entryDetails["location"] ?? "Not Given";
+        imagePaths = entryDetails["image"] ?? "null";
       });
     } catch (e) {
       showSnackBar(e.toString(), context);
@@ -87,7 +88,7 @@ class _EditorPageState extends State<EditorPage> {
             mood: currentMood,
             date: DateTime.now().toString(),
             location: location,
-            image: imagePaths.toString()),
+            image: imagePaths),
       );
     } catch (e) {
       showSnackBar(e.toString(), context);
@@ -111,7 +112,7 @@ class _EditorPageState extends State<EditorPage> {
     location = obtainedLocation;
   }
 
-  void getImagesFromDialog(List<String> obtainedImages) {
+  void getImagesFromDialog(String obtainedImages) {
     imagePaths = obtainedImages;
   }
 
