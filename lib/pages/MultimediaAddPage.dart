@@ -10,7 +10,7 @@ import 'package:journalmax/widgets/XIconLabelButton.dart';
 
 class MultimediaAddPage extends StatelessWidget {
   final void Function(String location) saveLocation;
-  final void Function(List<File> images) saveImages;
+  final void Function(List<String> images) saveImages;
   final int? contentId;
   const MultimediaAddPage(
       {super.key,

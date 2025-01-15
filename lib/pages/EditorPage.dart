@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:journalmax/widgets/dialogs/MoodChangeDialogEditorPage.dart';
 import 'package:journalmax/pages/ViewerPage.dart';
@@ -31,7 +29,6 @@ class _EditorPageState extends State<EditorPage> {
   String currentMood = "Happy";
   String location = "Not Entered";
   bool isLoading = false;
-  List<File>? images;
   List<String>? imagePaths;
   Map<String, dynamic> moods = EntryItemMoods.happy;
 
@@ -114,11 +111,8 @@ class _EditorPageState extends State<EditorPage> {
     location = obtainedLocation;
   }
 
-  void getImagesFromDialog(List<File> obtainedImages) {
-    images = obtainedImages;
-    imagePaths = images!.map((value) {
-      return value.path;
-    }).toList();
+  void getImagesFromDialog(List<String> obtainedImages) {
+    imagePaths = obtainedImages;
   }
 
   //UI

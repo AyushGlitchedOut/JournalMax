@@ -17,3 +17,4 @@
 18. **DONE** Consistency in font sizes and border-radius, color etc. for interface
 19. **DONE** Fix themeing and theme consistency issues
 20. Testing with profiling tools and devtools debugger along with security
+21. Wipe and delete images upon wiping and deleting entries corresponding to them
