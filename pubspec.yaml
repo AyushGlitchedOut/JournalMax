@@ -45,6 +45,7 @@ dependencies:
   geolocator: ^13.0.2
   image_picker: ^1.1.2
   path_provider: ^2.1.5
+  uuid: ^4.5.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -81,6 +82,7 @@ flutter:
   assets: 
     - assets/AppIcon.png
     - assets/NoImage.png
+    - assets/ErrorImage.png
 
 
 

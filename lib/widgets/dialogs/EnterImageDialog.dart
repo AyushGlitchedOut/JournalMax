@@ -39,7 +39,7 @@ class _EnterImageDialogState extends State<EnterImageDialog> {
     } on PlatformException {
       showSnackBar("Permission Error/Access Error", context);
       return;
-    } on Exception catch (e) {
+    } on Exception {
       showSnackBar("Error selecting files from Gallery", context);
       return;
     }
@@ -114,8 +114,8 @@ class _EnterImageDialogState extends State<EnterImageDialog> {
           actionButton(
               onclick: () async {
                 try {
-                  final String result =
-                      await writeTempImagesToFile(tempImages: images);
+                  final String result = await writeTempImagesToFile(
+                      tempImages: images, EntryId: widget.contentId);
                   widget.reportImages(result);
                 } catch (e) {
                   showSnackBar(e.toString(), context);
@@ -168,7 +168,6 @@ class _ImageViewerState extends State<ImageViewer> {
                 //shift the pageIndex
                 currentPageIndex -= 1;
                 noMoreRight = false;
-                print(currentPageIndex);
               });
             },
             disabled: noMoreLeft),
@@ -177,24 +176,6 @@ class _ImageViewerState extends State<ImageViewer> {
           height: MediaQuery.of(context).size.height * 0.5,
           decoration: BoxDecoration(
             color: colors.surface,
-            // boxShadow: [
-            //   BoxShadow(
-            //       color: colors.shadow,
-            //       blurRadius: 1.0,
-            //       offset: const Offset(1, 1)),
-            //   BoxShadow(
-            //       color: colors.shadow,
-            //       blurRadius: 1.0,
-            //       offset: const Offset(-1, -1)),
-            //   BoxShadow(
-            //       color: colors.shadow,
-            //       blurRadius: 1.0,
-            //       offset: const Offset(1, -1)),
-            //   BoxShadow(
-            //       color: colors.shadow,
-            //       blurRadius: 1.0,
-            //       offset: const Offset(-1, 1))
-            // ],
           ),
           child: noImageSelected
               ? const Image(
@@ -202,7 +183,9 @@ class _ImageViewerState extends State<ImageViewer> {
               : widget.images[currentPageIndex].existsSync()
                   ? Image.file(
                       fit: BoxFit.contain, widget.images[currentPageIndex])
-                  : Text("Error Loading Image"),
+                  : const Image(
+                      fit: BoxFit.contain,
+                      image: AssetImage("assets/ErrorImage.png")),
         ),
         imageViewerArrow(
             colors: colors,

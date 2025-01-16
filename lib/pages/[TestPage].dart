@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:journalmax/widgets/XAppBar.dart';
 import 'package:journalmax/widgets/XDrawer.dart';
 import 'package:journalmax/models/EntryModel.dart';
 import 'package:journalmax/services/CRUD_Entry.dart';
+import 'package:path_provider/path_provider.dart';
 
 class TestPage extends StatelessWidget {
   const TestPage({super.key});
@@ -59,6 +62,34 @@ class TestPage extends StatelessWidget {
                 wipeOrdeleteAllEntry();
               },
               child: const Text("Wipe ")),
+          ElevatedButton(
+              onPressed: () async {
+                final Directory directory =
+                    await getApplicationDocumentsDirectory();
+                List<FileSystemEntity> items = await directory.list().toList();
+                for (final file in items) {
+                  print(file);
+                }
+              },
+              child: const Text("List Media")),
+          ElevatedButton(
+              onPressed: () async {
+                final Directory directory =
+                    await getApplicationDocumentsDirectory();
+                List<FileSystemEntity> items = await directory.list().toList();
+                for (final file in items) {
+                  if (file.path.endsWith(".png") ||
+                      file.path.endsWith(".jpg") ||
+                      file.path.endsWith(".jpeg") ||
+                      file.path.endsWith(".webp")) {
+                    print("$file:To Be Deleted");
+                    await file.delete();
+                  } else {
+                    print("Others Found!$file");
+                  }
+                }
+              },
+              child: const Text("Delete Media"))
         ],
       ),
     );
