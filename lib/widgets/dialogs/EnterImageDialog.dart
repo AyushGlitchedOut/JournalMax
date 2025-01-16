@@ -2,6 +2,7 @@ import "dart:convert";
 import "dart:io";
 
 import "package:flutter/material.dart";
+import "package:flutter/services.dart";
 import "package:image_picker/image_picker.dart";
 import "package:journalmax/services/CRUD_Entry.dart";
 import "package:journalmax/services/saveImagesToFolder.dart";
@@ -23,7 +24,7 @@ class _EnterImageDialogState extends State<EnterImageDialog> {
   Future<void> getImagesFromEntry() async {
     final result = await getEntryById(widget.contentId);
     final String obtainedImages = result.first["image"].toString() == "null"
-        ? "None"
+        ? "[]"
         : result.first["image"].toString();
     final imageArray = jsonDecode(obtainedImages);
     for (var image in imageArray) {
@@ -32,8 +33,16 @@ class _EnterImageDialogState extends State<EnterImageDialog> {
   }
 
   Future<void> addImages() async {
-    final List<XFile> loadedImages =
-        await ImagePicker().pickMultiImage(limit: 6);
+    List<XFile> loadedImages;
+    try {
+      loadedImages = await ImagePicker().pickMultiImage(limit: 6);
+    } on PlatformException {
+      showSnackBar("Permission Error/Access Error", context);
+      return;
+    } on Exception catch (e) {
+      showSnackBar("Error selecting files from Gallery", context);
+      return;
+    }
     final List<File> selectedImages = loadedImages.map((value) {
       return File(value.path);
     }).toList();
@@ -190,8 +199,10 @@ class _ImageViewerState extends State<ImageViewer> {
           child: noImageSelected
               ? const Image(
                   fit: BoxFit.contain, image: AssetImage("assets/NoImage.png"))
-              : Image.file(
-                  fit: BoxFit.contain, widget.images[currentPageIndex]),
+              : widget.images[currentPageIndex].existsSync()
+                  ? Image.file(
+                      fit: BoxFit.contain, widget.images[currentPageIndex])
+                  : Text("Error Loading Image"),
         ),
         imageViewerArrow(
             colors: colors,
