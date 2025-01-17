@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:journalmax/models/EntryModel.dart';
 import 'package:journalmax/services/InitDataBase.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 //Create
@@ -106,8 +109,22 @@ Future<void> deleteEntry(int id) async {
 
 Future<void> wipeOrdeleteAllEntry() async {
   try {
+    //Delete Items in Storage
+    final Directory storage = await getApplicationDocumentsDirectory();
+    final files = await storage.list().toList();
+    for (FileSystemEntity file in files) {
+      if (file.path.endsWith(".png") ||
+          file.path.endsWith(".jpg") ||
+          file.path.endsWith(".jpeg") ||
+          file.path.endsWith(".webp")) {
+        await file.delete();
+      }
+    }
+    //Wipe DB
     final db = await Initdatabase().database;
-    db.delete("items");
+    await db.delete("items");
+  } on MissingPlatformDirectoryException {
+    throw Exception("Unable to Delete Stored Files");
   } on Exception {
     throw Exception("Error wiping the Database");
   }

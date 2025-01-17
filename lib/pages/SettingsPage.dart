@@ -61,9 +61,13 @@ class SettingsPage extends StatelessWidget {
           XIconLabelButton(
               icon: Icons.delete_forever,
               label: "Delete All Entries",
-              onclick: () {
+              onclick: () async {
                 HapticFeedback.heavyImpact();
-                wipeEntriesDialog(context, colors);
+                try {
+                  await wipeEntriesDialog(context, colors);
+                } catch (e) {
+                  showSnackBar(e.toString(), context);
+                }
               }),
           XIconLabelButton(
             icon: Icons.book,
