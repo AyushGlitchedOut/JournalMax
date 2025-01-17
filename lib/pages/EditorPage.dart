@@ -1,4 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:journalmax/services/saveImagesToFolder.dart';
 import 'package:journalmax/widgets/dialogs/MoodChangeDialogEditorPage.dart';
 import 'package:journalmax/pages/ViewerPage.dart';
 import 'package:journalmax/pages/MultimediaAddPage.dart';
@@ -24,12 +27,14 @@ class EditorPage extends StatefulWidget {
 }
 
 class _EditorPageState extends State<EditorPage> {
+  //Initialising variables
   final TextEditingController _contentController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
   String currentMood = "Happy";
   String location = "Not Entered";
   bool isLoading = false;
-  String imagePaths = "null";
+  List<File>? tempImages;
+
   Map<String, dynamic> moods = EntryItemMoods.happy;
 
   //CREATE
@@ -60,13 +65,17 @@ class _EditorPageState extends State<EditorPage> {
   Future<void> fetchExistingEntry(int id) async {
     try {
       final entryDetails = await getEntryDetailsById(id);
+      final List imagePaths = jsonDecode(entryDetails["image"] ?? "[]");
+      final List<File> imagesFromPaths = imagePaths.map((value) {
+        return File(value);
+      }).toList();
       setState(() {
         _titleController.text = entryDetails["title"] ?? "Untitled";
         _contentController.text = entryDetails["content"] ?? "";
         currentMood = entryDetails["mood"] ?? "Happy";
         moods = EntryItemMoods.nameToColor(currentMood);
         location = entryDetails["location"] ?? "Not Given";
-        imagePaths = entryDetails["image"] ?? "null";
+        tempImages = imagesFromPaths;
       });
     } catch (e) {
       showSnackBar(e.toString(), context);
@@ -78,6 +87,8 @@ class _EditorPageState extends State<EditorPage> {
     try {
       final int id;
       final entries = await getRecentEntries();
+      final storedImagesPathsJSON = await writeTempImagesToFile(
+          tempImages: tempImages ?? [], EntryId: widget.updateId!);
       id =
           widget.createNewEntry ?? true ? entries.last["id"] : widget.updateId!;
       await updateEntry(
@@ -88,7 +99,7 @@ class _EditorPageState extends State<EditorPage> {
             mood: currentMood,
             date: DateTime.now().toString(),
             location: location,
-            image: imagePaths),
+            image: storedImagesPathsJSON),
       );
     } catch (e) {
       showSnackBar(e.toString(), context);
@@ -112,8 +123,8 @@ class _EditorPageState extends State<EditorPage> {
     location = obtainedLocation;
   }
 
-  void getImagesFromDialog(String obtainedImages) {
-    imagePaths = obtainedImages;
+  void getImagesFromDialog(List<File> obtainedImages) {
+    tempImages = obtainedImages;
   }
 
   //UI
@@ -127,27 +138,26 @@ class _EditorPageState extends State<EditorPage> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 0), () async {
-      try {
-        setState(() {
-          isLoading = true;
-        });
-        if (widget.createNewEntry ?? true) {
-          await createEntry();
-        } else if (widget.updateId != null) {
-          await fetchExistingEntry(widget.updateId!);
-        }
-        await setUpdateIDForNewEntry();
-        setState(() {
-          isLoading = false;
-        });
-      } catch (e) {
-        setState(() {
-          isLoading = false;
-        });
-        showSnackBar(e.toString(), context);
+
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      if (widget.createNewEntry ?? true) {
+        createEntry();
+      } else if (widget.updateId != null) {
+        fetchExistingEntry(widget.updateId!);
       }
-    });
+      setUpdateIDForNewEntry();
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      showSnackBar(e.toString(), context);
+    }
   }
 
   @override

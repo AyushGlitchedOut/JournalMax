@@ -5,12 +5,11 @@ import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:image_picker/image_picker.dart";
 import "package:journalmax/services/CRUD_Entry.dart";
-import "package:journalmax/services/saveImagesToFolder.dart";
 import "package:journalmax/widgets/XSnackBar.dart";
 import "package:journalmax/widgets/dialogs/DialogElevatedButton.dart";
 
 class EnterImageDialog extends StatefulWidget {
-  final void Function(String images) reportImages;
+  final void Function(List<File> images) reportImages;
   final int contentId;
   const EnterImageDialog(
       {super.key, required this.reportImages, required this.contentId});
@@ -114,9 +113,7 @@ class _EnterImageDialogState extends State<EnterImageDialog> {
           actionButton(
               onclick: () async {
                 try {
-                  final String result = await writeTempImagesToFile(
-                      tempImages: images, EntryId: widget.contentId);
-                  widget.reportImages(result);
+                  widget.reportImages(images);
                 } catch (e) {
                   showSnackBar(e.toString(), context);
                 }

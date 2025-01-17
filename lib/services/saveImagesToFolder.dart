@@ -40,18 +40,6 @@ Future<String> writeTempImagesToFile(
 
     final String storedImagePathsJSON = jsonEncode(storedImagePaths);
     return storedImagePathsJSON;
-    // final Directory storage = await getApplicationDocumentsDirectory();
-    // final String storageLocation = storage.path;
-    // final List<String> storedImages = [];
-    // var uuid = const Uuid();
-    // //TODO: prevent saving files twice by deleting files with the same ENtryID at start already
-    // final List<FileSystemEntity> files = await storage.list().toList();
-    // for (FileSystemEntity file in files) {
-    //   final String fileName = file.path.split("/").last;
-    //   if (fileName.split("_").first == EntryId.toString()) {
-    //     await file.delete();
-    //   }
-    // }
   } on MissingPlatformDirectoryException {
     throw Exception("Error opening storage file for the app");
   } catch (e) {

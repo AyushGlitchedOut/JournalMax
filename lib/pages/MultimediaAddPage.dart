@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
 import 'package:journalmax/widgets/dialogs/EnterImageDialog.dart';
@@ -8,7 +10,7 @@ import 'package:journalmax/widgets/XIconLabelButton.dart';
 
 class MultimediaAddPage extends StatelessWidget {
   final void Function(String location) saveLocation;
-  final void Function(String images) saveImages;
+  final void Function(List<File> images) saveImages;
   final int? contentId;
   const MultimediaAddPage(
       {super.key,
