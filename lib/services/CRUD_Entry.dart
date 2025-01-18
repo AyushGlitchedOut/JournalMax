@@ -98,10 +98,24 @@ Future<void> updateEntry(int id, Entry entry) async {
 
 //Delete
 
-Future<void> deleteEntry(int id) async {
+Future<void> deleteEntry(int Entryid) async {
   try {
+    //Delete items in storage
+    final Directory storage = await getApplicationDocumentsDirectory();
+    final files = await storage.list().toList();
+    for (FileSystemEntity file in files) {
+      final String fileName = file.path.split("/").last;
+      final String fileID = fileName.split("_").first;
+      if (fileID == Entryid.toString()) {
+        file.delete();
+      }
+    }
+
+    //Wipe DB
     final db = await Initdatabase().database;
-    db.delete("items", where: "id = ?", whereArgs: ["$id"]);
+    db.delete("items", where: "id = ?", whereArgs: ["$Entryid"]);
+  } on MissingPlatformDirectoryException {
+    throw Exception("Unable to Delete Stored Files");
   } on Exception {
     throw Exception("Error deleting an Entry by Id");
   }

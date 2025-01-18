@@ -17,6 +17,7 @@
 18. **DONE** Consistency in font sizes and border-radius, color etc. for interface
 19. **DONE** Fix themeing and theme consistency issues
 20. Testing with profiling tools and devtools debugger along with security
-21. Wipe and delete images upon wiping and deleting entries corresponding to them
+21. **DONE** Wipe and delete images upon wiping and deleting entries corresponding to them
 22. Move SaveImagesToFile into editor page upon saving the entry for security reasons
 22. Ability to view all the entry data inlcluding multimedia in ViewerPage
+23. Change Navigation to be better and fic the autosave bug where the returned to page doesnt re-render unless explicitly told from editor page
