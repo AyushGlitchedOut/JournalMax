@@ -15,7 +15,7 @@ void showSnackBar(String message, BuildContext context) {
               vertical: MediaQuery.of(context).size.width * 0.22,
               horizontal: 10.0),
           child: AnimatedOpacity(
-            duration: Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 500),
             opacity: snackBarOpacity,
             child: Container(
                 decoration: BoxDecoration(
@@ -90,12 +90,12 @@ void showSnackBar(String message, BuildContext context) {
       }));
 
   //Fade In
-  Future.delayed(Duration(milliseconds: 100), () {
+  Future.delayed(const Duration(milliseconds: 100), () {
     snackBarOpacity = 1.0; // Make it visible
     XSnackBar?.markNeedsBuild(); // Rebuild the overlay to apply opacity
   });
   //Fade Out
-  Future.delayed(Duration(milliseconds: 1500), () {
+  Future.delayed(const Duration(milliseconds: 1500), () {
     snackBarOpacity = 0.0;
     XSnackBar?.markNeedsBuild();
   });

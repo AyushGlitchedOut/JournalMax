@@ -22,4 +22,4 @@
 22. Ability to view all the entry data inlcluding multimedia in ViewerPage
 23. Change Navigation to be better and fix the autosave bug where the returned to page doesnt re-render unless explicitly told from editor page
 24. A bug where a entry needs to be deleted two times for the parent widget to display the corrected list
-25. Put subtle onclick animations on all buttons and interactables
+25. **Done**  Put subtle onclick animations on all buttons and interactables

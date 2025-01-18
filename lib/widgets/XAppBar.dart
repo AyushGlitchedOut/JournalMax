@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:journalmax/widgets/dialogs/XExitDialog.dart';
 
 class XAppBar extends StatelessWidget {
@@ -12,12 +13,12 @@ class XAppBar extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       leading: IconButton(
         onPressed: () {
+          HapticFeedback.lightImpact();
           Scaffold.of(context).openDrawer();
         },
         icon: Icon(Icons.menu_rounded, color: colors.onPrimary, shadows: [
           Shadow(color: colors.shadow, offset: const Offset(-1.5, -1.5))
         ]),
-        // onPressed: () {},
         style: ButtonStyle(
             iconSize: const WidgetStatePropertyAll(35.0),
             shadowColor: WidgetStatePropertyAll(colors.shadow)),
