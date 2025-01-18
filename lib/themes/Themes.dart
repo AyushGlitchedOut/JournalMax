@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 
 ThemeData lightmode = ThemeData(
-    fontFamily: "Poppins",
-    fontFamilyFallback: const ["Roboto"],
-    colorScheme: ColorScheme.dark(
-        brightness: Brightness.dark,
-        surface: Colors.grey.shade800,
-        onSurface: Colors.grey.shade300,
-        primary: Colors.grey.shade300,
-        onPrimary: Colors.black54,
-        secondary: Colors.white38,
-        tertiary: Colors.grey.shade500,
-        outline: Colors.black87,
-        shadow: Colors.white70));
+  fontFamily: "Poppins",
+  fontFamilyFallback: const ["Roboto"],
+  colorScheme: const ColorScheme.light(
+    brightness: Brightness.light,
+    surface: Color(0xFFF5F5F5), // Light grey for surface backgrounds
+    onSurface: Color(0xFF333333), // Dark grey for text on surfaces
+    primary: Color(0xFF444444), // Medium grey for primary elements
+    onPrimary: Color(0xFFE0E0E0), // Light grey for text on primary
+    secondary: Color(0xFFCCCCCC), // Light grey for secondary elements
+    tertiary: Color(0xFF666666), // Dark grey for tertiary elements
+    shadow: Color(0xFF999999), // Mid-grey for shadows
+    outline: Color(0xFFBBBBBB), // Light grey for outlines
+  ),
+);
 
 ThemeData darkmode = ThemeData(
     fontFamily: "Poppins",
     fontFamilyFallback: const ["Roboto"],
-    colorScheme: ColorScheme.light(
+    colorScheme: ColorScheme.dark(
         brightness: Brightness.light,
         surface: const Color(0xFF071013),
         onSurface: Colors.grey.shade300,

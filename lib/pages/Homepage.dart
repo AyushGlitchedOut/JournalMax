@@ -71,7 +71,6 @@ class _HomePageState extends State<HomePage> {
         isLoading = true; // Start loading
       });
 
-      // Simulate fetching entries (Replace with actual data fetching logic)
       final loadedEntries = await loadRecentEntries(awaitRecentEntries);
 
       setState(() {
