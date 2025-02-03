@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
+import 'package:journalmax/widgets/dialogs/AudioRecordDialog.dart';
 import 'package:journalmax/widgets/dialogs/EnterImageDialog.dart';
 import 'package:journalmax/widgets/dialogs/EnterLocationDialog.dart';
 import 'package:journalmax/widgets/XAppBar.dart';
@@ -21,37 +21,6 @@ class MultimediaAddPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ColorScheme colors = Theme.of(context).colorScheme;
-    if (contentId == null) {
-      showDialog(
-          context: context,
-          builder: (BuildContext dialogContext) {
-            return PopScope(
-              onPopInvokedWithResult: (didPop, results) {
-                Navigator.pop(context);
-              },
-              child: AlertDialog(
-                title: const Text(
-                  "No Id Found",
-                  style: TextStyle(fontSize: 25.0),
-                ),
-                content: const Text(
-                  "Couldn't detect Entry. Try first Saving the Entry in Editor Page",
-                  style: TextStyle(fontSize: 17.0),
-                ),
-                actions: [
-                  actionButton(
-                      onclick: () {
-                        Navigator.pop(dialogContext);
-                        Navigator.pop(context);
-                      },
-                      text: "OK",
-                      isForDelete: false,
-                      colors: colors)
-                ],
-              ),
-            );
-          });
-    }
     return Scaffold(
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(60.0),
@@ -88,7 +57,17 @@ class MultimediaAddPage extends StatelessWidget {
                       );
                     });
               }),
-          const XIconLabelButton(icon: Icons.mic, label: "Record Voice"),
+          XIconLabelButton(
+            icon: Icons.mic,
+            label: "Record Voice",
+            onclick: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const AudioRecordDialog();
+                  });
+            },
+          ),
           Center(
             child: ElevatedButton(
                 style: ButtonStyle(

@@ -89,7 +89,20 @@ class TestPage extends StatelessWidget {
                   }
                 }
               },
-              child: const Text("Delete Media"))
+              child: const Text("Delete Media")),
+          ElevatedButton(
+              onPressed: () async {
+                final Directory directory =
+                    await getApplicationCacheDirectory();
+                final result = await directory.list(recursive: true).toList();
+                for (FileSystemEntity i in result) {
+                  print(i);
+                }
+                print(File(
+                        "/data/user/0/com.ayushispro2011.journalmax/cache/audio")
+                    .readAsBytesSync());
+              },
+              child: const Text("See cache"))
         ],
       ),
     );
