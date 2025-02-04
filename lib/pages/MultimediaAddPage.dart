@@ -11,12 +11,14 @@ import 'package:journalmax/widgets/XIconLabelButton.dart';
 class MultimediaAddPage extends StatelessWidget {
   final void Function(String location) saveLocation;
   final void Function(List<File> images) saveImages;
+  final void Function(String audioFilePath) saveRecording;
   final int? contentId;
   const MultimediaAddPage(
       {super.key,
       required this.saveLocation,
       required this.saveImages,
-      required this.contentId});
+      required this.contentId,
+      required this.saveRecording});
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +66,10 @@ class MultimediaAddPage extends StatelessWidget {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return const AudioRecordDialog();
+                    return AudioRecordDialog(
+                      entryID: contentId!,
+                      reportRecordingFile: saveRecording,
+                    );
                   });
             },
           ),

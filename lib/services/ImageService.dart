@@ -4,19 +4,26 @@ import "package:path_provider/path_provider.dart";
 import "package:uuid/uuid.dart";
 
 Future<String> writeTempImagesToFile(
-    {required List<File> tempImages, required int EntryId}) async {
+    {required List<File> tempImages, required int entryId}) async {
   try {
     //Initialising and getting values
     const Uuid uuid = Uuid();
-    final Directory storage = await getApplicationDocumentsDirectory();
+    final Directory applicationDataDirectory =
+        await getApplicationDocumentsDirectory();
+    final Directory storage =
+        Directory("${applicationDataDirectory.path}/Images");
+    if (!await storage.exists()) {
+      await storage.create();
+    }
 
     final List<String> storedImagePaths = [];
     final String storageLocation = storage.path;
+
     for (File file in tempImages) {
       final String randomUUID = uuid.v6();
       final String fileExtension = file.path.split(".").last;
       String fileSaveLocation =
-          '$storageLocation/${EntryId}_$randomUUID.$fileExtension';
+          '$storageLocation/${entryId}_$randomUUID.$fileExtension';
       final File savedFile = await file.copy(fileSaveLocation);
       storedImagePaths.add(savedFile.path);
     }
@@ -29,7 +36,7 @@ Future<String> writeTempImagesToFile(
       if (storedImagePaths.contains(file.path)) {
         continue;
       }
-      if (fileID == EntryId.toString()) {
+      if (fileID == entryId.toString()) {
         await file.delete();
       } else {
         print("NOOOO");

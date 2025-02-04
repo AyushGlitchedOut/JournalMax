@@ -1,15 +1,16 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
-import 'package:journalmax/services/AudioService.dart';
 import 'package:journalmax/widgets/XSnackBar.dart';
 import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
 import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class AudioRecordDialog extends StatefulWidget {
-  const AudioRecordDialog({super.key});
+  final int entryID;
+  final void Function(String audioFilePath) reportRecordingFile;
+  const AudioRecordDialog(
+      {super.key, required this.entryID, required this.reportRecordingFile});
 
   @override
   State<AudioRecordDialog> createState() => _AudioRecordDialogState();
@@ -34,7 +35,7 @@ class _AudioRecordDialogState extends State<AudioRecordDialog> {
           side: BorderSide(width: 2.0, color: colors.outline),
           borderRadius: BorderRadius.circular(15.0)),
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.75,
+        height: MediaQuery.of(context).size.height * 0.6,
         width: MediaQuery.of(context).size.width * 0.95,
         child: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -63,6 +64,7 @@ class _AudioRecordDialogState extends State<AudioRecordDialog> {
     return Padding(
         padding: const EdgeInsets.only(bottom: 15.0, right: 15.0),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             actionButton(
                 onclick: () {
@@ -71,12 +73,15 @@ class _AudioRecordDialogState extends State<AudioRecordDialog> {
                 text: "Cancel",
                 isForDelete: true,
                 colors: colors),
+            const SizedBox(
+              width: 15.0,
+            ),
             actionButton(
                 onclick: () {
                   if (tempAudioFilePath == "") {
                     return;
                   }
-                  final result = saveTempAudioToFile(tempAudioFilePath);
+                  widget.reportRecordingFile(tempAudioFilePath);
                   Navigator.pop(context);
                 },
                 text: "Done",
@@ -129,12 +134,14 @@ class _AudioRecorderBodyState extends State<AudioRecorderBody> {
   }
 
   void _pauseRecording() async {
+    if (_recorder.isStopped) return;
     await _recorder.pauseRecorder();
     _timer?.cancel(); // Stop time counting
     setState(() {});
   }
 
   void _resumeRecording() async {
+    if (_recorder.isStopped) return;
     await _recorder.resumeRecorder();
     _startTimer(); // Resume time counting
     setState(() {});
@@ -168,36 +175,80 @@ class _AudioRecorderBodyState extends State<AudioRecorderBody> {
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme colors = Theme.of(context).colorScheme;
     final String minutes = (timeElapsed ~/ 60).toString().padLeft(2, "0");
     final String seconds = (timeElapsed % 60).toString().padLeft(2, "0");
 
     return Column(
       children: [
-        Text("$minutes:$seconds"),
+        Text(
+          "$minutes:$seconds",
+          style: const TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
+        ),
         LinearProgressIndicator(
           value: _recorder.isRecording
               ? _recorder.isPaused
                   ? 0.0
                   : null
               : 0.0,
+          minHeight: 15.0,
+        ),
+        const SizedBox(
+          height: 15.0,
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            ElevatedButton(
-              onPressed: () {
-                if (_recorder.isStopped) return;
-                _recorder.isRecording ? _pauseRecording() : _resumeRecording();
-              },
-              child: const Text("Pause/Play"),
-            ),
-            ElevatedButton(
-              onPressed: _stopRecording,
-              child: const Text("Stop Recording"),
-            ),
+            recordAudioDialogBodyButton(colors, () {
+              _recorder.isPaused ? _resumeRecording() : _pauseRecording();
+            },
+                _recorder.isPaused ? Icons.play_arrow_rounded : Icons.pause,
+                _recorder.isStopped
+                    ? const LinearGradient(
+                        colors: [Colors.transparent, Colors.transparent])
+                    : LinearGradient(
+                        stops: const [0.7, 0.85],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [colors.onSurface, Colors.grey])),
+            recordAudioDialogBodyButton(colors, () {
+              _stopRecording();
+            },
+                Icons.stop_circle_outlined,
+                LinearGradient(
+                    stops: const [0.7, 0.85],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [colors.onSurface, Colors.grey]))
           ],
         ),
       ],
+    );
+  }
+
+  Container recordAudioDialogBodyButton(ColorScheme colors,
+      void Function() onclick, IconData icon, Gradient background) {
+    return Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: background,
+      ),
+      child: IconButton(
+        disabledColor: Colors.transparent,
+        onPressed: onclick,
+        icon: Icon(
+          icon,
+          color: colors.primary,
+          size: 50.0,
+          shadows: [
+            Shadow(color: colors.shadow, offset: const Offset(1.0, 1.0))
+          ],
+        ),
+        style: const ButtonStyle(
+          backgroundColor: WidgetStatePropertyAll(Colors.transparent),
+          shape: WidgetStatePropertyAll(CircleBorder()),
+        ),
+      ),
     );
   }
 }

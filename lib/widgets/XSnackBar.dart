@@ -39,29 +39,27 @@ void showSnackBar(String message, BuildContext context) {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        const SizedBox(
-                          width: 10.0,
+                    const SizedBox(
+                      width: 10.0,
+                    ),
+                    Expanded(
+                      child: DefaultTextStyle(
+                        style: TextStyle(
+                          color: colors.secondary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15.0,
                         ),
-                        Center(
-                          child: DefaultTextStyle(
-                            style: TextStyle(
-                              color: colors.secondary,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15.0,
-                            ),
-                            child: Text(
-                              message,
-                              style: TextStyle(
-                                color: colors.secondary,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17.0,
-                              ),
-                            ),
+                        child: Text(
+                          message,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: colors.secondary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17.0,
                           ),
                         ),
-                      ],
+                      ),
                     ),
                     IconButton(
                         onPressed: () {

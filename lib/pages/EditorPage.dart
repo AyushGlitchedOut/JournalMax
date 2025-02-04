@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:journalmax/services/saveImagesToFolder.dart';
+import 'package:journalmax/services/AudioService.dart';
+import 'package:journalmax/services/ImageService.dart';
 import 'package:journalmax/widgets/dialogs/MoodChangeDialogEditorPage.dart';
 import 'package:journalmax/pages/ViewerPage.dart';
 import 'package:journalmax/pages/MultimediaAddPage.dart';
@@ -34,6 +35,7 @@ class _EditorPageState extends State<EditorPage> {
   String location = "Not Entered";
   bool isLoading = false;
   List<File>? tempImages;
+  String? tempRecordingFilePath;
 
   Map<String, dynamic> moods = EntryItemMoods.happy;
 
@@ -76,6 +78,7 @@ class _EditorPageState extends State<EditorPage> {
         moods = EntryItemMoods.nameToColor(currentMood);
         location = entryDetails["location"] ?? "Not Given";
         tempImages = imagesFromPaths;
+        tempRecordingFilePath = entryDetails["audio_record"];
       });
     } catch (e) {
       showSnackBar(e.toString(), context);
@@ -87,10 +90,13 @@ class _EditorPageState extends State<EditorPage> {
     try {
       final int id;
       final entries = await getRecentEntries();
-      final storedImagesPathsJSON = await writeTempImagesToFile(
-          tempImages: tempImages ?? [], EntryId: widget.updateId!);
+
       id =
           widget.createNewEntry ?? true ? entries.last["id"] : widget.updateId!;
+      final storedImagesPathsJSON = await writeTempImagesToFile(
+          tempImages: tempImages ?? [], entryId: id);
+      final savedAudioFilePath = await saveTempAudioToFile(
+          tempAudioFile: tempRecordingFilePath ?? "null", entryId: id);
       await updateEntry(
         id,
         Entry(
@@ -99,7 +105,8 @@ class _EditorPageState extends State<EditorPage> {
             mood: currentMood,
             date: DateTime.now().toString(),
             location: location,
-            image: storedImagesPathsJSON),
+            image: storedImagesPathsJSON,
+            audioRecord: savedAudioFilePath),
       );
     } catch (e) {
       showSnackBar(e.toString(), context);
@@ -125,6 +132,10 @@ class _EditorPageState extends State<EditorPage> {
 
   void getImagesFromDialog(List<File> obtainedImages) {
     tempImages = obtainedImages;
+  }
+
+  void getAudioFilePathFromDialog(String obtainedAudioFilePath) {
+    tempRecordingFilePath = obtainedAudioFilePath;
   }
 
   //UI
@@ -203,6 +214,7 @@ class _EditorPageState extends State<EditorPage> {
                         return MultimediaAddPage(
                           saveLocation: getLocationFromDialog,
                           saveImages: getImagesFromDialog,
+                          saveRecording: getAudioFilePathFromDialog,
                           contentId: widget.updateId,
                         );
                       }))),

@@ -102,12 +102,29 @@ Future<void> deleteEntry(int Entryid) async {
   try {
     //Delete items in storage
     final Directory storage = await getApplicationDocumentsDirectory();
-    final files = await storage.list().toList();
-    for (FileSystemEntity file in files) {
-      final String fileName = file.path.split("/").last;
-      final String fileID = fileName.split("_").first;
-      if (fileID == Entryid.toString()) {
-        file.delete();
+    final Directory imageStorage = Directory("${storage.path}/Images");
+    final Directory recordingStorage = Directory("${storage.path}/Recordings");
+
+    if (!await imageStorage.exists()) {
+      final imageFiles = await imageStorage.list().toList();
+      for (FileSystemEntity file in imageFiles) {
+        final String fileName = file.path.split("/").last;
+        final String fileID = fileName.split("_").first;
+        if (fileID == Entryid.toString()) {
+          file.delete();
+        }
+      }
+    }
+
+    if (!await recordingStorage.exists()) {
+      final recordingFiles = await recordingStorage.list().toList();
+
+      for (FileSystemEntity file in recordingFiles) {
+        final String fileName = file.path.split("/").last;
+        final String fileID = fileName.split("_").first;
+        if (fileID == Entryid.toString()) {
+          file.delete();
+        }
       }
     }
 
@@ -125,15 +142,16 @@ Future<void> wipeOrdeleteAllEntry() async {
   try {
     //Delete Items in Storage
     final Directory storage = await getApplicationDocumentsDirectory();
-    final files = await storage.list().toList();
-    for (FileSystemEntity file in files) {
-      if (file.path.endsWith(".png") ||
-          file.path.endsWith(".jpg") ||
-          file.path.endsWith(".jpeg") ||
-          file.path.endsWith(".webp")) {
-        await file.delete();
-      }
+    final Directory imageDirectory = Directory("${storage.path}/Images");
+    final Directory recordingsDirectory =
+        Directory("${storage.path}/Recordings");
+    if (await imageDirectory.exists()) {
+      await imageDirectory.delete(recursive: true);
     }
+    if (await recordingsDirectory.exists()) {
+      await recordingsDirectory.delete(recursive: true);
+    }
+
     //Wipe DB
     final db = await Initdatabase().database;
     await db.delete("items");

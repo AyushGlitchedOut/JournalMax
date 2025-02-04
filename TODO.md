@@ -23,3 +23,4 @@
 23. Change Navigation to be better and fix the autosave bug where the returned to page doesnt re-render unless explicitly told from editor page
 24. A bug where a entry needs to be deleted two times for the parent widget to display the corrected list
 25. **Done**  Put subtle onclick animations on all buttons and interactables
+26. To Delete all the temproray files stored in cache by the apis to save memeory
