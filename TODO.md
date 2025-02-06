@@ -24,3 +24,4 @@
 24. A bug where a entry needs to be deleted two times for the parent widget to display the corrected list
 25. **Done**  Put subtle onclick animations on all buttons and interactables
 26. To Delete all the temproray files stored in cache by the apis to save memeory
+27. Create a landing page for the project with screenshots, download options , and information on the github pages

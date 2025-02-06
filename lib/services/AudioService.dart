@@ -14,11 +14,11 @@ Future<String> saveTempAudioToFile(
     if (!await recordingsDirectory.exists()) {
       await recordingsDirectory.create();
     }
-    final String finalFilePath = "${recordingsDirectory.path}/${entryId}_audio";
+    final String finalFilePath =
+        "${recordingsDirectory.path}/${entryId}_audio.m4a";
     final File cachedAudioFile = File(tempAudioFile);
     final result = await cachedAudioFile.copy(finalFilePath);
-
-    return result.path;
+    return finalFilePath;
   } on MissingPlatformDirectoryException {
     throw Exception("Error Opening storage");
   } on Exception {

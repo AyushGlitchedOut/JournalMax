@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:journalmax/widgets/dialogs/AudioPlayInEditDialog.dart';
 import 'package:journalmax/widgets/dialogs/AudioRecordDialog.dart';
 import 'package:journalmax/widgets/dialogs/EnterImageDialog.dart';
 import 'package:journalmax/widgets/dialogs/EnterLocationDialog.dart';
@@ -12,13 +13,15 @@ class MultimediaAddPage extends StatelessWidget {
   final void Function(String location) saveLocation;
   final void Function(List<File> images) saveImages;
   final void Function(String audioFilePath) saveRecording;
+  final bool alreadyHasRecording;
   final int? contentId;
   const MultimediaAddPage(
       {super.key,
       required this.saveLocation,
       required this.saveImages,
       required this.contentId,
-      required this.saveRecording});
+      required this.saveRecording,
+      required this.alreadyHasRecording});
 
   @override
   Widget build(BuildContext context) {
@@ -66,10 +69,15 @@ class MultimediaAddPage extends StatelessWidget {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return AudioRecordDialog(
-                      entryID: contentId!,
-                      reportRecordingFile: saveRecording,
-                    );
+                    return alreadyHasRecording
+                        ? AudioPlayInEditModeDialog(
+                            contentId: contentId!,
+                            reportRecordingFunction: saveRecording,
+                          )
+                        : AudioRecordDialog(
+                            entryID: contentId!,
+                            reportRecordingFile: saveRecording,
+                          );
                   });
             },
           ),

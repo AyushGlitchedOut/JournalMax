@@ -66,7 +66,8 @@ class TestPage extends StatelessWidget {
               onPressed: () async {
                 final Directory directory =
                     await getApplicationDocumentsDirectory();
-                List<FileSystemEntity> items = await directory.list().toList();
+                List<FileSystemEntity> items =
+                    await directory.list(recursive: true).toList();
                 for (final file in items) {
                   print(file);
                 }
@@ -102,7 +103,7 @@ class TestPage extends StatelessWidget {
                         "/data/user/0/com.ayushispro2011.journalmax/cache/audio")
                     .readAsBytesSync());
               },
-              child: const Text("See cache"))
+              child: const Text("See cache")),
         ],
       ),
     );

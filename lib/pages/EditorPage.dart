@@ -216,6 +216,9 @@ class _EditorPageState extends State<EditorPage> {
                           saveImages: getImagesFromDialog,
                           saveRecording: getAudioFilePathFromDialog,
                           contentId: widget.updateId,
+                          alreadyHasRecording:
+                              tempRecordingFilePath.toString() != "null" &&
+                                  tempRecordingFilePath.toString() != "",
                         );
                       }))),
               titleBar(),
