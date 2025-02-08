@@ -103,26 +103,30 @@ class AudioPlayInEditDialogBody extends StatefulWidget {
 
 class _AudioPlayInEditDialogBodyState extends State<AudioPlayInEditDialogBody> {
   final FlutterSoundPlayer _player = FlutterSoundPlayer();
-  bool isLoading = false;
   File? audioFile;
 
   Future<void> getAudioFromId() async {
-    setState(() {
-      isLoading = true;
-    });
     final data = await getEntryById(widget.contentId);
     final audio = data[0]["audio_record"];
     audioFile = File(audio.toString());
-    print(audioFile!.readAsBytesSync());
-    setState(() {
-      isLoading = false;
-    });
   }
 
   Future<void> initPlayer() async {
     await getAudioFromId();
-    _player.openPlayer();
-    _player.startPlayer(fromURI: audioFile!.path);
+    await _player.openPlayer();
+    await _player.setSubscriptionDuration(const Duration(milliseconds: 250));
+    await _player.startPlayer(
+        fromURI: audioFile!.path,
+        whenFinished: () {
+          setState(() {});
+        });
+    setState(() {});
+  }
+
+  Future<void> disposePlayer() async {
+    await _player.stopPlayer();
+    await _player.closePlayer();
+    await _player.setSubscriptionDuration(Duration.zero);
   }
 
   @override
@@ -132,33 +136,107 @@ class _AudioPlayInEditDialogBodyState extends State<AudioPlayInEditDialogBody> {
   }
 
   @override
+  void dispose() {
+    disposePlayer();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final ColorScheme colors = Theme.of(context).colorScheme;
+    double? playerProgress = 0.0;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         //put streambuilder here
-        const Text("00:00"),
-        const LinearProgressIndicator(
-          value: null,
-          minHeight: 15.0,
+        StreamBuilder(
+          stream: _player.onProgress,
+          builder: (context, snapshot) {
+            if (_player.isStopped) {
+              playerProgress = 0.0;
+
+              return Column(
+                children: [
+                  const Text(
+                    "--:--",
+                    style:
+                        TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
+                  ),
+                  LinearProgressIndicator(
+                    value: playerProgress,
+                    minHeight: 15.0,
+                  ),
+                ],
+              );
+            } else if (snapshot.hasData) {
+              playerProgress = (snapshot.data!.position.inMilliseconds > 0)
+                  ? snapshot.data!.position.inMilliseconds /
+                      snapshot.data!.duration.inMilliseconds
+                  : 0.0;
+
+              final String minutes = (snapshot.data!.position.inSeconds ~/ 60)
+                  .toString()
+                  .padLeft(2, "0");
+              final String seconds = (snapshot.data!.position.inSeconds % 60)
+                  .toString()
+                  .padLeft(2, "0");
+              return Column(
+                children: [
+                  Text(
+                    "$minutes:$seconds",
+                    style:
+                        const TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
+                  ),
+                  LinearProgressIndicator(
+                    value: playerProgress,
+                    minHeight: 15.0,
+                  ),
+                ],
+              );
+            } else {
+              return Column(children: [
+                const Text("00:00",
+                    style:
+                        TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500)),
+                LinearProgressIndicator(
+                  value: playerProgress,
+                  minHeight: 15.0,
+                ),
+              ]);
+            }
+          },
         ),
+
         const SizedBox(
           height: 20.0,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            audioPlayInEditDialogBodyButton(colors, () {
-              // play pause the player
-              _player.stopPlayer();
-            },
-                Icons.play_arrow_rounded,
-                LinearGradient(
-                    stops: const [0.7, 0.85],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [colors.onSurface, Colors.grey]))
+            audioPlayInEditDialogBodyButton(
+                colors,
+                _player.isStopped
+                    ? initPlayer
+                    : () async {
+                        if (_player.isStopped) return;
+                        _player.isPaused
+                            ? await _player.resumePlayer()
+                            : await _player.pausePlayer();
+                        setState(() {});
+                      },
+                _player.isStopped
+                    ? Icons.replay_outlined
+                    : _player.isPaused
+                        ? Icons.play_arrow
+                        : Icons.pause_circle,
+                _player.isStopped
+                    ? const LinearGradient(
+                        colors: [Colors.transparent, Colors.transparent])
+                    : LinearGradient(
+                        stops: const [0.7, 0.85],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [colors.onSurface, Colors.grey]))
           ],
         )
       ],

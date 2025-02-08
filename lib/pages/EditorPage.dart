@@ -98,7 +98,6 @@ class _EditorPageState extends State<EditorPage> {
       final savedAudioFilePath = await saveTempAudioToFile(
           tempAudioFile: tempRecordingFilePath ?? "null", entryId: id);
       print(savedAudioFilePath);
-      print("Contents:${File(savedAudioFilePath).readAsBytesSync()}");
       await updateEntry(
         id,
         Entry(

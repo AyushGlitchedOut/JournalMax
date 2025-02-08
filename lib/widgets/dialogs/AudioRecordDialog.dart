@@ -118,7 +118,7 @@ class _AudioRecorderBodyState extends State<AudioRecorderBody> {
     }
 
     await _recorder.openRecorder();
-    _recorder.setSubscriptionDuration(const Duration(seconds: 1));
+    _recorder.setSubscriptionDuration(const Duration(milliseconds: 500));
 
     await _recorder.startRecorder(toFile: "audio");
     _startTimer();

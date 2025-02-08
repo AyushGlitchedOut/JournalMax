@@ -21,8 +21,6 @@ Future<String> saveTempAudioToFile(
     }
     final File cachedAudioFile = File(tempAudioFile);
     final result = await cachedAudioFile.copy(finalFilePath);
-    print("cachelength: ${await cachedAudioFile.length()}");
-    print("actual file length${await result.length()}");
     return finalFilePath;
   } on MissingPlatformDirectoryException {
     throw Exception("Error Opening storage");
