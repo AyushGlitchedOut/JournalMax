@@ -25,3 +25,4 @@
 25. **Done**  Put subtle onclick animations on all buttons and interactables
 26. To Delete all the temproray files stored in cache by the apis to save memeory
 27. Create a landing page for the project with screenshots, download options , and information on the github pages
+28. Put limits on textfields, number of images, recording length, etc.

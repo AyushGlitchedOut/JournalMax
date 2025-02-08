@@ -22,8 +22,8 @@ class ViewerPage extends StatefulWidget {
 
 class _ViewerPageState extends State<ViewerPage> {
   bool isLoading = false;
-  Map<String, Color>? mood;
-  Map<String, Object?>? content;
+  Map<String, Color> mood = EntryItemMoods.happy;
+  Map<String, Object?>? content = {};
 
   //READ
   Future<void> getEntry() async {
@@ -81,59 +81,8 @@ class _ViewerPageState extends State<ViewerPage> {
       backgroundColor: colors.surface,
       body: Column(
         children: [
-          Container(
-              height: MediaQuery.of(context).size.height * 0.075,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  border: Border.all(color: colors.outline),
-                  color: mood?["surface"] ?? colors.surface,
-                  boxShadow: [
-                    BoxShadow(
-                        color: mood?["text"] ?? colors.shadow,
-                        offset: const Offset(1.5, 1.5)),
-                    BoxShadow(
-                        color: mood?["secondary"] ?? colors.outline,
-                        offset: const Offset(-1.5, -1.5))
-                  ],
-                  borderRadius: BorderRadius.circular(10.0)),
-              padding: const EdgeInsets.all(5.0),
-              margin:
-                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 5.0),
-              child: Text(
-                content!["title"].toString(),
-                style: TextStyle(
-                    color: mood!["text"],
-                    fontSize: 25.0,
-                    overflow: TextOverflow.ellipsis),
-                textAlign: TextAlign.left,
-              )),
-          Expanded(
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  border: Border.all(color: colors.outline),
-                  color: mood!["surface"] ?? colors.surface,
-                  boxShadow: [
-                    BoxShadow(
-                        color: mood?["text"] ?? colors.shadow,
-                        offset: const Offset(1.5, 1.5)),
-                    BoxShadow(
-                        color: mood?["secondary"] ?? colors.outline,
-                        offset: const Offset(-1.5, -1.5))
-                  ],
-                  borderRadius: BorderRadius.circular(10.0)),
-              padding: const EdgeInsets.all(5.0),
-              margin: const EdgeInsets.all(15.0),
-              child: SingleChildScrollView(
-                  child: isLoading
-                      ? XProgress(colors: colors)
-                      : SelectableText(
-                          content?["content"].toString() ?? "Content Not Found",
-                          style: TextStyle(
-                              color: mood!["secondary"], fontSize: 20.0),
-                        )),
-            ),
-          ),
+          titleBar(context, colors),
+          contentBar(context, colors),
           XIconLabelButton(
             icon: Icons.collections,
             label: "View memories in the Entry",
@@ -155,5 +104,62 @@ class _ViewerPageState extends State<ViewerPage> {
                 );
               }))),
     );
+  }
+
+  Expanded contentBar(BuildContext context, ColorScheme colors) {
+    return Expanded(
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            border: Border.all(color: colors.outline),
+            color: mood["surface"] ?? colors.surface,
+            boxShadow: [
+              BoxShadow(
+                  color: mood["text"] ?? colors.shadow,
+                  offset: const Offset(1.5, 1.5)),
+              BoxShadow(
+                  color: mood["secondary"] ?? colors.outline,
+                  offset: const Offset(-1.5, -1.5))
+            ],
+            borderRadius: BorderRadius.circular(0)),
+        padding: const EdgeInsets.all(5.0),
+        margin: EdgeInsets.all(2.0),
+        child: SingleChildScrollView(
+            child: isLoading
+                ? XProgress(colors: colors)
+                : SelectableText(
+                    content!["content"].toString(),
+                    style: TextStyle(color: mood["secondary"], fontSize: 20.0),
+                  )),
+      ),
+    );
+  }
+
+  Container titleBar(BuildContext context, ColorScheme colors) {
+    return Container(
+        height: MediaQuery.of(context).size.height * 0.075,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            border: Border.all(color: colors.outline),
+            color: mood["surface"] ?? colors.surface,
+            boxShadow: [
+              BoxShadow(
+                  color: mood["text"] ?? colors.shadow,
+                  offset: const Offset(1.5, 1.5)),
+              BoxShadow(
+                  color: mood["secondary"] ?? colors.outline,
+                  offset: const Offset(-1.5, -1.5))
+            ],
+            borderRadius: BorderRadius.circular(0)),
+        padding: const EdgeInsets.all(5.0),
+        margin: const EdgeInsets.all(2.0),
+        child: Text(
+          content!["title"].toString(),
+          style: TextStyle(
+              color: mood["text"],
+              fontSize: 30.0,
+              overflow: TextOverflow.ellipsis),
+          textAlign: TextAlign.left,
+        ));
   }
 }

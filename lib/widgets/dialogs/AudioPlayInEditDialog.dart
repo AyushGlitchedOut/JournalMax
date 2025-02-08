@@ -1,11 +1,8 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_sound/flutter_sound.dart';
 import 'package:journalmax/services/CRUD_Entry.dart';
 import 'package:journalmax/widgets/dialogs/AudioRecordDialog.dart';
 import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
-import 'package:logger/logger.dart';
 
 class AudioPlayInEditModeDialog extends StatefulWidget {
   final int contentId;
@@ -104,8 +101,6 @@ class AudioPlayInEditDialogBody extends StatefulWidget {
 }
 
 class _AudioPlayInEditDialogBodyState extends State<AudioPlayInEditDialogBody> {
-  final FlutterSoundPlayer _player =
-      FlutterSoundPlayer(logLevel: Level.warning);
   bool isLoading = false;
   File? audioFile;
   Future<void> getAudioFromId() async {
@@ -133,15 +128,8 @@ class _AudioPlayInEditDialogBodyState extends State<AudioPlayInEditDialogBody> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        StreamBuilder(
-          stream: _player.onProgress,
-          builder: (context, snapshot) {
-            return Text(
-              snapshot.hasData ? snapshot.data!.position.toString() : "00:00",
-              style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
-            );
-          },
-        ),
+        //put streambuilder here
+        Text("00:00"),
         LinearProgressIndicator(
           value: null,
           minHeight: 15.0,

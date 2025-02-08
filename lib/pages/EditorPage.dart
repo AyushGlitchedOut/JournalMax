@@ -235,7 +235,8 @@ class _EditorPageState extends State<EditorPage> {
           ),
           floatingActionButton: XFloatingButton(
               icon: Icons.remove_red_eye_outlined,
-              onclick: () {
+              onclick: () async {
+                await callUpdateEntry();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (BuildContext context) {
                   return ViewerPage(
@@ -248,33 +249,36 @@ class _EditorPageState extends State<EditorPage> {
 
   Expanded contentBox(BuildContext context) {
     return Expanded(
-      child: isLoading
-          ? XProgress(colors: Theme.of(context).colorScheme)
-          : Container(
-              child: TextField(
-                controller: _contentController,
-                enabled: true,
-                style: TextStyle(color: moods["text"]),
-                decoration: InputDecoration(
-                  hintText: "Enter your thoughts here!",
-                  hintStyle: TextStyle(color: moods["secondary"]),
-                  filled: true,
-                  fillColor: moods["surface"],
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(color: moods["secondary"]),
+      child: Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: isLoading
+            ? XProgress(colors: Theme.of(context).colorScheme)
+            : Container(
+                child: TextField(
+                  controller: _contentController,
+                  enabled: true,
+                  style: TextStyle(color: moods["text"]),
+                  decoration: InputDecoration(
+                    hintText: "Enter your thoughts here!",
+                    hintStyle: TextStyle(color: moods["secondary"]),
+                    filled: true,
+                    fillColor: moods["surface"],
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(0),
+                      borderSide: BorderSide(color: moods["secondary"]),
+                    ),
                   ),
+                  minLines: 20,
+                  maxLines: 20,
                 ),
-                minLines: 20,
-                maxLines: 20,
               ),
-            ),
+      ),
     );
   }
 
   Padding titleBar() {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(2.0),
       child: TextField(
         autofocus: true,
         controller: _titleController,
@@ -285,7 +289,7 @@ class _EditorPageState extends State<EditorPage> {
           filled: true,
           fillColor: moods["surface"],
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(0),
             borderSide: BorderSide(color: moods["text"]),
           ),
         ),
