@@ -16,8 +16,13 @@ Future<String> saveTempAudioToFile(
     }
     final String finalFilePath =
         "${recordingsDirectory.path}/${entryId}_audio.m4a";
+    if (finalFilePath == tempAudioFile) {
+      return finalFilePath;
+    }
     final File cachedAudioFile = File(tempAudioFile);
     final result = await cachedAudioFile.copy(finalFilePath);
+    print("cachelength: ${await cachedAudioFile.length()}");
+    print("actual file length${await result.length()}");
     return finalFilePath;
   } on MissingPlatformDirectoryException {
     throw Exception("Error Opening storage");

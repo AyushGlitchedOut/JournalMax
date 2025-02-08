@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 import 'package:journalmax/services/CRUD_Entry.dart';
 import 'package:journalmax/widgets/dialogs/AudioRecordDialog.dart';
 import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
@@ -37,7 +38,7 @@ class _AudioPlayInEditModeDialogState extends State<AudioPlayInEditModeDialog> {
         height: MediaQuery.of(context).size.height * 0.6,
         width: MediaQuery.of(context).size.width * 0.95,
         child: Padding(
-          padding: EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(10.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -70,7 +71,7 @@ class _AudioPlayInEditModeDialogState extends State<AudioPlayInEditModeDialog> {
                         text: "Record Again",
                         isForDelete: false,
                         colors: colors),
-                    SizedBox(
+                    const SizedBox(
                       width: 15.0,
                     ),
                     actionButton(
@@ -101,8 +102,10 @@ class AudioPlayInEditDialogBody extends StatefulWidget {
 }
 
 class _AudioPlayInEditDialogBodyState extends State<AudioPlayInEditDialogBody> {
+  final FlutterSoundPlayer _player = FlutterSoundPlayer();
   bool isLoading = false;
   File? audioFile;
+
   Future<void> getAudioFromId() async {
     setState(() {
       isLoading = true;
@@ -110,15 +113,21 @@ class _AudioPlayInEditDialogBodyState extends State<AudioPlayInEditDialogBody> {
     final data = await getEntryById(widget.contentId);
     final audio = data[0]["audio_record"];
     audioFile = File(audio.toString());
-    print(audioFile);
+    print(audioFile!.readAsBytesSync());
     setState(() {
       isLoading = false;
     });
   }
 
+  Future<void> initPlayer() async {
+    await getAudioFromId();
+    _player.openPlayer();
+    _player.startPlayer(fromURI: audioFile!.path);
+  }
+
   @override
   void initState() {
-    getAudioFromId();
+    initPlayer();
     super.initState();
   }
 
@@ -129,12 +138,12 @@ class _AudioPlayInEditDialogBodyState extends State<AudioPlayInEditDialogBody> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         //put streambuilder here
-        Text("00:00"),
-        LinearProgressIndicator(
+        const Text("00:00"),
+        const LinearProgressIndicator(
           value: null,
           minHeight: 15.0,
         ),
-        SizedBox(
+        const SizedBox(
           height: 20.0,
         ),
         Row(
@@ -142,6 +151,7 @@ class _AudioPlayInEditDialogBodyState extends State<AudioPlayInEditDialogBody> {
           children: [
             audioPlayInEditDialogBodyButton(colors, () {
               // play pause the player
+              _player.stopPlayer();
             },
                 Icons.play_arrow_rounded,
                 LinearGradient(
