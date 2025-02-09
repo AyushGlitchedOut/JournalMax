@@ -20,7 +20,7 @@ Future<String> saveTempAudioToFile(
       return finalFilePath;
     }
     final File cachedAudioFile = File(tempAudioFile);
-    final result = await cachedAudioFile.copy(finalFilePath);
+    await cachedAudioFile.copy(finalFilePath);
     return finalFilePath;
   } on MissingPlatformDirectoryException {
     throw Exception("Error Opening storage");

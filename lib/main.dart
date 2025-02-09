@@ -7,6 +7,7 @@ import 'package:journalmax/pages/FindDiary.dart';
 import 'package:journalmax/pages/Homepage.dart';
 import 'package:journalmax/pages/SettingsPage.dart';
 import 'package:journalmax/pages/SyncPage.dart';
+import 'package:journalmax/services/CleanCache.dart';
 import 'package:journalmax/themes/ThemeProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -40,6 +41,7 @@ class App extends StatelessWidget {
 
 //Main function
 void main() {
+  clearCache();
   runApp(ChangeNotifierProvider(
     create: (context) => Themeprovider(),
     child: App(),

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:journalmax/services/CRUD_Entry.dart';
+import 'package:journalmax/widgets/XSnackBar.dart';
 import 'package:journalmax/widgets/dialogs/AudioRecordDialog.dart';
 import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
 
@@ -51,42 +52,46 @@ class _AudioPlayInEditModeDialogState extends State<AudioPlayInEditModeDialog> {
               AudioPlayInEditDialogBody(
                 contentId: widget.contentId,
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 15.0, right: 10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    actionButton(
-                        onclick: () {
-                          Navigator.pop(context);
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AudioRecordDialog(
-                                    entryID: widget.contentId,
-                                    reportRecordingFile:
-                                        widget.reportRecordingFunction);
-                              });
-                        },
-                        text: "Record Again",
-                        isForDelete: false,
-                        colors: colors),
-                    const SizedBox(
-                      width: 15.0,
-                    ),
-                    actionButton(
-                        onclick: () {
-                          Navigator.pop(context);
-                        },
-                        text: "Done",
-                        isForDelete: false,
-                        colors: colors)
-                  ],
-                ),
-              )
+              audioPlayInEditModeDialogActions(context, colors)
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Padding audioPlayInEditModeDialogActions(
+      BuildContext context, ColorScheme colors) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15.0, right: 10.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          actionButton(
+              onclick: () {
+                Navigator.pop(context);
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AudioRecordDialog(
+                          entryID: widget.contentId,
+                          reportRecordingFile: widget.reportRecordingFunction);
+                    });
+              },
+              text: "Record Again",
+              isForDelete: false,
+              colors: colors),
+          const SizedBox(
+            width: 15.0,
+          ),
+          actionButton(
+              onclick: () {
+                Navigator.pop(context);
+              },
+              text: "Done",
+              isForDelete: false,
+              colors: colors)
+        ],
       ),
     );
   }
@@ -106,21 +111,33 @@ class _AudioPlayInEditDialogBodyState extends State<AudioPlayInEditDialogBody> {
   File? audioFile;
 
   Future<void> getAudioFromId() async {
-    final data = await getEntryById(widget.contentId);
-    final audio = data[0]["audio_record"];
-    audioFile = File(audio.toString());
+    try {
+      final data = await getEntryById(widget.contentId);
+      final audio = data[0]["audio_record"];
+      audioFile = File(audio.toString());
+    } catch (e) {
+      showSnackBar(e.toString(), context);
+    }
   }
 
   Future<void> initPlayer() async {
     await getAudioFromId();
-    await _player.openPlayer();
-    await _player.setSubscriptionDuration(const Duration(milliseconds: 250));
-    await _player.startPlayer(
-        fromURI: audioFile!.path,
-        whenFinished: () {
-          setState(() {});
-        });
-    setState(() {});
+    if (audioFile == null || !audioFile!.existsSync()) {
+      showSnackBar("Something Went Wrong :(", context);
+      return;
+    }
+    try {
+      await _player.openPlayer();
+      await _player.setSubscriptionDuration(const Duration(milliseconds: 250));
+      await _player.startPlayer(
+          fromURI: audioFile!.path,
+          whenFinished: () {
+            setState(() {});
+          });
+      setState(() {});
+    } on Exception {
+      showSnackBar("Something Went Wrong :(", context);
+    }
   }
 
   Future<void> disposePlayer() async {
@@ -148,65 +165,7 @@ class _AudioPlayInEditDialogBodyState extends State<AudioPlayInEditDialogBody> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        //put streambuilder here
-        StreamBuilder(
-          stream: _player.onProgress,
-          builder: (context, snapshot) {
-            if (_player.isStopped) {
-              playerProgress = 0.0;
-
-              return Column(
-                children: [
-                  const Text(
-                    "--:--",
-                    style:
-                        TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
-                  ),
-                  LinearProgressIndicator(
-                    value: playerProgress,
-                    minHeight: 15.0,
-                  ),
-                ],
-              );
-            } else if (snapshot.hasData) {
-              playerProgress = (snapshot.data!.position.inMilliseconds > 0)
-                  ? snapshot.data!.position.inMilliseconds /
-                      snapshot.data!.duration.inMilliseconds
-                  : 0.0;
-
-              final String minutes = (snapshot.data!.position.inSeconds ~/ 60)
-                  .toString()
-                  .padLeft(2, "0");
-              final String seconds = (snapshot.data!.position.inSeconds % 60)
-                  .toString()
-                  .padLeft(2, "0");
-              return Column(
-                children: [
-                  Text(
-                    "$minutes:$seconds",
-                    style:
-                        const TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
-                  ),
-                  LinearProgressIndicator(
-                    value: playerProgress,
-                    minHeight: 15.0,
-                  ),
-                ],
-              );
-            } else {
-              return Column(children: [
-                const Text("00:00",
-                    style:
-                        TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500)),
-                LinearProgressIndicator(
-                  value: playerProgress,
-                  minHeight: 15.0,
-                ),
-              ]);
-            }
-          },
-        ),
-
+        playerProgressIndicator(playerProgress),
         const SizedBox(
           height: 20.0,
         ),
@@ -240,6 +199,65 @@ class _AudioPlayInEditDialogBodyState extends State<AudioPlayInEditDialogBody> {
           ],
         )
       ],
+    );
+  }
+
+  StreamBuilder<PlaybackDisposition> playerProgressIndicator(
+      double? playerProgress) {
+    return StreamBuilder(
+      stream: _player.onProgress,
+      builder: (context, snapshot) {
+        if (_player.isStopped) {
+          playerProgress = 0.0;
+
+          return Column(
+            children: [
+              const Text(
+                "--:--",
+                style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
+              ),
+              LinearProgressIndicator(
+                value: playerProgress,
+                minHeight: 15.0,
+              ),
+            ],
+          );
+        } else if (snapshot.hasData) {
+          playerProgress = (snapshot.data!.position.inMilliseconds > 0)
+              ? snapshot.data!.position.inMilliseconds /
+                  snapshot.data!.duration.inMilliseconds
+              : 0.0;
+
+          final String minutes = (snapshot.data!.position.inSeconds ~/ 60)
+              .toString()
+              .padLeft(2, "0");
+          final String seconds = (snapshot.data!.position.inSeconds % 60)
+              .toString()
+              .padLeft(2, "0");
+          return Column(
+            children: [
+              Text(
+                "$minutes:$seconds",
+                style: const TextStyle(
+                    fontSize: 25.0, fontWeight: FontWeight.w500),
+              ),
+              LinearProgressIndicator(
+                value: playerProgress,
+                minHeight: 15.0,
+              ),
+            ],
+          );
+        } else {
+          return Column(children: [
+            const Text("00:00",
+                style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500)),
+            LinearProgressIndicator(
+              value: playerProgress,
+              minHeight: 15.0,
+            ),
+          ]);
+        }
+      },
     );
   }
 

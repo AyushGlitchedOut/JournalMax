@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:journalmax/models/EntryModel.dart';
+import 'package:journalmax/services/CleanCache.dart';
 import 'package:journalmax/services/InitDataBase.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -128,6 +129,9 @@ Future<void> deleteEntry(int Entryid) async {
       }
     }
 
+    //wipe cache
+    await clearCache();
+
     //Wipe DB
     final db = await Initdatabase().database;
     db.delete("items", where: "id = ?", whereArgs: ["$Entryid"]);
@@ -151,6 +155,9 @@ Future<void> wipeOrdeleteAllEntry() async {
     if (await recordingsDirectory.exists()) {
       await recordingsDirectory.delete(recursive: true);
     }
+
+    //clear cache
+    await clearCache();
 
     //Wipe DB
     final db = await Initdatabase().database;
