@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -16,6 +19,17 @@ class Initdatabase {
 
   Future<Database> initDatabase() async {
     try {
+      //create Images and Recordings file
+      final Directory applicationDataDirectory =
+          await getApplicationDocumentsDirectory();
+      final Directory recordingStorage =
+          Directory("${applicationDataDirectory.path}/Recordings");
+      final Directory imageStorage =
+          Directory("${applicationDataDirectory.path}/Images");
+      if (!(await recordingStorage.exists())) await recordingStorage.create();
+      if (!(await imageStorage.exists())) await imageStorage.create();
+
+      //cretae sqlite db app_database.db
       final dbPath = await getDatabasesPath();
       return await openDatabase(join(dbPath, "app_database.db"), version: 1,
           onCreate: (db, version) async {

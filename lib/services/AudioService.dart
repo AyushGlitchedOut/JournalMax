@@ -8,8 +8,9 @@ Future<String> saveTempAudioToFile(
     return "null";
   }
   try {
-    final Directory storageDirectory = await getApplicationDocumentsDirectory();
-    final String storagePath = storageDirectory.path;
+    final Directory applicationDataDirectory =
+        await getApplicationDocumentsDirectory();
+    final String storagePath = applicationDataDirectory.path;
     final Directory recordingsDirectory = Directory("$storagePath/Recordings");
     if (!await recordingsDirectory.exists()) {
       await recordingsDirectory.create();

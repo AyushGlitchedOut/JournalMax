@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:journalmax/widgets/dialogs/ExportDataDialog.dart';
+import 'package:journalmax/widgets/dialogs/ImportDataDialog.dart';
 import 'package:journalmax/widgets/dialogs/WipeEntriesDialogSettingsPage.dart';
 import 'package:journalmax/themes/ThemeProvider.dart';
 import 'package:journalmax/widgets/XAppBar.dart';
@@ -86,6 +88,30 @@ class SettingsPage extends StatelessWidget {
             label: "Source Code",
             onclick: () => openLink(
                 "https://github.com/AyushisPro2011/JournalMax", context),
+          ),
+          XIconLabelButton(
+            icon: Icons.download,
+            label: "Import a Journalmax database",
+            onclick: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const ImportDataDialog();
+                  });
+            },
+            customFontSize: 16.0,
+          ),
+          XIconLabelButton(
+            icon: Icons.upload,
+            label: "Export current Journalmax Database",
+            onclick: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const ExportDataDialog();
+                  });
+            },
+            customFontSize: 13.5,
           )
         ],
       ),
