@@ -17,44 +17,14 @@ class EnterLocationDialog extends StatefulWidget {
 
 class _EnterLocationDialogState extends State<EnterLocationDialog> {
   final TextEditingController _locationController = TextEditingController();
-  bool isLoading = false;
-  bool showInCoordinates = false;
-
-  Future<void> getLocationFromEntry() async {
-    final result = await getEntryById(widget.contentId);
-    final String obtainedLocation =
-        result.first["location"].toString() == "null"
-            ? "Not Entered"
-            : result.first["location"].toString();
-    _locationController.text = obtainedLocation;
-  }
-
-  Future<void> syncLocation(BuildContext context) async {
-    _locationController.text = "Loading.....";
-    try {
-      String result = "Unknown";
-      if (showInCoordinates) {
-        final coordinates = await getLocationInCoordinates();
-        result =
-            '${coordinates.latitude.toStringAsFixed(5)} , ${coordinates.longitude.toStringAsFixed(5)}';
-      } else {
-        result = await getLocationInName();
-      }
-      _locationController.text = result;
-    } catch (exception) {
-      _locationController.text = "Not found";
-      showSnackBar(exception.toString(), context);
-    }
-  }
-
   @override
   void initState() {
-    getLocationFromEntry();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     ColorScheme colors = Theme.of(context).colorScheme;
     return Dialog(
       insetPadding: const EdgeInsets.all(0.0),
@@ -64,8 +34,8 @@ class _EnterLocationDialogState extends State<EnterLocationDialog> {
           side: BorderSide(width: 2.0, color: colors.outline),
           borderRadius: BorderRadius.circular(15.0)),
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.55,
-        width: MediaQuery.of(context).size.width * 0.95,
+        height: size.height * 0.55,
+        width: size.width * 0.95,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -78,34 +48,77 @@ class _EnterLocationDialogState extends State<EnterLocationDialog> {
                 ),
               ),
             ),
-            locationField(context, colors),
-            dialogActions(context, colors)
+            LocationDialogBody(
+              contentId: widget.contentId,
+              reportLocation: widget.reportLocation,
+              controller: _locationController,
+            ),
+            LocationDialogActions(
+              widget: widget,
+              context: context,
+              colors: colors,
+              locationController: _locationController,
+            )
           ],
         ),
       ),
     );
   }
+}
 
-  Padding dialogActions(BuildContext context, ColorScheme colors) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 15.0, right: 15.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          actionButton(
-              onclick: () {
-                widget.reportLocation(_locationController.text);
-                Navigator.of(context).pop();
-              },
-              text: "Done",
-              isForDelete: false,
-              colors: colors)
-        ],
-      ),
-    );
+class LocationDialogBody extends StatefulWidget {
+  final void Function(String location) reportLocation;
+  final int contentId;
+  final TextEditingController controller;
+  const LocationDialogBody(
+      {super.key,
+      required this.contentId,
+      required this.reportLocation,
+      required this.controller});
+
+  @override
+  State<LocationDialogBody> createState() => _LocationDialogBodyState();
+}
+
+class _LocationDialogBodyState extends State<LocationDialogBody> {
+  bool showInCoordinates = false;
+  Future<void> getLocationFromEntry() async {
+    final result = await getEntryById(widget.contentId);
+    final String obtainedLocation =
+        result.first["location"].toString() == "null"
+            ? "Not Entered"
+            : result.first["location"].toString();
+    widget.controller.text = obtainedLocation;
   }
 
-  Column locationField(BuildContext context, ColorScheme colors) {
+  Future<void> syncLocation(BuildContext context) async {
+    widget.controller.text = "Loading.....";
+    try {
+      String result = "Unknown";
+      if (showInCoordinates) {
+        final coordinates = await getLocationInCoordinates();
+        result =
+            '${coordinates.latitude.toStringAsFixed(5)} , ${coordinates.longitude.toStringAsFixed(5)}';
+      } else {
+        result = await getLocationInName();
+      }
+      widget.controller.text = result;
+    } catch (exception) {
+      widget.controller.text = "Not found";
+      showSnackBar(exception.toString(), context);
+    }
+  }
+
+  @override
+  void initState() {
+    getLocationFromEntry();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final TextEditingController locationController = widget.controller;
+    final ColorScheme colors = Theme.of(context).colorScheme;
     return Column(
       children: [
         Padding(
@@ -122,7 +135,7 @@ class _EnterLocationDialogState extends State<EnterLocationDialog> {
                   )),
               Expanded(
                   child: TextField(
-                controller: _locationController,
+                controller: locationController,
                 autocorrect: false,
                 onSubmitted: (value) {},
                 style: const TextStyle(),
@@ -161,6 +174,41 @@ class _EnterLocationDialogState extends State<EnterLocationDialog> {
           customFontSize: 19.0,
         )
       ],
+    );
+  }
+}
+
+class LocationDialogActions extends StatelessWidget {
+  const LocationDialogActions({
+    super.key,
+    required this.widget,
+    required this.locationController,
+    required this.context,
+    required this.colors,
+  });
+
+  final EnterLocationDialog widget;
+  final TextEditingController locationController;
+  final BuildContext context;
+  final ColorScheme colors;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15.0, right: 15.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          actionButton(
+              onclick: () {
+                widget.reportLocation(locationController.text);
+                Navigator.of(context).pop();
+              },
+              text: "Done",
+              isForDeleteOrCancel: false,
+              colors: colors)
+        ],
+      ),
     );
   }
 }

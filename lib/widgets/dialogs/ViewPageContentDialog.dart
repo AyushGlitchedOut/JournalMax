@@ -54,14 +54,14 @@ Future<dynamic> viewPageContentDialog(
                   Navigator.of(context).pop();
                 },
                 text: "OK",
-                isForDelete: false,
+                isForDeleteOrCancel: false,
                 colors: colors),
             actionButton(
                 onclick: () {
                   Navigator.of(context).pop();
                 },
                 text: "Done",
-                isForDelete: false,
+                isForDeleteOrCancel: false,
                 colors: colors)
           ],
         );

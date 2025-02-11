@@ -29,3 +29,4 @@
 29. Fix the bug where theme is not correctly loaded upon the app's first launch.
 30. Implementation of importing the exported database
 31. At the end, make it production ready by removing all the print statements and debugging stuff
+32. **DONE** Try to convert all the helper methods to widgets for potential optimizations and better code quality

@@ -28,14 +28,14 @@ Future<void> XExitDialog(BuildContext context) {
                   SystemNavigator.pop();
                 },
                 text: "OK",
-                isForDelete: false,
+                isForDeleteOrCancel: false,
                 colors: colors),
             actionButton(
                 onclick: () {
                   Navigator.of(context).pop();
                 },
                 text: "Cancel",
-                isForDelete: false,
+                isForDeleteOrCancel: false,
                 colors: colors)
           ],
         );

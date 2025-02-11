@@ -39,14 +39,14 @@ Future<void> wipeEntriesDialog(BuildContext context, ColorScheme colors) {
                   Navigator.of(context).pop();
                 },
                 text: "Yes",
-                isForDelete: true,
+                isForDeleteOrCancel: true,
                 colors: colors),
             actionButton(
                 onclick: () {
                   Navigator.of(context).pop();
                 },
                 text: "Cancel",
-                isForDelete: false,
+                isForDeleteOrCancel: false,
                 colors: colors)
           ],
         );

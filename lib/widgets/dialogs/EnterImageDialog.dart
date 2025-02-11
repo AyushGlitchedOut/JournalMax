@@ -62,6 +62,7 @@ class _EnterImageDialogState extends State<EnterImageDialog> {
   @override
   Widget build(BuildContext context) {
     ColorScheme colors = Theme.of(context).colorScheme;
+    final Size size = MediaQuery.of(context).size;
     return Dialog(
       insetPadding: const EdgeInsets.all(0.0),
       elevation: 5.0,
@@ -70,8 +71,8 @@ class _EnterImageDialogState extends State<EnterImageDialog> {
           side: BorderSide(width: 2.0, color: colors.outline),
           borderRadius: BorderRadius.circular(15.0)),
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.75,
-        width: MediaQuery.of(context).size.width * 0.95,
+        height: size.height * 0.75,
+        width: size.width * 0.95,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -87,14 +88,31 @@ class _EnterImageDialogState extends State<EnterImageDialog> {
             ImageViewer(
               images: images,
             ),
-            dialogActions(colors, context)
+            ImageDialogActions(
+                colors: colors,
+                getImages: addImages,
+                imageReporter: () {
+                  widget.reportImages(images);
+                })
           ],
         ),
       ),
     );
   }
+}
 
-  Padding dialogActions(ColorScheme colors, BuildContext context) {
+class ImageDialogActions extends StatelessWidget {
+  final ColorScheme colors;
+  final Future<void> Function() getImages;
+  final void Function() imageReporter;
+  const ImageDialogActions(
+      {super.key,
+      required this.colors,
+      required this.getImages,
+      required this.imageReporter});
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15.0, right: 15.0),
       child: Row(
@@ -102,10 +120,10 @@ class _EnterImageDialogState extends State<EnterImageDialog> {
         children: [
           actionButton(
               onclick: () {
-                addImages();
+                getImages();
               },
               text: "Add more",
-              isForDelete: false,
+              isForDeleteOrCancel: false,
               colors: colors),
           const SizedBox(
             width: 15.0,
@@ -113,14 +131,14 @@ class _EnterImageDialogState extends State<EnterImageDialog> {
           actionButton(
               onclick: () async {
                 try {
-                  widget.reportImages(images);
+                  imageReporter();
                 } catch (e) {
                   showSnackBar(e.toString(), context);
                 }
                 Navigator.of(context).pop();
               },
               text: "Done",
-              isForDelete: false,
+              isForDeleteOrCancel: false,
               colors: colors)
         ],
       ),

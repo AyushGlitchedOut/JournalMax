@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:journalmax/pages/ViewerPage.dart';
+import 'package:journalmax/services/CleanCache.dart';
 import 'package:journalmax/themes/ThemeProvider.dart';
 import 'package:journalmax/widgets/ContentBox.dart';
 import 'package:journalmax/widgets/XAppBar.dart';
@@ -89,6 +90,11 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      try {
+        clearCache();
+      } catch (e) {
+        showSnackBar(e.toString(), context);
+      }
       loadTheme(context);
       awaitRecentEntries();
     });

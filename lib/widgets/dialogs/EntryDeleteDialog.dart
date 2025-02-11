@@ -41,7 +41,7 @@ Future<dynamic> deleteDialog(
                       renderParent();
                     },
                     text: "Yes",
-                    isForDelete: true,
+                    isForDeleteOrCancel: true,
                     colors: colors),
                 const SizedBox(
                   width: 10.0,
@@ -51,7 +51,7 @@ Future<dynamic> deleteDialog(
                       Navigator.of(context).pop();
                     },
                     text: "No",
-                    isForDelete: false,
+                    isForDeleteOrCancel: false,
                     colors: colors)
               ],
             )),

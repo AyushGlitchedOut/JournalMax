@@ -33,7 +33,7 @@ import 'package:path_provider/path_provider.dart';
 //TODO: make both of them streams of double that return the work percentage completed
 //(files imported exported in total) to show in the dialogs
 //
-Future<void> importDataFromFolder(BuildContext context) async {
+Stream<int> importDataFromFolder(BuildContext context) async* {
   try {
     final FilePicker filepicker = FilePickerIO();
     final String? selectedFolder = await filepicker.getDirectoryPath();
@@ -42,8 +42,10 @@ Future<void> importDataFromFolder(BuildContext context) async {
       return;
     }
     print(selectedFolder);
+    yield 100;
   } on Exception {
-    throw Exception("Couldn't import Files Succesfully");
+    showSnackBar("Couldn't import files successfullyy", context);
+    yield -1;
   }
 }
 

@@ -28,6 +28,7 @@ class _AudioPlayInEditModeDialogState extends State<AudioPlayInEditModeDialog> {
   @override
   Widget build(BuildContext context) {
     ColorScheme colors = Theme.of(context).colorScheme;
+    final Size size = MediaQuery.of(context).size;
     return Dialog(
       insetPadding: const EdgeInsets.all(0.0),
       elevation: 5.0,
@@ -36,8 +37,8 @@ class _AudioPlayInEditModeDialogState extends State<AudioPlayInEditModeDialog> {
           side: BorderSide(width: 2.0, color: colors.outline),
           borderRadius: BorderRadius.circular(15.0)),
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.6,
-        width: MediaQuery.of(context).size.width * 0.95,
+        height: size.height * 0.6,
+        width: size.width * 0.95,
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
@@ -52,16 +53,30 @@ class _AudioPlayInEditModeDialogState extends State<AudioPlayInEditModeDialog> {
               AudioPlayInEditDialogBody(
                 contentId: widget.contentId,
               ),
-              audioPlayInEditModeDialogActions(context, colors)
+              AudioPlayInEditModeDialogActions(
+                  widget: widget, context: context, colors: colors)
             ],
           ),
         ),
       ),
     );
   }
+}
 
-  Padding audioPlayInEditModeDialogActions(
-      BuildContext context, ColorScheme colors) {
+class AudioPlayInEditModeDialogActions extends StatelessWidget {
+  const AudioPlayInEditModeDialogActions({
+    super.key,
+    required this.widget,
+    required this.context,
+    required this.colors,
+  });
+
+  final AudioPlayInEditModeDialog widget;
+  final BuildContext context;
+  final ColorScheme colors;
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15.0, right: 10.0),
       child: Row(
@@ -79,7 +94,7 @@ class _AudioPlayInEditModeDialogState extends State<AudioPlayInEditModeDialog> {
                     });
               },
               text: "Record Again",
-              isForDelete: false,
+              isForDeleteOrCancel: false,
               colors: colors),
           const SizedBox(
             width: 15.0,
@@ -89,7 +104,7 @@ class _AudioPlayInEditModeDialogState extends State<AudioPlayInEditModeDialog> {
                 Navigator.pop(context);
               },
               text: "Done",
-              isForDelete: false,
+              isForDeleteOrCancel: false,
               colors: colors)
         ],
       ),

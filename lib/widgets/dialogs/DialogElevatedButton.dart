@@ -3,7 +3,7 @@ import "package:flutter/material.dart";
 ElevatedButton actionButton(
     {required dynamic onclick,
     required String text,
-    required bool isForDelete,
+    required bool isForDeleteOrCancel,
     required ColorScheme colors}) {
   return ElevatedButton(
     onPressed: onclick,
@@ -17,7 +17,7 @@ ElevatedButton actionButton(
     child: Text(
       text,
       style: TextStyle(
-          color: isForDelete ? Colors.red[900] : colors.primary,
+          color: isForDeleteOrCancel ? Colors.red[900] : colors.primary,
           fontWeight: FontWeight.bold),
     ),
   );

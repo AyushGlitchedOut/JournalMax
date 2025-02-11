@@ -70,7 +70,7 @@ class _MoodChangeDialogState extends State<MoodChangeDialog> {
                   Navigator.pop(context);
                 },
                 text: "OK",
-                isForDelete: false,
+                isForDeleteOrCancel: false,
                 colors: colors)
           ])
         ]);

@@ -27,6 +27,7 @@ class _AudioRecordDialogState extends State<AudioRecordDialog> {
   @override
   Widget build(BuildContext context) {
     ColorScheme colors = Theme.of(context).colorScheme;
+    final Size size = MediaQuery.of(context).size;
     return Dialog(
       insetPadding: const EdgeInsets.all(0.0),
       elevation: 5.0,
@@ -35,8 +36,8 @@ class _AudioRecordDialogState extends State<AudioRecordDialog> {
           side: BorderSide(width: 2.0, color: colors.outline),
           borderRadius: BorderRadius.circular(15.0)),
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.6,
-        width: MediaQuery.of(context).size.width * 0.95,
+        height: size.height * 0.6,
+        width: size.width * 0.95,
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
@@ -50,17 +51,35 @@ class _AudioRecordDialogState extends State<AudioRecordDialog> {
               AudioRecorderBody(
                 setTempAudioFilePath: setTempAudioFilePath,
               ),
-              audioRecorderActions(
-                colors: colors,
-              )
+              AudioRecorderActions(
+                  context: context,
+                  tempAudioFilePath: tempAudioFilePath,
+                  widget: widget,
+                  colors: colors)
             ],
           ),
         ),
       ),
     );
   }
+}
 
-  Padding audioRecorderActions({required ColorScheme colors}) {
+class AudioRecorderActions extends StatelessWidget {
+  const AudioRecorderActions({
+    super.key,
+    required this.context,
+    required this.tempAudioFilePath,
+    required this.widget,
+    required this.colors,
+  });
+
+  final BuildContext context;
+  final String tempAudioFilePath;
+  final AudioRecordDialog widget;
+  final ColorScheme colors;
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.only(bottom: 15.0, right: 15.0),
         child: Row(
@@ -71,7 +90,7 @@ class _AudioRecordDialogState extends State<AudioRecordDialog> {
                   Navigator.pop(context);
                 },
                 text: "Cancel",
-                isForDelete: true,
+                isForDeleteOrCancel: true,
                 colors: colors),
             const SizedBox(
               width: 15.0,
@@ -85,7 +104,7 @@ class _AudioRecordDialogState extends State<AudioRecordDialog> {
                   Navigator.pop(context);
                 },
                 text: "Done",
-                isForDelete: false,
+                isForDeleteOrCancel: false,
                 colors: colors)
           ],
         ));
