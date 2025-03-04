@@ -12,7 +12,7 @@ import 'package:journalmax/widgets/XIconLabelButton.dart';
 import 'package:journalmax/widgets/XLabel.dart';
 import 'package:journalmax/widgets/XProgress.dart';
 import 'package:journalmax/widgets/XSnackBar.dart';
-import 'package:journalmax/services/CRUD_Entry.dart';
+import 'package:journalmax/services/DataBaseService.dart';
 import 'package:journalmax/services/RecentEntries.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

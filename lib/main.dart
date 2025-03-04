@@ -40,8 +40,9 @@ class App extends StatelessWidget {
 }
 
 //Main function
-void main() {
-  clearCache();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await clearCache();
   runApp(ChangeNotifierProvider(
     create: (context) => Themeprovider(),
     child: App(),

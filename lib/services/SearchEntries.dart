@@ -1,6 +1,6 @@
 import 'package:journalmax/widgets/XEntryItem.dart';
 import 'package:journalmax/models/EntryModel.dart';
-import 'package:journalmax/services/CRUD_Entry.dart';
+import 'package:journalmax/services/DataBaseService.dart';
 
 Future<List<XEntryItem>> searchEntries(
     String query, dynamic renderParent) async {

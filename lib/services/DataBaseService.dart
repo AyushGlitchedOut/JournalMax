@@ -168,3 +168,14 @@ Future<void> wipeOrdeleteAllEntry() async {
     throw Exception("Error wiping the Database");
   }
 }
+
+//Miscellanous
+Future<int> getNumberOfEntries() async {
+  try {
+    final db = await Initdatabase().database;
+    final result = await db.rawQuery('SELECT COUNT(*) AS count FROM items');
+    return result.isNotEmpty ? result.first["count"] as int : 0;
+  } on Exception {
+    return 0;
+  }
+}

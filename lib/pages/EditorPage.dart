@@ -13,7 +13,7 @@ import 'package:journalmax/widgets/XIconLabelButton.dart';
 import 'package:journalmax/widgets/XProgress.dart';
 import 'package:journalmax/widgets/XSnackBar.dart';
 import 'package:journalmax/models/EntryModel.dart';
-import 'package:journalmax/services/CRUD_Entry.dart';
+import 'package:journalmax/services/DataBaseService.dart';
 import 'package:journalmax/services/InsertEntry.dart';
 
 // ignore: must_be_immutable

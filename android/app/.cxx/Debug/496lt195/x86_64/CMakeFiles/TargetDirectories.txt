@@ -1,0 +1,2 @@
+/home/ayush-gupta/dev/JournalMax/android/app/.cxx/Debug/496lt195/x86_64/CMakeFiles/edit_cache.dir
+/home/ayush-gupta/dev/JournalMax/android/app/.cxx/Debug/496lt195/x86_64/CMakeFiles/rebuild_cache.dir

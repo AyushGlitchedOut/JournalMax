@@ -23,20 +23,15 @@
 //
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:journalmax/services/CRUD_Entry.dart';
+import 'package:journalmax/services/DataBaseService.dart';
 import 'package:journalmax/widgets/XSnackBar.dart';
 import 'package:path_provider/path_provider.dart';
 
-//TODO: make both of them streams of double that return the work percentage completed
 //(files imported exported in total) to show in the dialogs
-//
-Stream<int> importDataFromFolder(BuildContext context) async* {
+Stream<int> importDataFromFolder(
+    BuildContext context, String? selectedFolder) async* {
   try {
-    final FilePicker filepicker = FilePickerIO();
-    final String? selectedFolder = await filepicker.getDirectoryPath();
     if (selectedFolder.toString() == "null") {
       showSnackBar("No folder Selected", context);
       return;
@@ -71,9 +66,15 @@ Stream<int> exportDataToFolder(BuildContext context) async* {
         "${downloadsDirectory.path}/JournalMax_Export_${DateTime.now().millisecondsSinceEpoch}");
     saveLocation.create();
     yield 5;
-    await copyDirectory(recordingStorage, saveLocation);
+    if (recordingStorage.existsSync()) {
+      await copyDirectory(
+          recordingStorage, Directory("${saveLocation.path}/Recordings"));
+    }
     yield 25;
-    await copyDirectory(imageStorage, saveLocation);
+    if (imageStorage.existsSync()) {
+      await copyDirectory(
+          imageStorage, Directory("${saveLocation.path}/Images"));
+    }
     yield 50;
 
     final List<Map<String, Object?>> databaseEntries = await getAllEntry();
@@ -87,11 +88,13 @@ Stream<int> exportDataToFolder(BuildContext context) async* {
 
     //json Encode
     final dataToSave = jsonEncode(processedDatabaseEntries);
+    print(dataToSave);
     final File databaseJSON = File("${saveLocation.path}/database.json");
-    await databaseJSON.create();
+    print(await databaseJSON.create());
     yield 85;
 
     await databaseJSON.writeAsString(dataToSave);
+    print(databaseJSON.readAsLinesSync());
     yield 100;
   } on Exception {
     showSnackBar("Something Went Wrong!", context);

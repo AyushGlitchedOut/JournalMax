@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:journalmax/widgets/XAppBar.dart';
 import 'package:journalmax/widgets/XDrawer.dart';
 import 'package:journalmax/models/EntryModel.dart';
-import 'package:journalmax/services/CRUD_Entry.dart';
+import 'package:journalmax/services/DataBaseService.dart';
 import 'package:path_provider/path_provider.dart';
 
 class TestPage extends StatelessWidget {

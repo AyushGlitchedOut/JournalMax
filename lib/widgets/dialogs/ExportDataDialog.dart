@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:journalmax/services/DataBaseService.dart';
+import 'package:journalmax/services/DataImportExportService.dart';
+import 'package:journalmax/widgets/XIconLabelButton.dart';
 import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
 
 class ExportDataDialog extends StatefulWidget {
@@ -86,13 +89,88 @@ class ExportDataDialogActions extends StatelessWidget {
   }
 }
 
-class ExportDataDialogBody extends StatelessWidget {
+class ExportDataDialogBody extends StatefulWidget {
   const ExportDataDialogBody({
     super.key,
   });
 
   @override
+  State<ExportDataDialogBody> createState() => _ExportDataDialogBodyState();
+}
+
+class _ExportDataDialogBodyState extends State<ExportDataDialogBody> {
+  Future<void> setNumberOfEntries() async {
+    noOfEntries = await getNumberOfEntries();
+    setState(() {});
+  }
+
+  int noOfEntries = 0;
+  Stream<int>? exportStream;
+  bool exportCompleted = false;
+
+  void exportData() {
+    if (exportCompleted) return;
+    setState(() {
+      exportStream = exportDataToFolder(context);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setNumberOfEntries();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Column();
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        StreamBuilder(
+            stream: exportStream,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) if (snapshot.data! == 100) {
+                exportCompleted = true;
+              }
+              return snapshot.hasData
+                  ? Column(
+                      children: [
+                        Text(
+                          "${snapshot.data}% Complete",
+                          style: const TextStyle(
+                              fontSize: 17.0, fontWeight: FontWeight.w500),
+                        ),
+                        LinearProgressIndicator(
+                          value: snapshot.data!.toDouble() / 100,
+                          minHeight: 15.0,
+                        )
+                      ],
+                    )
+                  : const Column(
+                      children: [
+                        Text(
+                          "Click the Button To Begin Export",
+                          style: TextStyle(
+                              fontSize: 17.0, fontWeight: FontWeight.w500),
+                        ),
+                        LinearProgressIndicator(
+                          value: 0.0,
+                          minHeight: 15.0,
+                        )
+                      ],
+                    );
+            }),
+        const SizedBox(
+          height: 20.0,
+        ),
+        XIconLabelButton(
+          icon: Icons.upload,
+          label: "Export $noOfEntries Entries to Your Storage",
+          onclick: () => exportData(),
+          customFontSize: 14.0,
+        )
+      ],
+    );
   }
 }

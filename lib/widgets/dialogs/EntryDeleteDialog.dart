@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
-import 'package:journalmax/services/CRUD_Entry.dart';
+import 'package:journalmax/services/DataBaseService.dart';
 
 Future<dynamic> deleteDialog(
     BuildContext context, int id, dynamic renderParent) {

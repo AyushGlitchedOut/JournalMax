@@ -1,4 +1,7 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:journalmax/services/DataImportExportService.dart';
+import 'package:journalmax/widgets/XIconLabelButton.dart';
 import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
 
 class ImportDataDialog extends StatefulWidget {
@@ -86,13 +89,90 @@ class ImportDataDialogActions extends StatelessWidget {
   }
 }
 
-class ImportDataDialogBody extends StatelessWidget {
+class ImportDataDialogBody extends StatefulWidget {
   const ImportDataDialogBody({
     super.key,
   });
 
   @override
+  State<ImportDataDialogBody> createState() => _ImportDataDialogBodyState();
+}
+
+class _ImportDataDialogBodyState extends State<ImportDataDialogBody> {
+  final FilePicker filepicker = FilePickerIO();
+  String? selectedFolder = "(Not found)";
+  Stream<int>? importStream;
+  bool importCompleted = false;
+
+  void importData() {
+    if (importCompleted) return;
+    setState(() {
+      importStream = importDataFromFolder(context, selectedFolder);
+    });
+  }
+
+  Future<void> getDirectory() async {
+    selectedFolder = await filepicker.getDirectoryPath();
+
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getDirectory();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Column();
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        StreamBuilder(
+            stream: importStream,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) if (snapshot.data! == 100) {
+                importCompleted = true;
+              }
+              return snapshot.hasData
+                  ? Column(
+                      children: [
+                        Text(
+                            "Target Directory: ${selectedFolder ?? "No Folder Selected"}"),
+                        const SizedBox(height: 10.0),
+                        LinearProgressIndicator(
+                          value: snapshot.data!.toDouble() / 100,
+                          minHeight: 15.0,
+                        )
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        Text("Target Directory: $selectedFolder"),
+                        const SizedBox(height: 10.0),
+                        const LinearProgressIndicator(
+                          value: 0.0,
+                          minHeight: 15.0,
+                        )
+                      ],
+                    );
+            }),
+        const SizedBox(
+          height: 20.0,
+        ),
+        XIconLabelButton(
+          icon: Icons.download,
+          label: "Import Entries From the Folder",
+          onclick: () => importData(),
+          customFontSize: 14.0,
+        ),
+        XIconLabelButton(
+          icon: Icons.folder_copy,
+          label: "Reselect Folder",
+          onclick: () => getDirectory(),
+        )
+      ],
+    );
   }
 }
