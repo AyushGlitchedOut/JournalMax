@@ -30,4 +30,9 @@
 30. Implementation of importing the exported database
 31. At the end, make it production ready by removing all the print statements and debugging stuff
 32. **DONE** Try to convert all the helper methods to widgets for potential optimizations and better code quality
-33. Write a proper README for the project
+33. **DONE** Write a proper README for the project
+
+
+###### Things to do if you get enough time (not compulsory):
+1. Add a extra multimedia feature for spotify music linking where users can link a spotify song and it 
+2. Convert the text editor in editor page to a richText Editor
