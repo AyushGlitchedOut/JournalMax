@@ -29,7 +29,7 @@ class Initdatabase {
       if (!(await recordingStorage.exists())) await recordingStorage.create();
       if (!(await imageStorage.exists())) await imageStorage.create();
 
-      //cretae sqlite db app_database.db
+      //create sqlite db app_database.db
       final dbPath = await getDatabasesPath();
       return await openDatabase(join(dbPath, "app_database.db"), version: 1,
           onCreate: (db, version) async {

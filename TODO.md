@@ -1,4 +1,4 @@
-1. Add error handling with snackbars everywhere (Including sending reports) (Make a reusable error handling widget and put it wherever there is DB operation, api calling or something like that)
+1. Add error handling with snackbars everywhere (Make a reusable error handling widget and put it wherever there is DB operation, api calling or something like that)
 2. *** DONE *** Opening websites in the settings page for source code, author etc. (The github page for me, source code and a simple licenses page)
 . ***DONE*** Adding multimedia options (using apis and custom screens) ***Location Done*** ***Image Done*** ***Audio Recording Done***
 4. Google Drive integration (use already built export and import features)
@@ -30,3 +30,4 @@
 30. Implementation of importing the exported database
 31. At the end, make it production ready by removing all the print statements and debugging stuff
 32. **DONE** Try to convert all the helper methods to widgets for potential optimizations and better code quality
+33. Write a proper README for the project

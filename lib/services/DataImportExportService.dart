@@ -1,26 +1,3 @@
-// The concept: Whenever we export the database, we first ask the user for a new name for the folder to save
-// create the folder in Downloads folder
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -46,6 +23,8 @@ Stream<int> importDataFromFolder(
 
 Stream<int> exportDataToFolder(BuildContext context) async* {
   yield 0;
+
+  //
   //declaring all the folders
   try {
     final Directory downloadsDirectory =
@@ -61,47 +40,113 @@ Stream<int> exportDataToFolder(BuildContext context) async* {
       return;
     }
     yield 1;
+
+    //
     //create a file inside the Downloads Directory with epoch time for exporting
     final Directory saveLocation = Directory(
         "${downloadsDirectory.path}/JournalMax_Export_${DateTime.now().millisecondsSinceEpoch}");
     saveLocation.create();
     yield 5;
+
+    //copy the recordings folder with custom copy
     if (recordingStorage.existsSync()) {
       await copyDirectory(
           recordingStorage, Directory("${saveLocation.path}/Recordings"));
     }
     yield 25;
+
+    //
+    //copy the images folder with custom copy
     if (imageStorage.existsSync()) {
       await copyDirectory(
           imageStorage, Directory("${saveLocation.path}/Images"));
     }
     yield 50;
 
-    final List<Map<String, Object?>> databaseEntries = await getAllEntry();
-    // convert all the absolute file paths in database entries to just the file names
-    //like we saved in the copy Directory function like Recordings/xy_Recording.m4a or
-    // Images/69_aaaa-bbbb-cccc-dddd.jpg so that we can relatively access them when importing data back
+    //fetch all the database entries
+    List<Map<String, Object?>> databaseEntries = await getAllEntry();
+    List<Map<String, Object?>> recordingProcessedDatabaseEntries = [];
 
-    // **conversion logic**
-    final processedDatabaseEntries = databaseEntries;
+    //recording field processing
+    for (int i = 0; i < databaseEntries.length; i++) {
+      final Map<String, Object?> entry = databaseEntries[i];
+      //check if there's no audio_record saved
+      if (entry["audio_record"].toString() == "null") {
+        continue;
+      }
+
+      //split the path by "/" and get the last two elements i.e the 'Recordings' and file name
+      final recordingAddress = entry["audio_record"].toString();
+      final splitRecordingAddress = recordingAddress.split("/");
+      final processedRecordingAddress =
+          "${splitRecordingAddress[splitRecordingAddress.length - 2]}/${splitRecordingAddress.last}";
+
+      //replace the existing audio_record field data with the processed one
+
+      recordingProcessedDatabaseEntries.add({
+        "id": entry["id"],
+        "title": entry["title"],
+        "content": entry["content"],
+        "mood": entry["mood"],
+        "location": entry["location"],
+        "audio_record": processedRecordingAddress,
+        "image": entry["image"],
+        "date": entry["date"],
+      });
+    }
+    yield 62;
+
+    List<Map<String, Object?>> fullyProcessedDatabaseEntries = [];
+    for (int i = 0; i < recordingProcessedDatabaseEntries.length; i++) {
+      final entry = recordingProcessedDatabaseEntries[i];
+      //check if there's no saved imageArray
+      if (entry["image"].toString() == "null") {
+        continue;
+      }
+      //get ImagePath array from stored by decoding json
+      final List images = jsonDecode(entry["image"].toString());
+
+      //split the imagePaths and get the path in "Images/xyz.png" format
+      final List processedImages = [];
+      for (dynamic imagePath in images) {
+        final splitImagePath = imagePath.split("/");
+        final processedImagePath =
+            "${splitImagePath[splitImagePath.length - 2]}/${splitImagePath.last}";
+        processedImages.add(processedImagePath);
+      }
+
+      //add the finally processed imagePaths into the fully processed array with jsonencode
+      fullyProcessedDatabaseEntries.add({
+        "id": entry["id"],
+        "title": entry["title"],
+        "content": entry["content"],
+        "mood": entry["mood"],
+        "location": entry["location"],
+        "audio_record": entry["audio_record"],
+        "image": jsonEncode(processedImages),
+        "date": entry["date"],
+      });
+    }
+
+    yield 68;
+
+    final processedDatabaseEntries = fullyProcessedDatabaseEntries;
     yield 75;
 
     //json Encode
     final dataToSave = jsonEncode(processedDatabaseEntries);
-    print(dataToSave);
     final File databaseJSON = File("${saveLocation.path}/database.json");
-    print(await databaseJSON.create());
+    await databaseJSON.create();
     yield 85;
 
+    //write the final json Export
     await databaseJSON.writeAsString(dataToSave);
-    print(databaseJSON.readAsLinesSync());
     yield 100;
   } on Exception {
     showSnackBar("Something Went Wrong!", context);
+    print("error");
     yield -1;
   }
-
-  //copy the recordings and images folder to it
 }
 
 //custom function to copy an entire directory to a target because for some absurd
