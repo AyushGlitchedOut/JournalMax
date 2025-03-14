@@ -1,0 +1,6 @@
+# The Github Pages for JournalMax
+- This part of the project is not in flutter but in typescript and uses the nextjs framework. It is used for SSR (Static Site Generation) of the github Pages for the Project. NextJs is a bit overkill for a simple side project of this sort but I used it because its popular, easy to use and a good learning experience.
+- This page will not be very compicated, just a simple web project to deploy a website from where users can download the app for use and see how the app works.
+
+# Note for devlopers
+- The mode of the project is already set to Static Site Generation in the next.config.ts and after `next build` generates the final production code, the build command copies it to the docs folder in the project root as github cannot build pages from other than root and docs/. This folder is strictly for the code and the docs folder is not to be messed with manually, its just for deployment (unless required strictly). This entire process should be done after completing the work before commiting to the repository by the `npm run build` command.
