@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:journalmax/services/AudioService.dart';
 import 'package:journalmax/services/ImageService.dart';
+import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
 import 'package:journalmax/widgets/dialogs/MoodChangeDialogEditorPage.dart';
 import 'package:journalmax/pages/ViewerPage.dart';
 import 'package:journalmax/pages/MultimediaAddPage.dart';
@@ -193,37 +194,18 @@ class _EditorPageState extends State<EditorPage> {
           backgroundColor: colors.surface,
           body: Column(
             children: [
-              XIconLabelButton(
-                icon: Icons.mood,
-                label: "What's your current mood?",
-                customFontSize: 16.5,
-                onclick: () => showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return MoodChangeDialog(
-                      returnMood: setCurrentMoodString,
-                      currentmood: currentMood,
-                    );
-                  },
-                ),
-              ),
-              XIconLabelButton(
-                  icon: Icons.image_outlined,
-                  label: "Add Multimedia",
-                  onclick: () => Navigator.push(context,
-                          MaterialPageRoute(builder: (BuildContext context) {
-                        return MultimediaAddPage(
-                          saveLocation: getLocationFromDialog,
-                          saveImages: getImagesFromDialog,
-                          saveRecording: getAudioFilePathFromDialog,
-                          contentId: widget.updateId,
-                          alreadyHasRecording:
-                              tempRecordingFilePath.toString() != "null" &&
-                                  tempRecordingFilePath.toString() != "",
-                        );
-                      }))),
               titleBar(),
               contentBox(context),
+              XIconLabelButton(
+                icon: Icons.add_link_rounded,
+                label: "More Ways to Store Memories",
+                customFontSize: 17.0,
+                onclick: () => showDialog(
+                    context: context,
+                    builder: (context) {
+                      return memoriesTabDialog(colors, context);
+                    }),
+              ),
               XIconLabelButton(
                 icon: Icons.save_as_rounded,
                 label: "Save Entry",
@@ -245,6 +227,67 @@ class _EditorPageState extends State<EditorPage> {
                   );
                 }));
               })),
+    );
+  }
+
+//made a method instead of widget as it wont re-render many times, will only be built when the dialog is opened
+//and turning into widget would introduce unnecesary complications
+  AlertDialog memoriesTabDialog(ColorScheme colors, BuildContext context) {
+    return AlertDialog(
+      insetPadding: const EdgeInsets.symmetric(horizontal: 0.0),
+      shape: RoundedRectangleBorder(
+          side: BorderSide(width: 2.0, color: colors.outline),
+          borderRadius: BorderRadius.circular(15.0)),
+      title: const Center(
+        child: Text(
+          "More Ways to Store Memories",
+          style: TextStyle(fontSize: 25.0),
+        ),
+      ),
+      content: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.25,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            XIconLabelButton(
+              icon: Icons.mood,
+              label: "What's your current mood?",
+              customFontSize: 15.5,
+              onclick: () => showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return MoodChangeDialog(
+                    returnMood: setCurrentMoodString,
+                    currentmood: currentMood,
+                  );
+                },
+              ),
+            ),
+            XIconLabelButton(
+                icon: Icons.image_outlined,
+                label: "Add Multimedia",
+                onclick: () => Navigator.push(context,
+                        MaterialPageRoute(builder: (BuildContext context) {
+                      return MultimediaAddPage(
+                        saveLocation: getLocationFromDialog,
+                        saveImages: getImagesFromDialog,
+                        saveRecording: getAudioFilePathFromDialog,
+                        contentId: widget.updateId,
+                        alreadyHasRecording:
+                            tempRecordingFilePath.toString() != "null" &&
+                                tempRecordingFilePath.toString() != "",
+                      );
+                    }))),
+          ],
+        ),
+      ),
+      actions: [
+        actionButton(
+            onclick: () => Navigator.pop(context),
+            text: "Done",
+            isForDeleteOrCancel: false,
+            colors: colors)
+      ],
     );
   }
 

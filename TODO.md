@@ -30,7 +30,8 @@
 30. Implementation of importing the exported database
 31. At the end, make it production ready by removing all the print statements and debugging stuff
 32. **DONE** Try to convert all the helper methods to widgets for potential optimizations and better code quality
-33. Write a proper README for the project
+33. **DONE** Write a proper README for the project
+34. Make a new mood called neutral that will be the default for any new entry instead of happy and will have the default colorscheme
 
 >>Some Stuff to do after completing all these things
 1. Use a RichText field in the Editor Page

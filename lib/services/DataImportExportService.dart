@@ -45,7 +45,7 @@ Stream<int> exportDataToFolder(BuildContext context) async* {
     //create a file inside the Downloads Directory with epoch time for exporting
     final Directory saveLocation = Directory(
         "${downloadsDirectory.path}/JournalMax_Export_${DateTime.now().millisecondsSinceEpoch}");
-    saveLocation.create();
+    await saveLocation.create();
     yield 5;
 
     //copy the recordings folder with custom copy
@@ -143,8 +143,6 @@ Stream<int> exportDataToFolder(BuildContext context) async* {
     await databaseJSON.writeAsString(dataToSave);
     yield 100;
   } on Exception {
-    showSnackBar("Something Went Wrong!", context);
-    print("error");
     yield -1;
   }
 }
