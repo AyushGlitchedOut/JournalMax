@@ -81,13 +81,13 @@ class SettingsPage extends StatelessWidget {
             icon: Icons.person,
             label: "About Author",
             onclick: () =>
-                openLink("https://github.com/AyushisPro2011", context),
+                openLink("https://github.com/AyushGlitchedOut", context),
           ),
           XIconLabelButton(
             icon: Icons.code,
             label: "Source Code",
             onclick: () => openLink(
-                "https://github.com/AyushisPro2011/JournalMax", context),
+                "https://github.com/AyushGlitchedOut/JournalMax", context),
           ),
           XIconLabelButton(
             icon: Icons.download,
