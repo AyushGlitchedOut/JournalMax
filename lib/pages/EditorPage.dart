@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:journalmax/models/EntryItemMoods.dart';
 import 'package:journalmax/services/AudioService.dart';
 import 'package:journalmax/services/ImageService.dart';
 import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
@@ -32,19 +33,19 @@ class _EditorPageState extends State<EditorPage> {
   //Initialising variables
   final TextEditingController _contentController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
-  String currentMood = "Happy";
+  String currentMood = "Neutral";
   String location = "Not Entered";
   bool isLoading = false;
   List<File>? tempImages;
   String? tempRecordingFilePath;
 
-  Map<String, dynamic> moods = EntryItemMoods.happy;
+  Map<String, dynamic> moods = EntryItemMoods.neutral;
 
   //CREATE
   Future<void> createEntry() async {
     try {
-      await insertEntry(
-          "Untitled", "", "Happy", DateTime.now().toString(), null, null, null);
+      await insertEntry("Untitled", "", "Neutral", DateTime.now().toString(),
+          null, null, null);
     } catch (e) {
       showSnackBar(e.toString(), context);
     }
@@ -75,7 +76,7 @@ class _EditorPageState extends State<EditorPage> {
       setState(() {
         _titleController.text = entryDetails["title"] ?? "Untitled";
         _contentController.text = entryDetails["content"] ?? "";
-        currentMood = entryDetails["mood"] ?? "Happy";
+        currentMood = entryDetails["mood"] ?? "Neutral";
         moods = EntryItemMoods.nameToColor(currentMood);
         location = entryDetails["location"] ?? "Not Given";
         tempImages = imagesFromPaths;

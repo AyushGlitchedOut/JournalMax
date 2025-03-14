@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:journalmax/models/EntryItemMoods.dart';
 import 'package:journalmax/widgets/dialogs/ViewPageContentDialog.dart';
 import 'package:journalmax/pages/EditorPage.dart';
 import 'package:journalmax/widgets/XAppBar.dart';
@@ -8,7 +9,6 @@ import 'package:journalmax/widgets/XFloatingButton.dart';
 import 'package:journalmax/widgets/XIconLabelButton.dart';
 import 'package:journalmax/widgets/XProgress.dart';
 import 'package:journalmax/widgets/XSnackBar.dart';
-import 'package:journalmax/models/EntryModel.dart';
 import 'package:journalmax/services/DataBaseService.dart';
 
 // ignore: must_be_immutable

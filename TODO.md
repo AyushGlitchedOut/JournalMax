@@ -11,7 +11,7 @@
 12. **DONE** Make improvements in color schemes (if possible)
 13. **DONE** Add the AppIcon in the App Drawer
 14. **DONE** Add a gradient background to the Drawer
-15. Export the DataBase as a folder in downloads folder
+15. **DONE** Export the DataBase as a folder in downloads folder
 16. **DONE** Make the snackBar fade In and Out
 17. **DONE** Update everything to a single naming convention, preferabbly to lowerCamelCase for consistency
 18. **DONE** Consistency in font sizes and border-radius, color etc. for interface
@@ -31,7 +31,7 @@
 31. At the end, make it production ready by removing all the print statements and debugging stuff
 32. **DONE** Try to convert all the helper methods to widgets for potential optimizations and better code quality
 33. **DONE** Write a proper README for the project
-34. Make a new mood called neutral that will be the default for any new entry instead of happy and will have the default colorscheme
+34. **DONE** Make a new mood called neutral that will be the default for any new entry instead of happy and will have the default colorscheme
 
 >>Some Stuff to do after completing all these things
 1. Use a RichText field in the Editor Page

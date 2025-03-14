@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:journalmax/models/EntryItemMoods.dart';
 import 'package:journalmax/widgets/XEntryItem.dart';
-import 'package:journalmax/models/EntryModel.dart';
 import 'package:journalmax/services/DataBaseService.dart';
 
 Future<List<Widget>> getCollection(void Function() renderParent) async {
