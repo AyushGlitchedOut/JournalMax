@@ -35,8 +35,8 @@ Future<dynamic> deleteDialog(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 actionButton(
-                    onclick: () {
-                      deleteEntry(id);
+                    onclick: () async {
+                      await deleteEntry(id);
                       Navigator.of(context).pop();
                       renderParent();
                     },

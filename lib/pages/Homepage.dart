@@ -119,7 +119,10 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           const XLabel(label: "Recent Entries"),
-          recentEntriesBox(colors),
+          RecentEntriesBox(
+              isLoading: isLoading,
+              recentEntries: recentEntries,
+              colors: colors),
           const XLabel(label: "Options"),
           XIconLabelButton(
             icon: Icons.auto_awesome_sharp,
@@ -145,8 +148,22 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
 
-  Expanded recentEntriesBox(ColorScheme colors) {
+class RecentEntriesBox extends StatelessWidget {
+  const RecentEntriesBox({
+    super.key,
+    required this.isLoading,
+    required this.recentEntries,
+    required this.colors,
+  });
+
+  final bool isLoading;
+  final List<XEntryItem> recentEntries;
+  final ColorScheme colors;
+
+  @override
+  Widget build(BuildContext context) {
     return Expanded(
         child: contentBox(
             child: isLoading
