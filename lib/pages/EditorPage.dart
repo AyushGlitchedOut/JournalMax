@@ -180,10 +180,9 @@ class _EditorPageState extends State<EditorPage> {
     final ColorScheme colors = Theme.of(context).colorScheme;
 
     return PopScope(
-      canPop: false,
+      canPop: true,
       onPopInvokedWithResult: (didPop, result) async {
         await callUpdateEntry();
-        Navigator.pop(context);
       },
       child: Scaffold(
           resizeToAvoidBottomInset: false,

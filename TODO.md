@@ -20,7 +20,7 @@
 21. **DONE** Wipe and delete images upon wiping and deleting entries corresponding to them
 22. **DONE** Move SaveImagesToFile into editor page upon saving the entry for security reasons
 22. Ability to view all the entry data inlcluding multimedia in ViewerPage
-23. Change Navigation to be better and fix the autosave bug where the returned to page doesnt re-render unless explicitly told from editor page
+23. **DONE** Change Navigation to be better and fix the autosave bug where the returned to page doesnt re-render unless explicitly told from editor page
 24. **DONE** A bug where a entry needs to be deleted two times for the parent widget to display the corrected list
 25. **Done**  Put subtle onclick animations on all buttons and interactables
 26. **DONE** To Delete all the temproray files stored in cache by the apis to save memeory

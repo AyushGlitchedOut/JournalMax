@@ -82,7 +82,7 @@ class _ViewerPageState extends State<ViewerPage> {
       body: Column(
         children: [
           titleBar(context, colors),
-          contentBar(context, colors),
+          contentBox(context, colors),
           XIconLabelButton(
             icon: Icons.collections,
             label: "View memories in the Entry",
@@ -106,7 +106,7 @@ class _ViewerPageState extends State<ViewerPage> {
     );
   }
 
-  Expanded contentBar(BuildContext context, ColorScheme colors) {
+  Expanded contentBox(BuildContext context, ColorScheme colors) {
     return Expanded(
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -153,7 +153,7 @@ class _ViewerPageState extends State<ViewerPage> {
             borderRadius: BorderRadius.circular(0)),
         padding: const EdgeInsets.all(5.0),
         margin: const EdgeInsets.all(2.0),
-        child: Text(
+        child: SelectableText(
           content!["title"].toString(),
           style: TextStyle(
               color: mood["text"],

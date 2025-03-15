@@ -28,7 +28,7 @@ Future<void> XExitDialog(BuildContext context) {
                   SystemNavigator.pop();
                 },
                 text: "OK",
-                isForDeleteOrCancel: false,
+                isForDeleteOrCancel: true,
                 colors: colors),
             actionButton(
                 onclick: () {

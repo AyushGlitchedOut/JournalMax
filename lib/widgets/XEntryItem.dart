@@ -29,14 +29,17 @@ class XEntryItem extends StatelessWidget {
       onLongPressStart: (LongPressStartDetails details) {
         deleteDialog(context, id, renderParent);
       },
-      onTap: () {
-        Navigator.push(
+      onTap: () async {
+        await Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (BuildContext context) => EditorPage(
                       createNewEntry: false,
                       updateId: id,
                     )));
+        print("LOL");
+        await Future.delayed(const Duration(milliseconds: 500));
+        renderParent();
       },
       child: Container(
         width: MediaQuery.sizeOf(context).width,
