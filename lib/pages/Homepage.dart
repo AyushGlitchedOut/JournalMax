@@ -161,8 +161,7 @@ class _HomePageState extends State<HomePage> {
                     : ListView.builder(
                         itemCount: recentEntries.length,
                         itemBuilder: (BuildContext context, int itemIndex) {
-                          return recentEntries[
-                              (recentEntries.length - 1) - itemIndex];
+                          return recentEntries[itemIndex];
                         }),
             colors: colors));
   }

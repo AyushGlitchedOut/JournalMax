@@ -7,7 +7,7 @@ Future<List<XEntryItem>> loadRecentEntries(void Function() renderParent) async {
   try {
     const Map<String, Color> Function(String query) NameToColor =
         EntryItemMoods.nameToColor;
-    final Entries = await getRecentEntries();
+    final Entries = (await getRecentEntries());
     final List<XEntryItem> ResultArray = [];
     for (var i in Entries) {
       ResultArray.add(XEntryItem(

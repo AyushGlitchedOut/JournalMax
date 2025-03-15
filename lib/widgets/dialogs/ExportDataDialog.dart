@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:journalmax/services/DataBaseService.dart';
 import 'package:journalmax/services/DataImportExportService.dart';
 import 'package:journalmax/widgets/XIconLabelButton.dart';
-import 'package:journalmax/widgets/XSnackBar.dart';
 import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
 
 class ExportDataDialog extends StatefulWidget {
@@ -131,9 +130,6 @@ class _ExportDataDialogBodyState extends State<ExportDataDialogBody> {
         StreamBuilder(
             stream: exportStream,
             builder: (context, snapshot) {
-              if (snapshot.hasData && snapshot.data! == -1) {
-                showSnackBar("Export Not Successfull", context);
-              }
               if (snapshot.hasData && snapshot.data! == 100) {
                 exportCompleted = true;
               }

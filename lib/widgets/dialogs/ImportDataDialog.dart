@@ -132,7 +132,7 @@ class _ImportDataDialogBodyState extends State<ImportDataDialogBody> {
         StreamBuilder(
             stream: importStream,
             builder: (context, snapshot) {
-              if (snapshot.hasData) if (snapshot.data! == 100) {
+              if (snapshot.hasData && snapshot.data! == 100) {
                 importCompleted = true;
               }
               return snapshot.hasData
@@ -170,7 +170,12 @@ class _ImportDataDialogBodyState extends State<ImportDataDialogBody> {
         XIconLabelButton(
           icon: Icons.folder_copy,
           label: "Reselect Folder",
-          onclick: () => getDirectory(),
+          onclick: () async {
+            await getDirectory();
+            importStream = null;
+            importCompleted = false;
+            setState(() {});
+          },
         )
       ],
     );

@@ -65,7 +65,7 @@ Future<List<Map<String, dynamic>>> getRecentEntries() async {
     final db = await Initdatabase().database;
     return await db.query(
       'items',
-      orderBy: 'date DESC',
+      orderBy: 'id DESC',
       limit: 10,
     );
   } on Exception {

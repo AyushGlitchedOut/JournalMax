@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:journalmax/services/DataBaseService.dart';
+import 'package:journalmax/services/InsertEntry.dart';
 import 'package:journalmax/widgets/XSnackBar.dart';
 import 'package:path_provider/path_provider.dart';
 
-//(files imported exported in total) to show in the dialogs
 Stream<int> importDataFromFolder(
     BuildContext context, String? selectedFolder) async* {
   try {
@@ -13,10 +13,38 @@ Stream<int> importDataFromFolder(
       showSnackBar("No folder Selected", context);
       return;
     }
-    print(selectedFolder);
+    yield 1;
+
+    // jsondecode the data from stored database.json
+    final Directory importDirectory = Directory(selectedFolder!);
+    final File storedJSONDb = File("${importDirectory.path}/database.json");
+    if (!(await storedJSONDb.exists())) {
+      showSnackBar("Invalid import folder", context);
+      yield -1;
+      return;
+    }
+    final String JSONDbData = await storedJSONDb.readAsString();
+    final List<dynamic> decodedEntries = jsonDecode(JSONDbData);
+    yield 25;
+
+    //the main logic for inserting each individual entry
+    for (int i = 0; i < decodedEntries.length; i++) {
+      final entry = decodedEntries[i];
+      await insertEntry(
+          entry["title"],
+          entry["content"],
+          entry["mood"],
+          entry["date"],
+          entry["location"],
+          entry["audio_record"],
+          entry["image"]);
+      final insertedEntryId = (await getRecentEntries()).last["id"];
+      print(insertedEntryId);
+    }
+    yield 75;
     yield 100;
   } on Exception {
-    showSnackBar("Couldn't import files successfullyy", context);
+    showSnackBar("Import Failed", context);
     yield -1;
   }
 }
@@ -143,6 +171,7 @@ Stream<int> exportDataToFolder(BuildContext context) async* {
     await databaseJSON.writeAsString(dataToSave);
     yield 100;
   } on Exception {
+    showSnackBar("Export Failed", context);
     yield -1;
   }
 }

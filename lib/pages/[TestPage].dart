@@ -104,6 +104,14 @@ class TestPage extends StatelessWidget {
                     .readAsBytesSync());
               },
               child: const Text("See cache")),
+          ElevatedButton(
+              onPressed: () async {
+                final result = await getRecentEntries();
+                for (dynamic entry in result) {
+                  print(entry);
+                }
+              },
+              child: const Text("Recent Entries"))
         ],
       ),
     );

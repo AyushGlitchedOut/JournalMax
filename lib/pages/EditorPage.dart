@@ -93,8 +93,9 @@ class _EditorPageState extends State<EditorPage> {
       final int id;
       final entries = await getRecentEntries();
 
-      id =
-          widget.createNewEntry ?? true ? entries.last["id"] : widget.updateId!;
+      id = widget.createNewEntry ?? true
+          ? entries.first["id"]
+          : widget.updateId!;
       final storedImagesPathsJSON = await writeTempImagesToFile(
           tempImages: tempImages ?? [], entryId: id);
       final savedAudioFilePath = await saveTempAudioToFile(
@@ -122,7 +123,7 @@ class _EditorPageState extends State<EditorPage> {
         return;
       }
       final result = await getRecentEntries();
-      widget.updateId = result.last["id"];
+      widget.updateId = result.first["id"];
       return;
     } catch (e) {
       showSnackBar(e.toString(), context);
