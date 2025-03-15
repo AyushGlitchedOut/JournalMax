@@ -5,6 +5,7 @@ import 'package:journalmax/services/DataBaseService.dart';
 import 'package:journalmax/widgets/XSnackBar.dart';
 import 'package:journalmax/widgets/dialogs/AudioRecordDialog.dart';
 import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
+import 'package:logger/logger.dart';
 
 class AudioPlayInEditModeDialog extends StatefulWidget {
   final int contentId;
@@ -122,7 +123,7 @@ class AudioPlayInEditDialogBody extends StatefulWidget {
 }
 
 class _AudioPlayInEditDialogBodyState extends State<AudioPlayInEditDialogBody> {
-  final FlutterSoundPlayer _player = FlutterSoundPlayer();
+  final FlutterSoundPlayer _player = FlutterSoundPlayer(logLevel: Level.error);
   File? audioFile;
 
   Future<void> getAudioFromId() async {

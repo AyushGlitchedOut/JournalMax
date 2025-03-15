@@ -27,7 +27,7 @@
 27. Create a landing page for the project with screenshots, download options , and information on the github pages
 28. Put limits on textfields, number of images, recording length, etc.
 29. Fix the bug where theme is not correctly loaded upon the app's first launch.
-30. Implementation of importing the exported database
+30. **DONE** Implementation of importing the exported database
 31. At the end, make it production ready by removing all the print statements and debugging stuff
 32. **DONE** Try to convert all the helper methods to widgets for potential optimizations and better code quality
 33. **DONE** Write a proper README for the project

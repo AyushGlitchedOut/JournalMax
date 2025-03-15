@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:journalmax/models/EntryModel.dart';
+import 'package:journalmax/services/AudioService.dart';
 import 'package:journalmax/services/DataBaseService.dart';
+import 'package:journalmax/services/ImageService.dart';
 import 'package:journalmax/services/InsertEntry.dart';
 import 'package:journalmax/widgets/XSnackBar.dart';
 import 'package:path_provider/path_provider.dart';
@@ -29,6 +32,11 @@ Stream<int> importDataFromFolder(
 
     //the main logic for inserting each individual entry
     for (int i = 0; i < decodedEntries.length; i++) {
+      //yield 50% if half the entries are imported
+      if (i > decodedEntries.length / 2) {
+        yield 50;
+      }
+      //create a new entry with the data from the imported entry
       final entry = decodedEntries[i];
       await insertEntry(
           entry["title"],
@@ -38,9 +46,41 @@ Stream<int> importDataFromFolder(
           entry["location"],
           entry["audio_record"],
           entry["image"]);
-      final insertedEntryId = (await getRecentEntries()).last["id"];
+
+      //get the entry of the newly created entry
+      final insertedEntryId = (await getRecentEntries()).first["id"];
       print(insertedEntryId);
+
+      //insert a recording using the recordingService on the id of the newly created entry
+      final String recordingPath =
+          "${importDirectory.path}/${entry["audio_record"]}";
+      final savedRecordingPath = await saveTempAudioToFile(
+          tempAudioFile: recordingPath, entryId: insertedEntryId);
+
+      //insert the images using imageService on the id of the newly created entry
+      final List imagePaths = jsonDecode(entry["image"]);
+      List<File> imageFilesToStore = [];
+      for (final imagePath in imagePaths) {
+        final actualImagePath = "${importDirectory.path}/$imagePath";
+        imageFilesToStore.add(File(actualImagePath));
+      }
+      final savedImagePaths = await writeTempImagesToFile(
+          tempImages: imageFilesToStore, entryId: insertedEntryId);
+
+      //update the newly created entry with the new paths to the imported recording and image files
+      updateEntry(
+          insertedEntryId,
+          Entry(
+              title: entry["title"],
+              content: entry["content"],
+              mood: entry["mood"],
+              date: entry["date"],
+              image: savedImagePaths,
+              location: entry["location"],
+              audioRecord: savedRecordingPath));
+      //
     }
+    //complete the stream
     yield 75;
     yield 100;
   } on Exception {
