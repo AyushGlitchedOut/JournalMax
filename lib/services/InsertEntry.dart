@@ -1,6 +1,7 @@
 import 'package:journalmax/models/EntryModel.dart';
 import 'package:journalmax/services/DataBaseService.dart';
 
+//simple function for inserting entry
 Future<void> insertEntry(String title, String content, String mood, String date,
     dynamic location, dynamic audio, dynamic images) async {
   try {
@@ -13,6 +14,7 @@ Future<void> insertEntry(String title, String content, String mood, String date,
         image: images,
         date: date));
   } catch (e) {
+    //generic exception
     throw Exception(e);
   }
 }

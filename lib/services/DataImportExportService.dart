@@ -84,6 +84,7 @@ Stream<int> importDataFromFolder(
     yield 75;
     yield 100;
   } on Exception {
+    //generic exception
     showSnackBar("Import Failed", context);
     yield -1;
   }
@@ -118,8 +119,8 @@ Stream<int> exportDataToFolder(BuildContext context) async* {
 
     //copy the recordings folder with custom copy
     if (recordingStorage.existsSync()) {
-      await copyDirectory(
-          recordingStorage, Directory("${saveLocation.path}/Recordings"));
+      await copyDirectory(recordingStorage,
+          Directory("${saveLocation.path}/Recordings"), context);
     }
     yield 25;
 
@@ -127,7 +128,7 @@ Stream<int> exportDataToFolder(BuildContext context) async* {
     //copy the images folder with custom copy
     if (imageStorage.existsSync()) {
       await copyDirectory(
-          imageStorage, Directory("${saveLocation.path}/Images"));
+          imageStorage, Directory("${saveLocation.path}/Images"), context);
     }
     yield 50;
 
@@ -211,6 +212,7 @@ Stream<int> exportDataToFolder(BuildContext context) async* {
     await databaseJSON.writeAsString(dataToSave);
     yield 100;
   } on Exception {
+    //generic exception
     showSnackBar("Export Failed", context);
     yield -1;
   }
@@ -218,21 +220,32 @@ Stream<int> exportDataToFolder(BuildContext context) async* {
 
 //custom function to copy an entire directory to a target because for some absurd
 //reason dart:io doesnt support that by default
-Future<void> copyDirectory(
-    Directory orignalDirectory, Directory targetDirectory) async {
-  if (!(await orignalDirectory.exists())) {
-    throw Exception("Original File doesn't exist");
-  }
-  if (!(await targetDirectory.exists())) {
-    await targetDirectory.create(recursive: true);
-  }
-  final List<FileSystemEntity> targetDirectoryFiles =
-      await orignalDirectory.list().toList();
-  for (FileSystemEntity file in targetDirectoryFiles) {
-    if (file is File) {
-      await file.copy("${targetDirectory.path}/${file.path.split("/").last}");
-    } else if (file is Directory) {
-      continue;
+Future<void> copyDirectory(Directory orignalDirectory,
+    Directory targetDirectory, BuildContext context) async {
+  //check if the original directory exists
+  try {
+    if (!(await orignalDirectory.exists())) {
+      showSnackBar("Error accessing the folder to copy", context);
     }
+
+    //check if the target directory exists
+    if (!(await targetDirectory.exists())) {
+      await targetDirectory.create(recursive: true);
+    }
+    //make a list of all the files in original directiry
+    final List<FileSystemEntity> targetDirectoryFiles =
+        await orignalDirectory.list().toList();
+
+    //loop over the list and copy all the files individually
+    for (FileSystemEntity file in targetDirectoryFiles) {
+      if (file is File) {
+        await file.copy("${targetDirectory.path}/${file.path.split("/").last}");
+      } else if (file is Directory) {
+        continue;
+      }
+    }
+  } on Exception {
+    //generic exception
+    showSnackBar("Something Went Wrong Copying the files", context);
   }
 }

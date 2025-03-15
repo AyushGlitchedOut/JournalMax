@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
 
 Future<dynamic> viewPageContentDialog(
-    BuildContext context, ColorScheme colors) {
+    BuildContext context,
+    ColorScheme colors,
+    void Function(Widget contentWidget) contentWidgetChanger,
+    Map<String, Object?> content,
+    Map<String, Color> mood) {
   return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -26,25 +30,30 @@ Future<dynamic> viewPageContentDialog(
                 colors: colors,
                 icon: Icons.book,
                 title: "View Diary Entry",
-                onclick: () => {},
+                onclick: () {
+                  contentWidgetChanger(SelectableText(
+                    content["content"].toString(),
+                    style: TextStyle(color: mood["secondary"], fontSize: 20.0),
+                  ));
+                },
               ),
               dialogButton(
                 colors: colors,
                 icon: Icons.location_on,
                 title: "View where you were",
-                onclick: () => {},
+                onclick: () {},
               ),
               dialogButton(
                 colors: colors,
                 icon: Icons.mic,
                 title: "View Voice Notes",
-                onclick: () => {},
+                onclick: () {},
               ),
               dialogButton(
                 colors: colors,
                 icon: Icons.image,
                 title: "View Attached Images",
-                onclick: () => {},
+                onclick: () {},
               )
             ],
           ),

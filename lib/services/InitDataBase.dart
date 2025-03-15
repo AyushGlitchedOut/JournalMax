@@ -5,6 +5,8 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class Initdatabase {
+  //some magical code that makes it so the database is only generated the first time it is initialised
+  //and from the next time the already created database is used
   static final Initdatabase _instance = Initdatabase._internal();
   factory Initdatabase() => _instance;
 
@@ -39,6 +41,7 @@ class Initdatabase {
          location TEXT, audio_record TEXT, image TEXT, date TEXT NOT NULL);''');
       });
     } on Exception {
+      //generic exception
       throw Exception("Error creating DataBase: ");
     }
   }

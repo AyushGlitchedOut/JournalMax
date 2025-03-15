@@ -8,8 +8,12 @@ Future<String> writeTempImagesToFile(
   try {
     //Initialising and getting values
     const Uuid uuid = Uuid();
+
+    //get the app data directory
     final Directory applicationDataDirectory =
         await getApplicationDocumentsDirectory();
+
+    //get the images directory and check if it exists
     final Directory storage =
         Directory("${applicationDataDirectory.path}/Images");
     if (!await storage.exists()) {
@@ -19,11 +23,16 @@ Future<String> writeTempImagesToFile(
     final List<String> storedImagePaths = [];
     final String storageLocation = storage.path;
 
+    //loop over the given temporary images
     for (File file in tempImages) {
       final String randomUUID = uuid.v6();
       final String fileExtension = file.path.split(".").last;
+
+      //create a path for the final image path with image directory, entryid, uuid, and extension
       String fileSaveLocation =
           '$storageLocation/${entryId}_$randomUUID.$fileExtension';
+
+      //copy the temporary file to permanent location
       final File savedFile = await file.copy(fileSaveLocation);
       storedImagePaths.add(savedFile.path);
     }
@@ -38,8 +47,6 @@ Future<String> writeTempImagesToFile(
       }
       if (fileID == entryId.toString()) {
         await file.delete();
-      } else {
-        print("NOOOO");
       }
     }
 
@@ -48,9 +55,10 @@ Future<String> writeTempImagesToFile(
     final String storedImagePathsJSON = jsonEncode(storedImagePaths);
     return storedImagePathsJSON;
   } on MissingPlatformDirectoryException {
+    //error for folder not available
     throw Exception("Error opening storage file for the app");
   } catch (e) {
-    print(e);
+    //generic exception
     throw Exception("Error Saving Gallery Images to Storage");
   }
 }

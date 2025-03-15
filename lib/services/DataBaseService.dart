@@ -6,7 +6,12 @@ import 'package:journalmax/services/InitDataBase.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
+//all exceptions have snackbars to throw generic messages on errors
+//all platform exceptions show messages if folders arent accesible
+
 //Create
+
+//create a new entry in database based on given Entry object
 Future<void> pushEntry(Entry entry) async {
   try {
     final db = await Initdatabase().database;
@@ -29,6 +34,8 @@ Future<void> pushEntry(Entry entry) async {
 }
 
 // Read
+
+//get all the entries from the given search query
 Future<List<Map<String, Object?>>> getEntry(String query) async {
   try {
     final db = await Initdatabase().database;
@@ -40,6 +47,7 @@ Future<List<Map<String, Object?>>> getEntry(String query) async {
   }
 }
 
+//get all entries (dump the entire database)
 Future<List<Map<String, Object?>>> getAllEntry() async {
   try {
     final db = await Initdatabase().database;
@@ -50,6 +58,7 @@ Future<List<Map<String, Object?>>> getAllEntry() async {
   }
 }
 
+//get a specific entry by its ID
 Future<List<Map<String, Object?>>> getEntryById(int id) async {
   try {
     final db = await Initdatabase().database;
@@ -60,6 +69,7 @@ Future<List<Map<String, Object?>>> getEntryById(int id) async {
   }
 }
 
+//get the 10 most recent entries by their id (limit:)
 Future<List<Map<String, dynamic>>> getRecentEntries() async {
   try {
     final db = await Initdatabase().database;
@@ -75,6 +85,7 @@ Future<List<Map<String, dynamic>>> getRecentEntries() async {
 
 //Update
 
+//update the entry with an ID to find it and an entry object to update its contents
 Future<void> updateEntry(int id, Entry entry) async {
   try {
     final db = await Initdatabase().database;
@@ -99,31 +110,34 @@ Future<void> updateEntry(int id, Entry entry) async {
 
 //Delete
 
-Future<void> deleteEntry(int Entryid) async {
+//delete a specific entry by its id
+Future<void> deleteEntry(int entryId) async {
   try {
-    //Delete items in storage
+    //Specify the directories
     final Directory storage = await getApplicationDocumentsDirectory();
     final Directory imageStorage = Directory("${storage.path}/Images");
     final Directory recordingStorage = Directory("${storage.path}/Recordings");
 
-    if (!await imageStorage.exists()) {
+    //delete all files with the given EntryId in image folder
+    if ((await imageStorage.exists())) {
       final imageFiles = await imageStorage.list().toList();
       for (FileSystemEntity file in imageFiles) {
         final String fileName = file.path.split("/").last;
         final String fileID = fileName.split("_").first;
-        if (fileID == Entryid.toString()) {
+        if (fileID == entryId.toString()) {
           file.delete();
         }
       }
     }
 
-    if (!await recordingStorage.exists()) {
+    //delete all the files with the given EntryId in recordings folder
+    if (await recordingStorage.exists()) {
       final recordingFiles = await recordingStorage.list().toList();
 
       for (FileSystemEntity file in recordingFiles) {
         final String fileName = file.path.split("/").last;
         final String fileID = fileName.split("_").first;
-        if (fileID == Entryid.toString()) {
+        if (fileID == entryId.toString()) {
           file.delete();
         }
       }
@@ -134,7 +148,7 @@ Future<void> deleteEntry(int Entryid) async {
 
     //Wipe DB
     final db = await Initdatabase().database;
-    db.delete("items", where: "id = ?", whereArgs: ["$Entryid"]);
+    db.delete("items", where: "id = ?", whereArgs: ["$entryId"]);
   } on MissingPlatformDirectoryException {
     throw Exception("Unable to Delete Stored Files");
   } on Exception {
@@ -142,16 +156,21 @@ Future<void> deleteEntry(int Entryid) async {
   }
 }
 
+//clear the entire storage deleting all entires and deleting the folders for file storage
 Future<void> wipeOrdeleteAllEntry() async {
   try {
-    //Delete Items in Storage
+    //specify the directories
     final Directory storage = await getApplicationDocumentsDirectory();
     final Directory imageDirectory = Directory("${storage.path}/Images");
     final Directory recordingsDirectory =
         Directory("${storage.path}/Recordings");
+
+    //delete the images Directory
     if (await imageDirectory.exists()) {
       await imageDirectory.delete(recursive: true);
     }
+
+    //delete the recordingsDirectory
     if (await recordingsDirectory.exists()) {
       await recordingsDirectory.delete(recursive: true);
     }
@@ -170,6 +189,8 @@ Future<void> wipeOrdeleteAllEntry() async {
 }
 
 //Miscellanous
+
+//get the number of entries stored in the database
 Future<int> getNumberOfEntries() async {
   try {
     final db = await Initdatabase().database;

@@ -5,17 +5,24 @@ import 'package:journalmax/services/DataBaseService.dart';
 Future<List<XEntryItem>> searchEntries(
     String query, dynamic renderParent) async {
   try {
-    final result = await getEntry(query);
-    final items = result.map((item) {
-      return XEntryItem(
+    //get entries by the query
+    final results = await getEntry(query);
+
+    //loop over the results and return a widget for each of them
+    final List<XEntryItem> items = [];
+
+    for (var item in results) {
+      items.add(XEntryItem(
           mood: EntryItemMoods.nameToColor(item["mood"].toString()),
           date: item["date"].toString(),
           title: item["title"].toString(),
           id: int.parse(item["id"].toString()),
-          renderParent: renderParent);
-    }).toList();
+          renderParent: renderParent));
+    }
+
     return items;
   } catch (e) {
+    //generic exception
     throw Exception(e);
   }
 }

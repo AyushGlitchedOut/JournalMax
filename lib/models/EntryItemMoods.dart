@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+//The model for the Moods Feature of the Application
 final class EntryItemMoods {
+  //The function to convert the String representation of colors into the corresponding List of color schemes
   static Map<String, Color> nameToColor(String name) {
     switch (name) {
       case "Neutral":
@@ -27,7 +29,9 @@ final class EntryItemMoods {
         return neutral;
     }
   }
+  //Neutral is the default one, black and white, used as the basic and default if nothing is selected
 
+  //String list of all the implemented moods
   static List<String> moods = [
     "Neutral",
     "Happy",
@@ -41,6 +45,8 @@ final class EntryItemMoods {
     "Anxious"
   ];
 
+  //definition of all mood-based color schemes as Maps of String and Color including a surface
+  //a text and a secondary for things like borders
   static Map<String, Color> neutral = {
     "surface": Colors.white,
     "text": Colors.black,
