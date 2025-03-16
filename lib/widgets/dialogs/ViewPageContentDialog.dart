@@ -1,6 +1,7 @@
-// ignore: non_constant_identifier_names
 import 'package:flutter/material.dart';
+import 'package:journalmax/widgets/XSnackBar.dart';
 import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 Future<dynamic> viewPageContentDialog(
     BuildContext context,
@@ -35,25 +36,34 @@ Future<dynamic> viewPageContentDialog(
                     content["content"].toString(),
                     style: TextStyle(color: mood["secondary"], fontSize: 20.0),
                   ));
+                  Navigator.pop(context);
                 },
               ),
               dialogButton(
                 colors: colors,
                 icon: Icons.location_on,
                 title: "View where you were",
-                onclick: () {},
+                onclick: () {
+                  contentWidgetChanger(
+                      LocationWidget(content: content, mood: mood));
+                  Navigator.pop(context);
+                },
               ),
               dialogButton(
                 colors: colors,
                 icon: Icons.mic,
                 title: "View Voice Notes",
-                onclick: () {},
+                onclick: () {
+                  Navigator.pop(context);
+                },
               ),
               dialogButton(
                 colors: colors,
                 icon: Icons.image,
                 title: "View Attached Images",
-                onclick: () {},
+                onclick: () {
+                  Navigator.pop(context);
+                },
               )
             ],
           ),
@@ -116,4 +126,98 @@ Container dialogButton(
           ],
         )),
   );
+}
+
+class LocationWidget extends StatelessWidget {
+  final Map<String, Object?> content;
+  final Map<String, Color> mood;
+  const LocationWidget({super.key, required this.content, required this.mood});
+
+  Future<void> openLocationInMaps(String location, BuildContext context) async {
+    try {
+      final locationEncodedUri = Uri.encodeFull(location);
+      final url = Uri.parse(
+          "https://www.google.com/maps/search/?api=1&query=$locationEncodedUri");
+      launchUrl(url, mode: LaunchMode.externalApplication);
+      print(url);
+    } on Exception {
+      showSnackBar(
+          "Sorry, Couldn't open web results for the location", context);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bool locationNotEntered =
+        content["location"].toString().trim() == "Not Entered!";
+    final ColorScheme colors = Theme.of(context).colorScheme;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      spacing: 10.0,
+      children: [
+        Center(
+          child: Icon(
+            Icons.location_pin,
+            color: Colors.red,
+            size: 100.0,
+            shadows: [
+              Shadow(color: colors.shadow, offset: const Offset(-2, -2))
+            ],
+          ),
+        ),
+        Center(
+            child: Text(
+          "On ${content["date"]}, You were at: ",
+          style: TextStyle(fontSize: 17.0, color: mood["secondary"]),
+        )),
+        Center(
+          child: GestureDetector(
+            onTap: () {
+              openLocationInMaps(content["location"].toString(), context);
+            },
+            child: Container(
+              child: Text(
+                content["location"].toString(),
+                style: TextStyle(
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.w500,
+                    color: locationNotEntered ? mood["text"] : Colors.lightBlue,
+                    decoration:
+                        locationNotEntered ? null : TextDecoration.underline,
+                    decorationColor: Colors.lightBlue),
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class ImagesWidget extends StatefulWidget {
+  const ImagesWidget({super.key});
+
+  @override
+  State<ImagesWidget> createState() => _ImagesWidgetState();
+}
+
+class _ImagesWidgetState extends State<ImagesWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return const Column();
+  }
+}
+
+class RecordingWidget extends StatefulWidget {
+  const RecordingWidget({super.key});
+
+  @override
+  State<RecordingWidget> createState() => _RecordingWidgetState();
+}
+
+class _RecordingWidgetState extends State<RecordingWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
 }

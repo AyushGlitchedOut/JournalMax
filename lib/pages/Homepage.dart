@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
       Navigator.push(context,
           MaterialPageRoute(builder: (BuildContext context) {
         return ViewerPage(
-          Id: int.parse(entry["id"].toString()),
+          providedEntryId: int.parse(entry["id"].toString()),
         );
       }));
     } catch (e) {

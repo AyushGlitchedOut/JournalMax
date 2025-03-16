@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:journalmax/pages/ViewerPage.dart';
 import 'package:journalmax/widgets/dialogs/EntryDeleteDialog.dart';
-import 'package:journalmax/pages/EditorPage.dart';
 
 //
 //
@@ -33,11 +33,9 @@ class XEntryItem extends StatelessWidget {
         await Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (BuildContext context) => EditorPage(
-                      createNewEntry: false,
-                      updateId: id,
+                builder: (BuildContext context) => ViewerPage(
+                      providedEntryId: id,
                     )));
-        print("LOL");
         await Future.delayed(const Duration(milliseconds: 500));
         renderParent();
       },

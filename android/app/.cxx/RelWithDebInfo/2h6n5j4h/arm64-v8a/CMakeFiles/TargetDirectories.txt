@@ -1,0 +1,2 @@
+/home/ayush-gupta/dev/JournalMax/android/app/.cxx/RelWithDebInfo/2h6n5j4h/arm64-v8a/CMakeFiles/edit_cache.dir
+/home/ayush-gupta/dev/JournalMax/android/app/.cxx/RelWithDebInfo/2h6n5j4h/arm64-v8a/CMakeFiles/rebuild_cache.dir

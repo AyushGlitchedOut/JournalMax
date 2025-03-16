@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:journalmax/models/EntryItemMoods.dart';
 import 'package:journalmax/widgets/dialogs/ViewPageContentDialog.dart';
@@ -13,8 +12,8 @@ import 'package:journalmax/services/DataBaseService.dart';
 
 // ignore: must_be_immutable
 class ViewerPage extends StatefulWidget {
-  final int Id;
-  const ViewerPage({super.key, required this.Id});
+  final int providedEntryId;
+  const ViewerPage({super.key, required this.providedEntryId});
 
   @override
   State<ViewerPage> createState() => _ViewerPageState();
@@ -32,8 +31,7 @@ class _ViewerPageState extends State<ViewerPage> {
       setState(() {
         isLoading = true;
       });
-      if (kDebugMode) print('Id:${widget.Id}');
-      final res = await getEntryById(widget.Id);
+      final res = await getEntryById(widget.providedEntryId);
       content = res.first;
       setMood(res.first["mood"].toString());
       setState(() {
@@ -102,14 +100,18 @@ class _ViewerPageState extends State<ViewerPage> {
       ),
       floatingActionButton: XFloatingButton(
           icon: Icons.edit,
-          //pass arguments later
-          onclick: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (BuildContext context) {
-                return EditorPage(
-                  createNewEntry: false,
-                  updateId: widget.Id,
-                );
-              }))),
+          onclick: () async {
+            await Navigator.push(context,
+                MaterialPageRoute(builder: (BuildContext context) {
+              return EditorPage(
+                createNewEntry: false,
+                updateId: widget.providedEntryId,
+              );
+            }));
+            await Future.delayed(const Duration(milliseconds: 250));
+            getEntry();
+            setState(() {});
+          }),
     );
   }
 
@@ -138,7 +140,7 @@ class _ViewerPageState extends State<ViewerPage> {
 
   Container titleBar(BuildContext context, ColorScheme colors) {
     return Container(
-        height: MediaQuery.of(context).size.height * 0.075,
+        height: MediaQuery.of(context).size.height * 0.060,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
             border: Border.all(color: colors.outline),
@@ -155,11 +157,13 @@ class _ViewerPageState extends State<ViewerPage> {
         padding: const EdgeInsets.all(5.0),
         margin: const EdgeInsets.all(2.0),
         child: SelectableText(
+          maxLines: 1,
           content["title"].toString(),
           style: TextStyle(
               color: mood["text"],
-              fontSize: 30.0,
-              overflow: TextOverflow.ellipsis),
+              fontSize: 25.0,
+              overflow: TextOverflow.ellipsis,
+              fontWeight: FontWeight.w500),
           textAlign: TextAlign.left,
         ));
   }

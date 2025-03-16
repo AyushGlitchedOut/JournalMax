@@ -100,11 +100,11 @@ class _EditorPageState extends State<EditorPage> {
           tempImages: tempImages ?? [], entryId: id);
       final savedAudioFilePath = await saveTempAudioToFile(
           tempAudioFile: tempRecordingFilePath ?? "null", entryId: id);
-      print(savedAudioFilePath);
       await updateEntry(
         id,
         Entry(
-            title: _titleController.text,
+            title: _titleController.text.replaceFirst(_titleController.text[0],
+                _titleController.text[0].toUpperCase()),
             content: _contentController.text,
             mood: currentMood,
             date: DateTime.now().toString(),
@@ -224,7 +224,7 @@ class _EditorPageState extends State<EditorPage> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (BuildContext context) {
                   return ViewerPage(
-                    Id: widget.updateId ?? 1,
+                    providedEntryId: widget.updateId ?? 1,
                   );
                 }));
               })),

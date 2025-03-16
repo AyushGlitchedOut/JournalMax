@@ -218,7 +218,6 @@ class _ImageViewerState extends State<ImageViewer> {
                 //shift pageIndex by 1
                 currentPageIndex += 1;
                 noMoreLeft = false;
-                print(currentPageIndex);
               });
             },
             disabled: noMoreRight)

@@ -49,7 +49,6 @@ Stream<int> importDataFromFolder(
 
       //get the entry of the newly created entry
       final insertedEntryId = (await getRecentEntries()).first["id"];
-      print(insertedEntryId);
 
       //insert a recording using the recordingService on the id of the newly created entry
       final String recordingPath =

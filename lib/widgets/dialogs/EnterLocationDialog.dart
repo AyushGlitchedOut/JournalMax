@@ -86,7 +86,7 @@ class _LocationDialogBodyState extends State<LocationDialogBody> {
     final result = await getEntryById(widget.contentId);
     final String obtainedLocation =
         result.first["location"].toString() == "null"
-            ? "Not Entered"
+            ? "Not Entered!"
             : result.first["location"].toString();
     widget.controller.text = obtainedLocation;
   }
