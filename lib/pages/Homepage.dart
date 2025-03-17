@@ -54,7 +54,10 @@ class _HomePageState extends State<HomePage> {
   Future<void> loadTheme(BuildContext context) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-
+      if (prefs.getBool("isDarkMode") == null) {
+        prefs.setBool("isDarkMode", false);
+        return;
+      }
       if (Provider.of<Themeprovider>(context, listen: false).isDarkMode ==
           prefs.getBool("isDarkMode")) {
         return;
@@ -118,12 +121,12 @@ class _HomePageState extends State<HomePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const XLabel(label: "Recent Entries"),
+          XLabel(label: "Recent Entries"),
           RecentEntriesBox(
               isLoading: isLoading,
               recentEntries: recentEntries,
               colors: colors),
-          const XLabel(label: "Options"),
+          XLabel(label: "Options"),
           XIconLabelButton(
             icon: Icons.auto_awesome_sharp,
             label: "Get a random memory",

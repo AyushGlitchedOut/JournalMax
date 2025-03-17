@@ -18,9 +18,28 @@ Future<void> saveTheme(bool isDarkMode) async {
   await prefs.setBool("isDarkMode", isDarkMode);
 }
 
-class SettingsPage extends StatelessWidget {
+Future<void> savePreferenceToUseMobileData(bool prefToChange) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setBool("canUseMobileData", prefToChange);
+}
+
+Future<bool> getPreferenceToUseMobileData() async {
+  final prefs = await SharedPreferences.getInstance();
+  if (prefs.getBool("canUseMobileData") == null) {
+    await prefs.setBool("canUseMobileData", false);
+    return false;
+  }
+  return prefs.getBool("canUseMobileData") ?? false;
+}
+
+class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
   //UI
   Future<void> openLink(String url, BuildContext context) async {
     try {
@@ -60,6 +79,21 @@ class SettingsPage extends StatelessWidget {
               }
             },
           ),
+          FutureBuilder(
+              future: getPreferenceToUseMobileData(),
+              builder: (context, snapshot) {
+                return snapshot.hasData
+                    ? XToggle(
+                        title: "Can Use Mobile Data for Sync",
+                        value: snapshot.data!,
+                        customFontSize: 15.0,
+                        onclick: (value) {
+                          savePreferenceToUseMobileData(value);
+                          setState(() {});
+                        },
+                      )
+                    : const XToggle(title: "Loading Setting...", value: false);
+              }),
           XIconLabelButton(
               icon: Icons.delete_forever,
               label: "Delete All Entries",
@@ -71,24 +105,6 @@ class SettingsPage extends StatelessWidget {
                   showSnackBar(e.toString(), context);
                 }
               }),
-          XIconLabelButton(
-            icon: Icons.book,
-            label: "App Licenses",
-            onclick: () => openLink(
-                "https://www.gnu.org/licenses/gpl-3.0.en.html", context),
-          ),
-          XIconLabelButton(
-            icon: Icons.person,
-            label: "About Author",
-            onclick: () =>
-                openLink("https://github.com/AyushGlitchedOut", context),
-          ),
-          XIconLabelButton(
-            icon: Icons.code,
-            label: "Source Code",
-            onclick: () => openLink(
-                "https://github.com/AyushGlitchedOut/JournalMax", context),
-          ),
           XIconLabelButton(
             icon: Icons.download,
             label: "Import a Journalmax database",
@@ -112,7 +128,25 @@ class SettingsPage extends StatelessWidget {
                   });
             },
             customFontSize: 13.5,
-          )
+          ),
+          XIconLabelButton(
+            icon: Icons.book,
+            label: "App Licenses",
+            onclick: () => openLink(
+                "https://www.gnu.org/licenses/gpl-3.0.en.html", context),
+          ),
+          XIconLabelButton(
+            icon: Icons.person,
+            label: "About Author",
+            onclick: () =>
+                openLink("https://github.com/AyushGlitchedOut", context),
+          ),
+          XIconLabelButton(
+            icon: Icons.code,
+            label: "Source Code",
+            onclick: () => openLink(
+                "https://github.com/AyushGlitchedOut/JournalMax", context),
+          ),
         ],
       ),
     );

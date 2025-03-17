@@ -95,6 +95,7 @@ Stream<int> exportDataToFolder(BuildContext context) async* {
   //
   //declaring all the folders
   try {
+    //hardcoded address for downloads folder on Android
     final Directory downloadsDirectory =
         Directory("/storage/emulated/0/Download");
     final Directory applicationDataDirectory =

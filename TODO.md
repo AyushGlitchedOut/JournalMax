@@ -26,7 +26,7 @@
 26. **DONE** To Delete all the temproray files stored in cache by the apis to save memeory
 27. Create a landing page for the project with screenshots, download options , and information on the github pages
 28. **NOT NEEDED** Put limits on textfields, number of images, recording length, etc.
-29. Fix the bug where theme is not correctly loaded upon the app's first launch.
+29. **Fixed** Fix the bug where theme is not correctly loaded upon the app's first launch.
 30. **DONE** Implementation of importing the exported database
 31. **NOT NEEDED** At the end, make it production ready by removing all the print statements and debugging stuff
 32. **DONE** Try to convert all the helper methods to widgets for potential optimizations and better code quality

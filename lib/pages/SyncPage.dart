@@ -1,36 +1,81 @@
 import 'package:flutter/material.dart';
+import 'package:journalmax/pages/SettingsPage.dart';
+import 'package:journalmax/services/DataSyncService.dart';
 import 'package:journalmax/widgets/ContentBox.dart';
 import 'package:journalmax/widgets/XAppBar.dart';
 import 'package:journalmax/widgets/XDrawer.dart';
 import 'package:journalmax/widgets/XIconLabelButton.dart';
-import 'package:journalmax/widgets/XSnackBar.dart';
-import 'package:journalmax/services/UploadToGoogleDrive.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:journalmax/widgets/XLabel.dart';
+import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
 
 class SyncPage extends StatelessWidget {
   const SyncPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Stream<int>? syncProgressStream;
+
     final ColorScheme colors = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: const PreferredSize(
           preferredSize: Size.fromHeight(60.0),
           child: XAppBar(
-            title: "Synchronize",
+            title: "Synchronise",
           )),
       drawer: const XDrawer(
         currentPage: "sync",
       ),
       backgroundColor: colors.surface,
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SyncProgress(colors: colors),
-          const XIconLabelButton(
+          contentBox(
+            child: Container(),
+            colors: colors,
+            height: MediaQuery.of(context).size.height * 0.4,
+          ),
+          XLabel(
+            label: "Login Status",
+            /* placeholder for checking login status*/
+            color: Colors.red,
+          ),
+          XIconLabelButton(
             icon: Icons.add_to_drive,
             label: "Sync to Google Drive",
-            onclick: uploadToGoogleDrive,
+            onclick: () async {
+              if (!(await networkAvailable(
+                  context, (await getPreferenceToUseMobileData())))) {
+                return;
+              }
+            },
             customFontSize: 16.0,
+          ),
+          XIconLabelButton(
+            icon: Icons.cloud_download_rounded,
+            label: "Download From Google Drive",
+            customFontSize: 16.0,
+            onclick: () async {
+              if (!(await networkAvailable(
+                  context, (await getPreferenceToUseMobileData())))) {
+                return;
+              }
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const UseWifiAlert();
+                      });
+                },
+                icon: Icon(
+                  Icons.info_outline,
+                  size: 30.0,
+                  color: Colors.blue[800],
+                )),
           )
         ],
       ),
@@ -38,60 +83,51 @@ class SyncPage extends StatelessWidget {
   }
 }
 
-class SyncProgress extends StatefulWidget {
-  const SyncProgress({
-    super.key,
-    required this.colors,
-  });
-
-  final ColorScheme colors;
-
-  @override
-  State<SyncProgress> createState() => _SyncProgressState();
-}
-
-class _SyncProgressState extends State<SyncProgress> {
-  Future<void> getGmail() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      String res = prefs.getString("gmail") ?? "Not found";
-      setState(() {
-        email = res;
-      });
-    } catch (e) {
-      showSnackBar(e.toString(), context);
-    }
-  }
-
-  String email = "not Given";
-  @override
-  void initState() {
-    getGmail();
-    super.initState();
-  }
+class UseWifiAlert extends StatelessWidget {
+  const UseWifiAlert({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return contentBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 0.5,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Text(
-                email,
-                style: TextStyle(
-                    color: widget.colors.onPrimary,
-                    fontSize: 17.0,
-                    overflow: TextOverflow.ellipsis,
-                    fontWeight: FontWeight.w500),
-              ),
-            )
-          ],
-        ),
-        colors: widget.colors);
+    final ColorScheme colors = Theme.of(context).colorScheme;
+    return AlertDialog(
+      insetPadding: const EdgeInsets.symmetric(horizontal: 0.0),
+      title: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Row(
+              children: [
+                Icon(
+                  Icons.warning_amber_outlined,
+                  color: Colors.red,
+                ),
+                SizedBox(
+                  width: 10.0,
+                ),
+                Text("Alert!"),
+              ],
+            ),
+          ),
+        ],
+      ),
+      content: const Text(
+          """Synchronising to Google Drive should only be done over Wifi connection with no bandwidth limit because the app will make several requests for information and upload/download the entirety of the data stored, including the audio and image files which for a large data store can cost a lot of bandwidth. If you still want to proceed using mobile data, disable the protection option in settings"""),
+      actions: [
+        actionButton(
+            onclick: () {
+              Navigator.pop(context);
+            },
+            text: "OK",
+            isForDeleteOrCancel: false,
+            colors: colors),
+        actionButton(
+            onclick: () {
+              Navigator.pushNamed(context, "/settings");
+            },
+            text: "Disable It",
+            isForDeleteOrCancel: true,
+            colors: colors)
+      ],
+    );
   }
 }

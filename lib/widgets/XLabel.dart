@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class XLabel extends StatelessWidget {
   final String label;
-  const XLabel({super.key, required this.label});
+  Color? color;
+  XLabel({super.key, required this.label, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class XLabel extends StatelessWidget {
         style: TextStyle(
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
-            color: colors.onSurface),
+            color: color ?? colors.onSurface),
       ),
     );
   }
