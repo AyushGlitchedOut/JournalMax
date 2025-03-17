@@ -51,7 +51,7 @@ class _AudioPlayInEditModeDialogState extends State<AudioPlayInEditModeDialog> {
                   style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
                 ),
               ),
-              AudioPlayInEditDialogBody(
+              AudioPlayer(
                 contentId: widget.contentId,
               ),
               AudioPlayInEditModeDialogActions(
@@ -113,16 +113,15 @@ class AudioPlayInEditModeDialogActions extends StatelessWidget {
   }
 }
 
-class AudioPlayInEditDialogBody extends StatefulWidget {
+class AudioPlayer extends StatefulWidget {
   final int contentId;
-  const AudioPlayInEditDialogBody({super.key, required this.contentId});
+  const AudioPlayer({super.key, required this.contentId});
 
   @override
-  State<AudioPlayInEditDialogBody> createState() =>
-      _AudioPlayInEditDialogBodyState();
+  State<AudioPlayer> createState() => _AudioPlayerState();
 }
 
-class _AudioPlayInEditDialogBodyState extends State<AudioPlayInEditDialogBody> {
+class _AudioPlayerState extends State<AudioPlayer> {
   final FlutterSoundPlayer _player = FlutterSoundPlayer(logLevel: Level.error);
   File? audioFile;
 

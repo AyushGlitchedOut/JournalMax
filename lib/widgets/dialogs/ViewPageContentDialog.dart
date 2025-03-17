@@ -1,6 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:journalmax/widgets/XSnackBar.dart';
+import 'package:journalmax/widgets/dialogs/AudioPlayInEditDialog.dart';
 import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
+import 'package:journalmax/widgets/dialogs/EnterImageDialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 Future<dynamic> viewPageContentDialog(
@@ -54,6 +58,7 @@ Future<dynamic> viewPageContentDialog(
                 icon: Icons.mic,
                 title: "View Voice Notes",
                 onclick: () {
+                  contentWidgetChanger(RecordingWidget(content: content));
                   Navigator.pop(context);
                 },
               ),
@@ -62,6 +67,7 @@ Future<dynamic> viewPageContentDialog(
                 icon: Icons.image,
                 title: "View Attached Images",
                 onclick: () {
+                  contentWidgetChanger(ImagesWidget(content: content));
                   Navigator.pop(context);
                 },
               )
@@ -175,17 +181,15 @@ class LocationWidget extends StatelessWidget {
             onTap: () {
               openLocationInMaps(content["location"].toString(), context);
             },
-            child: Container(
-              child: Text(
-                content["location"].toString(),
-                style: TextStyle(
-                    fontSize: 25.0,
-                    fontWeight: FontWeight.w500,
-                    color: locationNotEntered ? mood["text"] : Colors.lightBlue,
-                    decoration:
-                        locationNotEntered ? null : TextDecoration.underline,
-                    decorationColor: Colors.lightBlue),
-              ),
+            child: Text(
+              content["location"].toString(),
+              style: TextStyle(
+                  fontSize: 25.0,
+                  fontWeight: FontWeight.w500,
+                  color: locationNotEntered ? mood["text"] : Colors.lightBlue,
+                  decoration:
+                      locationNotEntered ? null : TextDecoration.underline,
+                  decorationColor: Colors.lightBlue),
             ),
           ),
         )
@@ -195,21 +199,37 @@ class LocationWidget extends StatelessWidget {
 }
 
 class ImagesWidget extends StatefulWidget {
-  const ImagesWidget({super.key});
+  final Map<String, Object?> content;
+  const ImagesWidget({super.key, required this.content});
 
   @override
   State<ImagesWidget> createState() => _ImagesWidgetState();
 }
 
 class _ImagesWidgetState extends State<ImagesWidget> {
+  List<File> fileListFromEntry() {
+    if (widget.content["image"].toString() == "null") {
+      return [];
+    }
+    final List imagePaths = jsonDecode(widget.content["image"].toString());
+    final List<File> imageFiles = [];
+    for (dynamic i in imagePaths) {
+      imageFiles.add(File(i));
+    }
+    return imageFiles;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Column();
+    return ImageViewer(
+      images: fileListFromEntry(),
+    );
   }
 }
 
 class RecordingWidget extends StatefulWidget {
-  const RecordingWidget({super.key});
+  final Map<String, Object?> content;
+  const RecordingWidget({super.key, required this.content});
 
   @override
   State<RecordingWidget> createState() => _RecordingWidgetState();
@@ -218,6 +238,6 @@ class RecordingWidget extends StatefulWidget {
 class _RecordingWidgetState extends State<RecordingWidget> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return AudioPlayer(contentId: int.parse(widget.content["id"].toString()));
   }
 }

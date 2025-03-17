@@ -189,8 +189,8 @@ class _ImageViewerState extends State<ImageViewer> {
         Container(
           width: MediaQuery.of(context).size.width * 0.5,
           height: MediaQuery.of(context).size.height * 0.5,
-          decoration: BoxDecoration(
-            color: colors.surface,
+          decoration: const BoxDecoration(
+            color: Colors.transparent,
           ),
           child: noImageSelected
               ? const Image(

@@ -176,7 +176,13 @@ class _EditorPageState extends State<EditorPage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    bool isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
     final ColorScheme colors = Theme.of(context).colorScheme;
 
     return PopScope(
@@ -185,7 +191,7 @@ class _EditorPageState extends State<EditorPage> {
         await callUpdateEntry();
       },
       child: Scaffold(
-          resizeToAvoidBottomInset: false,
+          resizeToAvoidBottomInset: true,
           appBar: const PreferredSize(
             preferredSize: Size.fromHeight(60.0),
             child: XAppBar(title: "Editor Page"),
@@ -197,24 +203,28 @@ class _EditorPageState extends State<EditorPage> {
             children: [
               titleBar(),
               contentBox(context),
-              XIconLabelButton(
-                icon: Icons.add_link_rounded,
-                label: "More Ways to Store Memories",
-                customFontSize: 17.0,
-                onclick: () => showDialog(
-                    context: context,
-                    builder: (context) {
-                      return memoriesTabDialog(colors, context);
-                    }),
-              ),
-              XIconLabelButton(
-                icon: Icons.save_as_rounded,
-                label: "Save Entry",
-                onclick: () async {
-                  await callUpdateEntry();
-                  showSnackBar("Updated Entry", context);
-                },
-              ),
+              isKeyboardOpen
+                  ? Container()
+                  : XIconLabelButton(
+                      icon: Icons.add_link_rounded,
+                      label: "More Ways to Store Memories",
+                      customFontSize: 17.0,
+                      onclick: () => showDialog(
+                          context: context,
+                          builder: (context) {
+                            return memoriesTabDialog(colors, context);
+                          }),
+                    ),
+              isKeyboardOpen
+                  ? Container()
+                  : XIconLabelButton(
+                      icon: Icons.save_as_rounded,
+                      label: "Save Entry",
+                      onclick: () async {
+                        await callUpdateEntry();
+                        showSnackBar("Updated Entry", context);
+                      },
+                    ),
             ],
           ),
           floatingActionButton: XFloatingButton(
@@ -301,6 +311,7 @@ class _EditorPageState extends State<EditorPage> {
             : Container(
                 child: TextField(
                   controller: _contentController,
+                  onTap: () => setState(() {}),
                   enabled: true,
                   style: TextStyle(color: moods["text"]),
                   decoration: InputDecoration(
@@ -326,6 +337,7 @@ class _EditorPageState extends State<EditorPage> {
       padding: const EdgeInsets.all(2.0),
       child: TextField(
         autofocus: true,
+        onTap: () => setState(() {}),
         controller: _titleController,
         style: TextStyle(color: moods["text"]),
         decoration: InputDecoration(
