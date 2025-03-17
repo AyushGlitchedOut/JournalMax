@@ -133,8 +133,15 @@ class _ViewerPageState extends State<ViewerPage> {
           borderRadius: BorderRadius.circular(0)),
       padding: const EdgeInsets.all(5.0),
       margin: const EdgeInsets.all(2.0),
-      child: SingleChildScrollView(
-          child: isLoading ? XProgress(colors: colors) : contentToShow),
+      child: Column(
+        mainAxisAlignment: contentToShow is SelectableText
+            ? MainAxisAlignment.start
+            : MainAxisAlignment.spaceAround,
+        children: [
+          SingleChildScrollView(
+              child: isLoading ? XProgress(colors: colors) : contentToShow),
+        ],
+      ),
     ));
   }
 

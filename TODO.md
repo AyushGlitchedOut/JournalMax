@@ -36,3 +36,4 @@
 
 >>Some Stuff to do after completing all these things
 1. Use a RichText field in the Editor Page
+2. Option to save individual images/recordings from any entry

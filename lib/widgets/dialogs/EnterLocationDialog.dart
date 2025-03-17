@@ -201,7 +201,9 @@ class LocationDialogActions extends StatelessWidget {
         children: [
           actionButton(
               onclick: () {
-                widget.reportLocation(locationController.text);
+                widget.reportLocation(locationController.text == "null"
+                    ? "Not Entered!"
+                    : locationController.text);
                 Navigator.of(context).pop();
               },
               text: "Done",
