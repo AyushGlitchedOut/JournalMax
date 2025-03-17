@@ -12,7 +12,7 @@
 
 ### Installation
 - The app isn't ready to install or use currently as it's still in devlopment
-- When the app will be ready, it will be available as apk on [Github Pages](https://ayushglitchedout.github.io/journalmax) of this project
+- When the app will be ready, it will be available as apk on [Github Pages](https://ayushglitchedout.github.io/JournalMax) of this project
 - If you want, you can build the current commit but there's no guarantee if it would properly work or even build in the first place
 
 ## Building the App
