@@ -133,12 +133,6 @@ class _HomePageState extends State<HomePage> {
             onclick: () => openRandomEntry(context),
           ),
           XIconLabelButton(
-            icon: Icons.sync_sharp,
-            customFontSize: 18.5,
-            label: "Synchronize your Diary",
-            onclick: () => Navigator.pushNamed(context, "/sync"),
-          ),
-          XIconLabelButton(
             icon: Icons.search_sharp,
             label: "Find an Entry",
             onclick: () => Navigator.pushNamed(context, "/find"),

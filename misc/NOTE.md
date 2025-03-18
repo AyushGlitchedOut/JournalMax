@@ -3,3 +3,8 @@
 - I had used coolors.co for generating the color pallete for the primary scheme and the dark scheme i had generated using AI.
 - The idea of this project was from my personal experience of journaling and using joplin and when i wanted to save stuff like images, location i visited, voice recording etc. it was really hard so i thought that doing this project i could learn dart and flutter.
 - This code doesnt haave the contribution of anyone except me (at the time of writing this) and all the ideas and structures and designs are made by me.
+
+### Dropped Feature -> Sync Page
+- In the initial idea of the app, and till very late in the devlopment process, the app was supossed to have a sync page which would use the implemented import/export features along with the google drive API to allow the user to sign-in with their google account and allow the app to access their google drive to sync their data. Infact, if you see the commits, you can see even most of the UI and configuration for it was also built.
+- However, when it was time to actually implement it, i found out that in order to implement it, i need to make a google cloud console project and link it to this app. However, i made this app to just be a minimalist journaling app that did all the work locally. Other than that, i also did not want to maintain or configure a google cloud project and also put the keys to it in the app and then publish it. I would've had to always maintain the cloud and I didnt want that as I want to just learn simple App devlopment.
+- So, I dropped the feature. However, any one can also just simply export the app as a folder and then upload to google drive manually. It's the same thing and probably won't take more than a minute after exporting.

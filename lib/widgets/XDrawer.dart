@@ -13,8 +13,8 @@ class XDrawer extends StatelessWidget {
     return Drawer(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-              topRight: Radius.circular(40.0),
-              bottomRight: Radius.circular(40.0))),
+              topRight: Radius.circular(20.0),
+              bottomRight: Radius.circular(20.0))),
       elevation: 100,
       shadowColor: colors.surface,
       width: 300,
@@ -98,8 +98,6 @@ class XDrawer extends StatelessWidget {
             highlight: currentPage == "editor" || currentPage == "view"),
         drawerTile(Icons.settings, context, "Settings", "/settings",
             highlight: currentPage == "settings"),
-        drawerTile(Icons.sync, context, "Synchronise", "/sync",
-            highlight: currentPage == "sync"),
         if (kDebugMode)
           drawerTile(Icons.adb, context, "Test DB", "/test", highlight: false)
       ],

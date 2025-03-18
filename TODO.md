@@ -1,7 +1,7 @@
 1. Add error handling with snackbars everywhere (Make a reusable error handling widget and put it wherever there is DB operation, api calling or something like that)
 2. *** DONE *** Opening websites in the settings page for source code, author etc. (The github page for me, source code and a simple licenses page)
 . ***DONE*** Adding multimedia options (using apis and custom screens) ***Location Done*** ***Image Done*** ***Audio Recording Done***
-4. Google Drive integration (use already built export and import features)
+4. **NOT NEEDED** Google Drive integration (use already built export and import features)
 5. Introduction Page (using the intro_page package)
 6. *** DONE *** App Icon 
 8. Source Code Refactoring (Add comments and add sensible kdebugmode print statements)

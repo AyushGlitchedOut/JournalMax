@@ -6,7 +6,6 @@ import 'package:journalmax/pages/EditorPage.dart';
 import 'package:journalmax/pages/FindDiary.dart';
 import 'package:journalmax/pages/Homepage.dart';
 import 'package:journalmax/pages/SettingsPage.dart';
-import 'package:journalmax/pages/SyncPage.dart';
 import 'package:journalmax/services/CleanCache.dart';
 import 'package:journalmax/themes/ThemeProvider.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +17,6 @@ class App extends StatelessWidget {
   final Map<String, WidgetBuilder> routes = {
     "/homepage": (context) => const HomePage(),
     "/settings": (context) => const SettingsPage(),
-    "/sync": (context) => const SyncPage(),
     "/find": (context) => FindDiaryEntryPage(),
     "/editor": (context) => EditorPage(
           createNewEntry: true,

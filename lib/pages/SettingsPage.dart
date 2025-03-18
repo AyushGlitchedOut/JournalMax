@@ -18,20 +18,6 @@ Future<void> saveTheme(bool isDarkMode) async {
   await prefs.setBool("isDarkMode", isDarkMode);
 }
 
-Future<void> savePreferenceToUseMobileData(bool prefToChange) async {
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.setBool("canUseMobileData", prefToChange);
-}
-
-Future<bool> getPreferenceToUseMobileData() async {
-  final prefs = await SharedPreferences.getInstance();
-  if (prefs.getBool("canUseMobileData") == null) {
-    await prefs.setBool("canUseMobileData", false);
-    return false;
-  }
-  return prefs.getBool("canUseMobileData") ?? false;
-}
-
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 
@@ -79,21 +65,6 @@ class _SettingsPageState extends State<SettingsPage> {
               }
             },
           ),
-          FutureBuilder(
-              future: getPreferenceToUseMobileData(),
-              builder: (context, snapshot) {
-                return snapshot.hasData
-                    ? XToggle(
-                        title: "Can Use Mobile Data for Sync",
-                        value: snapshot.data!,
-                        customFontSize: 15.0,
-                        onclick: (value) {
-                          savePreferenceToUseMobileData(value);
-                          setState(() {});
-                        },
-                      )
-                    : const XToggle(title: "Loading Setting...", value: false);
-              }),
           XIconLabelButton(
               icon: Icons.delete_forever,
               label: "Delete All Entries",
