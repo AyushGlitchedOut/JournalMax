@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   List<XEntryItem> recentEntries = [];
   bool isLoading = true; // Track loading state
 
-  //READ
+  //Get a random entry from all the entries and open it in viewer Page
   Future<void> openRandomEntry(BuildContext context) async {
     try {
       final list = await getAllEntry();
@@ -49,15 +49,18 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  //UI
-
+  //Load and process the theme setting
   Future<void> loadTheme(BuildContext context) async {
     try {
       final prefs = await SharedPreferences.getInstance();
+
+      //check if the preference even exists
       if (prefs.getBool("isDarkMode") == null) {
         prefs.setBool("isDarkMode", false);
         return;
       }
+
+      //toggle themes if preferences dont match actual theme
       if (Provider.of<Themeprovider>(context, listen: false).isDarkMode ==
           prefs.getBool("isDarkMode")) {
         return;
@@ -69,6 +72,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  //method to await recent Entries
   Future<void> awaitRecentEntries() async {
     try {
       setState(() {
@@ -92,8 +96,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    //do stuff after loading the UI
     WidgetsBinding.instance.addPostFrameCallback((_) {
       try {
+        //clear the Cache upon app loads
         clearCache();
       } catch (e) {
         showSnackBar(e.toString(), context);
@@ -132,6 +138,8 @@ class _HomePageState extends State<HomePage> {
             label: "Get a random memory",
             onclick: () => openRandomEntry(context),
           ),
+
+          //button to take to search page
           XIconLabelButton(
             icon: Icons.search_sharp,
             label: "Find an Entry",
@@ -140,6 +148,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       floatingActionButton: XFloatingButton(
+        //floating button to open editor page to create new entry
         icon: Icons.add,
         onclick: () => Navigator.pushNamed(context, "/editor"),
       ),
@@ -166,12 +175,14 @@ class RecentEntriesBox extends StatelessWidget {
             child: isLoading
                 ? XProgress(colors: colors)
                 : recentEntries.isEmpty
+                    //message if there's no recent Entries
                     ? const Center(
                         child: Text(
-                          "No recent entries",
+                          "No recent entries..",
                           style: TextStyle(fontSize: 16.0),
                         ),
                       )
+                    //ListView to build from the provided List of Widgets
                     : ListView.builder(
                         itemCount: recentEntries.length,
                         itemBuilder: (BuildContext context, int itemIndex) {

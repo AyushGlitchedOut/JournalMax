@@ -25,20 +25,26 @@ class _ViewerPageState extends State<ViewerPage> {
   Map<String, Object?> content = {};
   Widget contentToShow = Container();
 
-  //READ
+  //Method to get and entry by provided Id and set the variables according to its data
   Future<void> getEntry() async {
     try {
+      //start loading
       setState(() {
         isLoading = true;
       });
+
+      //get the Entry by Id
       final res = await getEntryById(widget.providedEntryId);
       content = res.first;
       setMood(res.first["mood"].toString());
+
+      //change the UI elements
       setState(() {
         contentToShow = SelectableText(
           content["content"].toString(),
           style: TextStyle(color: mood["secondary"], fontSize: 20.0),
         );
+        //stop loading
         isLoading = false;
       });
     } catch (e) {
@@ -49,14 +55,14 @@ class _ViewerPageState extends State<ViewerPage> {
     }
   }
 
-  //UI
-
+  //method to pass to the dialog to change the shown widget
   void changeContent(Widget contentWidget) {
     setState(() {
       contentToShow = contentWidget;
     });
   }
 
+  //method to change the mood
   void setMood(String Mood) {
     setState(() {
       mood = EntryItemMoods.nameToColor(Mood);
@@ -66,6 +72,7 @@ class _ViewerPageState extends State<ViewerPage> {
   @override
   void initState() {
     super.initState();
+    //get Entry soon after loading the UI
     getEntry();
   }
 
@@ -87,6 +94,7 @@ class _ViewerPageState extends State<ViewerPage> {
         children: [
           titleBar(context, colors),
           contentBox(context, colors),
+          //button to open the dialog to select the content to view
           XIconLabelButton(
             icon: Icons.collections,
             label: "View memories in the Entry",
@@ -99,6 +107,7 @@ class _ViewerPageState extends State<ViewerPage> {
         ],
       ),
       floatingActionButton: XFloatingButton(
+          //Floating button to open editor page for editing the current entry
           icon: Icons.edit,
           onclick: () async {
             await Navigator.push(context,
@@ -134,6 +143,7 @@ class _ViewerPageState extends State<ViewerPage> {
       padding: const EdgeInsets.all(5.0),
       margin: const EdgeInsets.all(2.0),
       child: Column(
+        //To not center the contents if its text (diary entry)
         mainAxisAlignment: contentToShow is SelectableText
             ? MainAxisAlignment.start
             : MainAxisAlignment.spaceAround,

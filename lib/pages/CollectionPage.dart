@@ -21,18 +21,26 @@ class _CollectionPageState extends State<CollectionPage> {
   //READ
   Future<void> getEntryCollection() async {
     try {
+      //start loading
       setState(() {
         isLoading = true;
       });
+
+      //get widget list of All the Entries
       final awaitedEntries = await getCollection(getEntryCollection);
+
+      //stop loading
       setState(() {
         entries = awaitedEntries;
         isLoading = false;
       });
+
       if (entries.isEmpty) {
+        //show snackbar if no entry is there
         showSnackBar("There isn't any Entry to show", context);
       }
     } catch (e) {
+      //stop loading
       setState(() {
         isLoading = false;
       });
@@ -42,8 +50,9 @@ class _CollectionPageState extends State<CollectionPage> {
 
   @override
   void initState() {
-    getEntryCollection();
     super.initState();
+    // start fetching the collection's entries
+    getEntryCollection();
   }
 
   @override
@@ -62,6 +71,7 @@ class _CollectionPageState extends State<CollectionPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          //Navigate to Search Page
           XIconLabelButton(
             icon: Icons.search,
             label: "Search for an Entry",
@@ -71,6 +81,7 @@ class _CollectionPageState extends State<CollectionPage> {
             child: contentBox(
                 child: isLoading
                     ? XProgress(colors: colors)
+                    // a listview to build lazy-loaded list of entries from the fetched Widget list
                     : ListView.builder(
                         itemCount: entries.length,
                         physics: const BouncingScrollPhysics(),

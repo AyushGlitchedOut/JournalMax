@@ -38,7 +38,6 @@ class _EditorPageState extends State<EditorPage> {
   bool isLoading = false;
   List<File>? tempImages;
   String? tempRecordingFilePath;
-
   Map<String, dynamic> moods = EntryItemMoods.neutral;
 
   //CREATE
@@ -51,6 +50,7 @@ class _EditorPageState extends State<EditorPage> {
     }
   }
 
+  // Get and process an entry by Id
   Future<Map<String, dynamic>> getEntryDetailsById(int id) async {
     try {
       final res = await getEntryById(id);
@@ -65,14 +65,17 @@ class _EditorPageState extends State<EditorPage> {
     }
   }
 
-  //READ
+  //Read the entry opened or created and put its details in the UI elements
   Future<void> fetchExistingEntry(int id) async {
     try {
       final entryDetails = await getEntryDetailsById(id);
+
+      //decode stored Image Paths
       final List imagePaths = jsonDecode(entryDetails["image"] ?? "[]");
       final List<File> imagesFromPaths = imagePaths.map((value) {
         return File(value);
       }).toList();
+
       setState(() {
         _titleController.text = entryDetails["title"] ?? "Untitled";
         _contentController.text = entryDetails["content"] ?? "";
@@ -87,17 +90,22 @@ class _EditorPageState extends State<EditorPage> {
     }
   }
 
-  //UPDATE
+  //Update the Entry when required to save the changes
   Future<void> callUpdateEntry() async {
     try {
       final int id;
       final entries = await getRecentEntries();
 
+      //determine the Id on which update to be pushed
       id = widget.createNewEntry ?? true
           ? entries.first["id"]
           : widget.updateId!;
+
+      // obtain the imagePaths to save after writing the images
       final storedImagesPathsJSON = await writeTempImagesToFile(
           tempImages: tempImages ?? [], entryId: id);
+
+      //Obtain the audioPaths to save after writing the recordings
       final savedAudioFilePath = await saveTempAudioToFile(
           tempAudioFile: tempRecordingFilePath ?? "null", entryId: id);
       await updateEntry(
@@ -105,6 +113,7 @@ class _EditorPageState extends State<EditorPage> {
         Entry(
             title: _titleController.text.replaceFirst(_titleController.text[0],
                 _titleController.text[0].toUpperCase()),
+            /* Capitalise the first letter*/
             content: _contentController.text,
             mood: currentMood,
             date: DateTime.now().toString(),
@@ -120,29 +129,33 @@ class _EditorPageState extends State<EditorPage> {
   Future<void> setUpdateIDForNewEntry() async {
     try {
       if (!widget.createNewEntry!) {
-        return;
+        return; // return if not to create new entry as updateId already given
       }
       final result = await getRecentEntries();
-      widget.updateId = result.first["id"];
+      widget.updateId =
+          result.first["id"]; //get the id of the most recently (new) entry
       return;
     } catch (e) {
       showSnackBar(e.toString(), context);
     }
   }
 
+  //reporting method passed into Location dialog
   void getLocationFromDialog(String obtainedLocation) {
     location = obtainedLocation;
   }
 
+  //reporting method passed into Images dialog
   void getImagesFromDialog(List<File> obtainedImages) {
     tempImages = obtainedImages;
   }
 
+  //reporting method passed into Recording dialog
   void getAudioFilePathFromDialog(String obtainedAudioFilePath) {
     tempRecordingFilePath = obtainedAudioFilePath;
   }
 
-  //UI
+  //Method to change the STring form of stored current mood
   void setCurrentMoodString(String mood) {
     setState(() {
       currentMood = mood;
@@ -154,16 +167,22 @@ class _EditorPageState extends State<EditorPage> {
   void initState() {
     super.initState();
 
+    //upon initialkising, create new entry if needed and set the update Id based on that
     try {
+      //start loading
       setState(() {
         isLoading = true;
       });
+
+      //to create new entry or to use existing entry Id
       if (widget.createNewEntry ?? true) {
         createEntry();
       } else if (widget.updateId != null) {
         fetchExistingEntry(widget.updateId!);
       }
       setUpdateIDForNewEntry();
+
+      //stop loading
       setState(() {
         isLoading = false;
       });
@@ -176,16 +195,13 @@ class _EditorPageState extends State<EditorPage> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    //initiliase state-based variables
     bool isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
     final ColorScheme colors = Theme.of(context).colorScheme;
 
     return PopScope(
+      //popscope to initialise autosave on exiting the editor page
       canPop: true,
       onPopInvokedWithResult: (didPop, result) async {
         await callUpdateEntry();
@@ -197,12 +213,15 @@ class _EditorPageState extends State<EditorPage> {
             child: XAppBar(title: "Editor Page"),
           ),
           drawer: const XDrawer(currentPage: "editor"),
+          //save called on drawer open to prevent changes being discarded
           onDrawerChanged: (isOpened) => callUpdateEntry(),
           backgroundColor: colors.surface,
           body: Column(
             children: [
               titleBar(),
               contentBox(context),
+
+              //display the buttons at bottom only if keyboard isn't open
               isKeyboardOpen
                   ? Container()
                   : XIconLabelButton(
@@ -228,6 +247,7 @@ class _EditorPageState extends State<EditorPage> {
             ],
           ),
           floatingActionButton: XFloatingButton(
+              //floating button to view the current entry in Viewer Page
               icon: Icons.remove_red_eye_outlined,
               onclick: () async {
                 await callUpdateEntry();
@@ -302,6 +322,7 @@ class _EditorPageState extends State<EditorPage> {
     );
   }
 
+  //contentBox to display diary entry
   Expanded contentBox(BuildContext context) {
     return Expanded(
       child: Padding(
@@ -332,6 +353,7 @@ class _EditorPageState extends State<EditorPage> {
     );
   }
 
+//TitleBar
   Padding titleBar() {
     return Padding(
       padding: const EdgeInsets.all(2.0),

@@ -26,7 +26,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  //UI
+  //Method to open links for about sections
   Future<void> openLink(String url, BuildContext context) async {
     try {
       await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
@@ -50,6 +50,7 @@ class _SettingsPageState extends State<SettingsPage> {
       backgroundColor: colors.surface,
       body: Column(
         children: [
+          //Toggle for dark theme
           XToggle(
             title: "Dark Theme",
             value:
@@ -65,6 +66,7 @@ class _SettingsPageState extends State<SettingsPage> {
               }
             },
           ),
+          //To wipe all the entries
           XIconLabelButton(
               icon: Icons.delete_forever,
               label: "Delete All Entries",
@@ -76,6 +78,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   showSnackBar(e.toString(), context);
                 }
               }),
+
+          //To open import dialog
           XIconLabelButton(
             icon: Icons.download,
             label: "Import a Journalmax database",
@@ -88,6 +92,8 @@ class _SettingsPageState extends State<SettingsPage> {
             },
             customFontSize: 16.0,
           ),
+
+          //To open export dialog
           XIconLabelButton(
             icon: Icons.upload,
             label: "Export current Journalmax Database",
@@ -100,6 +106,8 @@ class _SettingsPageState extends State<SettingsPage> {
             },
             customFontSize: 13.5,
           ),
+
+          //Links to open about sections
           XIconLabelButton(
             icon: Icons.book,
             label: "App Licenses",

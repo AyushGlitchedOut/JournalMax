@@ -10,10 +10,13 @@ import 'package:journalmax/widgets/XDrawer.dart';
 import 'package:journalmax/widgets/XIconLabelButton.dart';
 
 class MultimediaAddPage extends StatelessWidget {
+  //reporting methods taken from editor page to pass into the dialogs
   final void Function(String location) saveLocation;
   final void Function(List<File> images) saveImages;
   final void Function(String audioFilePath) saveRecording;
+  //bool to see if recording is there or not
   final bool alreadyHasRecording;
+  //contentId
   final int? contentId;
   const MultimediaAddPage(
       {super.key,
@@ -34,6 +37,7 @@ class MultimediaAddPage extends StatelessWidget {
       drawer: const XDrawer(currentPage: "editor"),
       backgroundColor: colors.surface,
       body: Column(
+        //Opens up Location Dialog
         children: [
           XIconLabelButton(
             icon: Icons.location_on,
@@ -49,6 +53,8 @@ class MultimediaAddPage extends StatelessWidget {
                   });
             },
           ),
+
+          //Opens up Image dialog
           XIconLabelButton(
               icon: Icons.image,
               label: "Add images",
@@ -62,6 +68,8 @@ class MultimediaAddPage extends StatelessWidget {
                       );
                     });
               }),
+
+          //Opens up Voice dialog
           XIconLabelButton(
             icon: Icons.mic,
             label: "Record Voice",
@@ -69,6 +77,7 @@ class MultimediaAddPage extends StatelessWidget {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
+                    //check to open recording dialog or playing dialog based on whether the recording is there or not
                     return alreadyHasRecording
                         ? AudioPlayInEditModeDialog(
                             contentId: contentId!,
