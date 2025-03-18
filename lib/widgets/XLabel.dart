@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class XLabel extends StatelessWidget {
   final String label;
   Color? color;

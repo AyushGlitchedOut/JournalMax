@@ -32,7 +32,7 @@
 32. **DONE** Try to convert all the helper methods to widgets for potential optimizations and better code quality
 33. **DONE** Write a proper README for the project
 34. **DONE** Make a new mood called neutral that will be the default for any new entry instead of happy and will have the default colorscheme
-35. Create a proper Test Page (Debug Page)
+35. **DONE** Create a proper Test Page (Debug Page)
 
 >>Some Stuff to do after completing all these things
 1. Use a RichText field in the Editor Page

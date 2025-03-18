@@ -145,7 +145,6 @@ class LocationWidget extends StatelessWidget {
       final url = Uri.parse(
           "https://www.google.com/maps/search/?api=1&query=$locationEncodedUri");
       launchUrl(url, mode: LaunchMode.externalApplication);
-      print(url);
     } on Exception {
       showSnackBar(
           "Sorry, Couldn't open web results for the location", context);

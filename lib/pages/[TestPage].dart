@@ -1,11 +1,9 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:journalmax/widgets/XAppBar.dart';
 import 'package:journalmax/widgets/XDrawer.dart';
 import 'package:journalmax/models/EntryModel.dart';
 import 'package:journalmax/services/DataBaseService.dart';
+import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
 import 'package:path_provider/path_provider.dart';
 
 class TestPage extends StatelessWidget {
@@ -25,93 +23,163 @@ class TestPage extends StatelessWidget {
       ),
       backgroundColor: colors.surface,
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ElevatedButton(
               onPressed: () async {
-                if (kDebugMode) print(await getEntry("push"));
-                if (kDebugMode) print('\n ${await getAllEntry()}');
-              },
-              child: const Text("GET Entry")),
-          ElevatedButton(
-              onPressed: () {
-                deleteEntry(27);
-              },
-              child: const Text("DELETE")),
-          ElevatedButton(
-              onPressed: () {
-                updateEntry(
-                    7,
-                    Entry(
-                        title: "Title",
-                        content: "Lorem Ipsum Dolor Amet",
-                        mood: "Happy",
-                        date: "Now"));
-              },
-              child: const Text("UPDATE")),
-          ElevatedButton(
-              onPressed: () {
                 pushEntry(Entry(
-                    content: "Push Entry Content",
-                    title: "pushEntry",
-                    date: "Now",
-                    mood: "Frustrated"));
+                    title: "Test Entry",
+                    content: "Test Entry Content",
+                    mood: "Excited",
+                    date: DateTime.now().toString()));
               },
-              child: const Text("PUSH")),
-          ElevatedButton(
-              onPressed: () {
-                wipeOrdeleteAllEntry();
-              },
-              child: const Text("Wipe ")),
+              child: const Text("Push a Test Entry")),
           ElevatedButton(
               onPressed: () async {
-                final Directory directory =
-                    await getApplicationDocumentsDirectory();
-                List<FileSystemEntity> items =
-                    await directory.list(recursive: true).toList();
-                for (final file in items) {
-                  print(file);
-                }
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      final TextEditingController controller =
+                          TextEditingController();
+                      return AlertDialog(
+                        content: TextField(
+                          controller: controller,
+                        ),
+                        actions: [
+                          actionButton(
+                              onclick: () async {
+                                final result = await getEntry(controller.text);
+                                for (dynamic i in result) {
+                                  print(i);
+                                }
+                              },
+                              text: "OK",
+                              isForDeleteOrCancel: false,
+                              colors: colors)
+                        ],
+                      );
+                    });
               },
-              child: const Text("List Media")),
+              child: const Text("Find an Entry")),
           ElevatedButton(
               onPressed: () async {
-                final Directory directory =
-                    await getApplicationDocumentsDirectory();
-                List<FileSystemEntity> items = await directory.list().toList();
-                for (final file in items) {
-                  if (file.path.endsWith(".png") ||
-                      file.path.endsWith(".jpg") ||
-                      file.path.endsWith(".jpeg") ||
-                      file.path.endsWith(".webp")) {
-                    print("$file:To Be Deleted");
-                    await file.delete();
-                  } else {
-                    print("Others Found!$file");
-                  }
-                }
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      final TextEditingController controller =
+                          TextEditingController();
+                      return AlertDialog(
+                        content: TextField(
+                          controller: controller,
+                          decoration: const InputDecoration(
+                              hintText: "Enter id to modfiy"),
+                        ),
+                        actions: [
+                          actionButton(
+                              onclick: () async {
+                                updateEntry(
+                                    int.parse(controller.text),
+                                    Entry(
+                                        title: "This is a modified Title",
+                                        content:
+                                            "This content was modified at ${DateTime.now()}",
+                                        mood: "Neutral",
+                                        date: DateTime.now().toString()));
+                              },
+                              text: "OK",
+                              isForDeleteOrCancel: false,
+                              colors: colors)
+                        ],
+                      );
+                    });
               },
-              child: const Text("Delete Media")),
+              child: const Text("Update an Entry")),
           ElevatedButton(
               onPressed: () async {
-                final Directory directory =
-                    await getApplicationCacheDirectory();
-                final result = await directory.list(recursive: true).toList();
-                for (FileSystemEntity i in result) {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      final TextEditingController controller =
+                          TextEditingController();
+                      return AlertDialog(
+                        content: TextField(
+                          controller: controller,
+                          decoration:
+                              const InputDecoration(hintText: "Enter an Id"),
+                        ),
+                        actions: [
+                          actionButton(
+                              onclick: () async {
+                                print(await getEntryById(
+                                    int.parse(controller.text)));
+                              },
+                              text: "OK",
+                              isForDeleteOrCancel: false,
+                              colors: colors)
+                        ],
+                      );
+                    });
+              },
+              child: const Text("Read an Entry")),
+          ElevatedButton(
+              onPressed: () async {
+                final result = await getAllEntry();
+                for (dynamic i in result) {
                   print(i);
                 }
-                print(File(
-                        "/data/user/0/com.ayushispro2011.journalmax/cache/audio")
-                    .readAsBytesSync());
               },
-              child: const Text("See cache")),
+              child: const Text("Dump All Entries")),
           ElevatedButton(
               onPressed: () async {
-                final result = await getRecentEntries();
-                for (dynamic entry in result) {
-                  print(entry);
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      final TextEditingController controller =
+                          TextEditingController();
+                      return AlertDialog(
+                        content: TextField(
+                          controller: controller,
+                          decoration:
+                              const InputDecoration(hintText: "Enter an Id"),
+                        ),
+                        actions: [
+                          actionButton(
+                              onclick: () async {
+                                deleteEntry(int.parse(controller.text));
+                              },
+                              text: "OK",
+                              isForDeleteOrCancel: true,
+                              colors: colors)
+                        ],
+                      );
+                    });
+              },
+              child: const Text("Delete an Entry")),
+          ElevatedButton(
+              onPressed: () async {
+                await wipeOrdeleteAllEntry();
+              },
+              child: const Text("Wipe the DataBase")),
+          ElevatedButton(
+              onPressed: () async {
+                final dataDirectory = await getApplicationDocumentsDirectory();
+                final result =
+                    await dataDirectory.list(recursive: true).toList();
+                for (dynamic i in result) {
+                  print(i);
                 }
               },
-              child: const Text("Recent Entries"))
+              child: const Text("Dump contents of data directory")),
+          ElevatedButton(
+              onPressed: () async {
+                final cacheDirectory = await getApplicationCacheDirectory();
+                final result =
+                    await cacheDirectory.list(recursive: true).toList();
+                for (dynamic i in result) {
+                  print(i);
+                }
+              },
+              child: const Text("Dump Cache Directory"))
         ],
       ),
     );
