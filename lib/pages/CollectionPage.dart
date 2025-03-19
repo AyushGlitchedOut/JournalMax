@@ -86,7 +86,7 @@ class _CollectionPageState extends State<CollectionPage> {
                         itemCount: entries.length,
                         physics: const BouncingScrollPhysics(),
                         itemBuilder: (BuildContext context, int itemIndex) {
-                          return entries[itemIndex];
+                          return entries[(entries.length - 1) - itemIndex];
                         }),
                 colors: colors),
           ),

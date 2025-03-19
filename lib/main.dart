@@ -5,14 +5,21 @@ import 'package:journalmax/pages/CollectionPage.dart';
 import 'package:journalmax/pages/EditorPage.dart';
 import 'package:journalmax/pages/FindDiary.dart';
 import 'package:journalmax/pages/Homepage.dart';
+import 'package:journalmax/pages/IntroductionPage.dart';
 import 'package:journalmax/pages/SettingsPage.dart';
 import 'package:journalmax/services/CleanCache.dart';
 import 'package:journalmax/themes/ThemeProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class App extends StatelessWidget {
-  App({super.key});
+class App extends StatefulWidget {
+  const App({super.key});
 
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
   //All the App Routes
   final Map<String, WidgetBuilder> routes = {
     "/homepage": (context) => const HomePage(),
@@ -22,6 +29,7 @@ class App extends StatelessWidget {
           createNewEntry: true,
         ),
     "/collection": (context) => const CollectionPage(),
+    "/intro": (context) => const IntroductionPage(),
     if (kDebugMode) "/test": (context) => const TestPage()
   };
 
@@ -31,7 +39,17 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: true,
       title: "JournalMax",
       theme: Provider.of<Themeprovider>(context).themeData,
-      initialRoute: "/homepage",
+      home: FutureBuilder(
+          future: SharedPreferences.getInstance().then((prefs) {
+            return prefs.getBool("showIntroPage");
+          }),
+          builder: (context, snapshot) {
+            return snapshot.hasData
+                ? snapshot.data == null
+                    ? const IntroductionPage()
+                    : const HomePage()
+                : const IntroductionPage();
+          }),
       routes: routes,
     );
   }
@@ -44,6 +62,6 @@ void main() async {
   await clearCache();
   runApp(ChangeNotifierProvider(
     create: (context) => Themeprovider(),
-    child: App(),
+    child: const App(),
   ));
 }

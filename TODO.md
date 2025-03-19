@@ -16,7 +16,7 @@
 17. **DONE** Update everything to a single naming convention, preferabbly to lowerCamelCase for consistency
 18. **DONE** Consistency in font sizes and border-radius, color etc. for interface
 19. **DONE** Fix themeing and theme consistency issues
-20. Testing with profiling tools and devtools debugger along with security
+20. **DONE** (No changes required) Testing with profiling tools and devtools debugger along with security
 21. **DONE** Wipe and delete images upon wiping and deleting entries corresponding to them
 22. **DONE** Move SaveImagesToFile into editor page upon saving the entry for security reasons
 22. **DONE** Ability to view all the entry data inlcluding multimedia in ViewerPage

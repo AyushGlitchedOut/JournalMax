@@ -150,11 +150,6 @@ class _EditorPageState extends State<EditorPage> {
   //reporting method passed into Images dialog
   void getImagesFromDialog(List<File> obtainedImages) {
     tempImages = obtainedImages;
-    if (kDebugMode) {
-      for (var file in obtainedImages) {
-        if (kDebugMode) print("Image File: $file");
-      }
-    }
   }
 
   //reporting method passed into Recording dialog

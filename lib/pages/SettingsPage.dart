@@ -126,6 +126,11 @@ class _SettingsPageState extends State<SettingsPage> {
             onclick: () => openLink(
                 "https://github.com/AyushGlitchedOut/JournalMax", context),
           ),
+          XIconLabelButton(
+              icon: Icons.help,
+              label: "Show Introduction Screen Again",
+              customFontSize: 16.0,
+              onclick: () => Navigator.pushNamed(context, "/intro"))
         ],
       ),
     );
