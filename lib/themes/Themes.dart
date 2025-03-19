@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 
-//LightMode theme
 ThemeData lightmode = ThemeData(
   fontFamily: "Poppins",
   fontFamilyFallback: const ["Roboto"],
   colorScheme: const ColorScheme.light(
     brightness: Brightness.light,
-    surface: Color(0xFFF5F5F5),
-    onSurface: Color(0xFF333333),
-    primary: Color(0xFF444444),
-    onPrimary: Color(0xFFE0E0E0),
-    secondary: Color(0xFFCCCCCC),
-    tertiary: Color(0xFF666666),
-    shadow: Color(0xFF999999),
-    outline: Color(0xFFBBBBBB),
+    surface: Color(0xFFFAF3F0),
+    onSurface: Color(0xFF222831),
+    primary: Color(0xFF965EA9),
+    onPrimary: Color(0xFFE8D7E0),
+    secondary: Color(0xFF283B34),
+    tertiary: Color(0xFF9CC2A2),
+    shadow: Color(0xFF666666),
+    outline: Color(0xFF8B3DC5),
   ),
 );
-
 //DarkMode theme
 ThemeData darkmode = ThemeData(
     fontFamily: "Poppins",

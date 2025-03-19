@@ -41,6 +41,7 @@ Future<dynamic> viewPageContentDialog(
                 onclick: () {
                   contentWidgetChanger(SelectableText(
                     content["content"].toString(),
+                    textAlign: TextAlign.left,
                     style: TextStyle(color: mood["secondary"], fontSize: 20.0),
                   ));
                   Navigator.pop(context);

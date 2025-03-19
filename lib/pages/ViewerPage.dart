@@ -143,6 +143,9 @@ class _ViewerPageState extends State<ViewerPage> {
       padding: const EdgeInsets.all(5.0),
       margin: const EdgeInsets.all(2.0),
       child: Column(
+        crossAxisAlignment: contentToShow is SelectableText
+            ? CrossAxisAlignment.start
+            : CrossAxisAlignment.center,
         //To not center the contents if its text (diary entry)
         mainAxisAlignment: contentToShow is SelectableText
             ? MainAxisAlignment.start
