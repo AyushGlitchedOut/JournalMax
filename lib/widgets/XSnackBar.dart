@@ -5,7 +5,7 @@ void showSnackBar(String message, BuildContext context) {
   OverlayEntry? XSnackBar;
   double snackBarOpacity = 0.0;
 
-  //Custom SnackBar using Overlay
+  //Custom SnackBar using Overlay as the inbuilt snackbar couldn't provide the animations
   XSnackBar = OverlayEntry(builder: (BuildContext context) {
     return SafeArea(
       child: Align(
@@ -42,6 +42,7 @@ void showSnackBar(String message, BuildContext context) {
                     const SizedBox(
                       width: 10.0,
                     ),
+                    //the Actual Message to display
                     Expanded(
                       child: DefaultTextStyle(
                         style: TextStyle(
@@ -61,6 +62,7 @@ void showSnackBar(String message, BuildContext context) {
                         ),
                       ),
                     ),
+                    //close button
                     IconButton(
                         onPressed: () {
                           XSnackBar?.remove();
@@ -92,6 +94,7 @@ void showSnackBar(String message, BuildContext context) {
     snackBarOpacity = 1.0; // Make it visible
     XSnackBar?.markNeedsBuild(); // Rebuild the overlay to apply opacity
   });
+
   //Fade Out
   Future.delayed(const Duration(milliseconds: 1500), () {
     snackBarOpacity = 0.0;

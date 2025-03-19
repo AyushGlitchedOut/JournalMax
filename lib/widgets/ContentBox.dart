@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+//A container used in the app aat many places to make a simple gradient box with margins and shadows that accepts
+//the children as widget arguments
 Container contentBox(
     {required Widget child,
     required ColorScheme colors,
@@ -31,6 +33,7 @@ Container contentBox(
         ]),
     padding: const EdgeInsets.all(2.0),
     margin: const EdgeInsets.all(5.0),
+    //The children
     child: child,
   );
 }

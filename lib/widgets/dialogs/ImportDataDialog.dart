@@ -11,6 +11,7 @@ class ImportDataDialog extends StatefulWidget {
   State<ImportDataDialog> createState() => _ImportDataDialogState();
 }
 
+//Dialog to open for importing a folder
 class _ImportDataDialogState extends State<ImportDataDialog> {
   @override
   Widget build(BuildContext context) {
@@ -31,6 +32,7 @@ class _ImportDataDialogState extends State<ImportDataDialog> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              //The title
               const Center(
                 child: Text(
                   "Import Data From Folder",
@@ -47,6 +49,7 @@ class _ImportDataDialogState extends State<ImportDataDialog> {
   }
 }
 
+//Actions of the import dialog
 class ImportDataDialogActions extends StatelessWidget {
   const ImportDataDialogActions({
     super.key,
@@ -64,9 +67,9 @@ class ImportDataDialogActions extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          //both do the same thing: exit the dialog
           actionButton(
               onclick: () {
-                //cancel logic
                 Navigator.pop(context);
               },
               text: "Cancel",
@@ -77,7 +80,6 @@ class ImportDataDialogActions extends StatelessWidget {
           ),
           actionButton(
               onclick: () {
-                //exit logic
                 Navigator.pop(context);
               },
               text: "OK",
@@ -99,11 +101,13 @@ class ImportDataDialogBody extends StatefulWidget {
 }
 
 class _ImportDataDialogBodyState extends State<ImportDataDialogBody> {
+  //initialise variables
   final FilePicker filepicker = FilePickerIO();
   String? selectedFolder = "(Not found)";
   Stream<int>? importStream;
   bool importCompleted = false;
 
+  //method to start import by setting the import Stream
   void importData() {
     if (importCompleted) return;
     setState(() {
@@ -111,6 +115,7 @@ class _ImportDataDialogBodyState extends State<ImportDataDialogBody> {
     });
   }
 
+  //method to select a directory for importing
   Future<void> getDirectory() async {
     selectedFolder = await filepicker.getDirectoryPath();
 
@@ -120,6 +125,7 @@ class _ImportDataDialogBodyState extends State<ImportDataDialogBody> {
   @override
   void initState() {
     super.initState();
+    //get directory after UI loads
     getDirectory();
   }
 
@@ -129,15 +135,19 @@ class _ImportDataDialogBodyState extends State<ImportDataDialogBody> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        //Use the import stream to build progress bar which updates on each progress
         StreamBuilder(
             stream: importStream,
             builder: (context, snapshot) {
+              //set importCompleted to true once stream reaches 100
               if (snapshot.hasData && snapshot.data! == 100) {
                 importCompleted = true;
               }
+              //check if stream has started or not
               return snapshot.hasData
                   ? Column(
                       children: [
+                        //display the selected directory
                         Text(
                             "Target Directory: ${selectedFolder ?? "No Folder Selected"}"),
                         const SizedBox(height: 10.0),
@@ -149,6 +159,7 @@ class _ImportDataDialogBodyState extends State<ImportDataDialogBody> {
                     )
                   : Column(
                       children: [
+                        //display the selected directory
                         Text("Target Directory: $selectedFolder"),
                         const SizedBox(height: 10.0),
                         const LinearProgressIndicator(
@@ -161,12 +172,14 @@ class _ImportDataDialogBodyState extends State<ImportDataDialogBody> {
         const SizedBox(
           height: 20.0,
         ),
+        //Start import
         XIconLabelButton(
           icon: Icons.download,
           label: "Import Entries From the Folder",
           onclick: () => importData(),
           customFontSize: 14.0,
         ),
+        //Reselect folder
         XIconLabelButton(
           icon: Icons.folder_copy,
           label: "Reselect Folder",

@@ -8,7 +8,9 @@ import "package:journalmax/services/DataBaseService.dart";
 import "package:journalmax/widgets/XSnackBar.dart";
 import "package:journalmax/widgets/dialogs/DialogElevatedButton.dart";
 
+//Dialog to enter images in the MultimediaAddPage
 class EnterImageDialog extends StatefulWidget {
+  //method to report the images
   final void Function(List<File> images) reportImages;
   final int contentId;
   const EnterImageDialog(
@@ -18,21 +20,32 @@ class EnterImageDialog extends StatefulWidget {
 }
 
 class _EnterImageDialogState extends State<EnterImageDialog> {
+  //actual array of images
   List<File> images = [];
 
+  //method to get the images from the entry of the given Id
   Future<void> getImagesFromEntry() async {
     final result = await getEntryById(widget.contentId);
+
+    //check if there are images or not and
     final String obtainedImages = result.first["image"].toString() == "null"
         ? "[]"
         : result.first["image"].toString();
+
+    //decode the data
     final imageArray = jsonDecode(obtainedImages);
+
+    //loop over the data and add each to file array
     for (var image in imageArray) {
       images.add(File(image));
     }
   }
 
+  //select files from the gallery to enter using the ImagePicker Api
   Future<void> addImages() async {
     List<XFile> loadedImages;
+
+    //pick the images and get XFile array
     try {
       loadedImages = await ImagePicker().pickMultiImage(limit: 6);
     } on PlatformException {
@@ -42,9 +55,12 @@ class _EnterImageDialogState extends State<EnterImageDialog> {
       showSnackBar("Error selecting files from Gallery", context);
       return;
     }
+    //convert XFile array to File array
     final List<File> selectedImages = loadedImages.map((value) {
       return File(value.path);
     }).toList();
+
+    //add the files and re-render
     setState(() {
       images.addAll(selectedImages);
     });
@@ -52,6 +68,7 @@ class _EnterImageDialogState extends State<EnterImageDialog> {
 
   @override
   void initState() {
+    //first obtain the images from entry, add the Images from picker while the UI loads
     Future.delayed(Duration.zero, () async {
       await getImagesFromEntry();
       await addImages();
@@ -62,6 +79,8 @@ class _EnterImageDialogState extends State<EnterImageDialog> {
   @override
   Widget build(BuildContext context) {
     ColorScheme colors = Theme.of(context).colorScheme;
+
+    //size dimensions of the screen
     final Size size = MediaQuery.of(context).size;
     return Dialog(
       insetPadding: const EdgeInsets.all(0.0),
@@ -76,6 +95,7 @@ class _EnterImageDialogState extends State<EnterImageDialog> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            //Title
             const Padding(
               padding: EdgeInsets.only(top: 10),
               child: Center(
@@ -101,6 +121,7 @@ class _EnterImageDialogState extends State<EnterImageDialog> {
   }
 }
 
+//Actions
 class ImageDialogActions extends StatelessWidget {
   final ColorScheme colors;
   final Future<void> Function() getImages;
@@ -118,6 +139,7 @@ class ImageDialogActions extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          //add More images actions to open up image Picker and add more images
           actionButton(
               onclick: () {
                 getImages();
@@ -128,6 +150,7 @@ class ImageDialogActions extends StatelessWidget {
           const SizedBox(
             width: 15.0,
           ),
+          //Button to close the dialog and save the images
           actionButton(
               onclick: () async {
                 try {
@@ -146,27 +169,33 @@ class ImageDialogActions extends StatelessWidget {
   }
 }
 
+//Body (Reusable)
 // ignore: must_be_immutable
 class ImageViewer extends StatefulWidget {
   ImageViewer({super.key, required this.images});
+  //list of files to view
   List<File> images;
   @override
   State<ImageViewer> createState() => _ImageViewerState();
 }
 
 class _ImageViewerState extends State<ImageViewer> {
+  //variables for switching and movement
   int currentPageIndex = 0;
   bool noMoreLeft = true;
   bool noMoreRight = false;
 
   @override
   Widget build(BuildContext context) {
+    //if there's no image
     bool noImageSelected = widget.images.isEmpty;
+
     final ColorScheme colors = Theme.of(context).colorScheme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        //Left arrow
         imageViewerArrow(
             colors: colors,
             isLeft: true,
@@ -186,6 +215,8 @@ class _ImageViewerState extends State<ImageViewer> {
               });
             },
             disabled: noMoreLeft),
+
+        //The actual image
         Container(
           width: MediaQuery.of(context).size.width * 0.5,
           height: MediaQuery.of(context).size.height * 0.5,
@@ -193,15 +224,21 @@ class _ImageViewerState extends State<ImageViewer> {
             color: Colors.transparent,
           ),
           child: noImageSelected
+              //Display fallbak image if no image is there
               ? const Image(
                   fit: BoxFit.contain, image: AssetImage("assets/NoImage.png"))
               : widget.images[currentPageIndex].existsSync()
                   ? Image.file(
-                      fit: BoxFit.contain, widget.images[currentPageIndex])
+                      //file from the provided image array
+                      fit: BoxFit.contain,
+                      widget.images[currentPageIndex])
                   : const Image(
                       fit: BoxFit.contain,
+                      //display error image if file doesnt exist
                       image: AssetImage("assets/ErrorImage.png")),
         ),
+
+        //Right arrow
         imageViewerArrow(
             colors: colors,
             isLeft: false,
@@ -234,6 +271,7 @@ class _ImageViewerState extends State<ImageViewer> {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         gradient: disabled
+            //gradient for whether the arrow can move or not
             ? const LinearGradient(
                 colors: [Colors.transparent, Colors.transparent])
             : LinearGradient(
@@ -246,6 +284,7 @@ class _ImageViewerState extends State<ImageViewer> {
         disabledColor: Colors.transparent,
         onPressed: onclick,
         icon: Icon(
+          //left or right icon
           isLeft ? Icons.keyboard_arrow_left : Icons.keyboard_arrow_right,
           color: colors.primary,
           size: 30.0,

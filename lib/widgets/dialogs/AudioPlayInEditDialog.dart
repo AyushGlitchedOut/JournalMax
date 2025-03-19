@@ -22,14 +22,12 @@ class AudioPlayInEditModeDialog extends StatefulWidget {
 
 class _AudioPlayInEditModeDialogState extends State<AudioPlayInEditModeDialog> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     ColorScheme colors = Theme.of(context).colorScheme;
+
+    //size of the screen
     final Size size = MediaQuery.of(context).size;
+
     return Dialog(
       insetPadding: const EdgeInsets.all(0.0),
       elevation: 5.0,
@@ -45,6 +43,7 @@ class _AudioPlayInEditModeDialogState extends State<AudioPlayInEditModeDialog> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              //Title
               const Center(
                 child: Text(
                   "Play Saved Recording",
@@ -64,6 +63,7 @@ class _AudioPlayInEditModeDialogState extends State<AudioPlayInEditModeDialog> {
   }
 }
 
+//Actions of the dialog
 class AudioPlayInEditModeDialogActions extends StatelessWidget {
   const AudioPlayInEditModeDialogActions({
     super.key,
@@ -83,6 +83,7 @@ class AudioPlayInEditModeDialogActions extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          //button to open the AudioRecorder
           actionButton(
               onclick: () {
                 Navigator.pop(context);
@@ -100,6 +101,7 @@ class AudioPlayInEditModeDialogActions extends StatelessWidget {
           const SizedBox(
             width: 15.0,
           ),
+          //to exit the dialog
           actionButton(
               onclick: () {
                 Navigator.pop(context);
@@ -113,6 +115,7 @@ class AudioPlayInEditModeDialogActions extends StatelessWidget {
   }
 }
 
+//Reusable body of the dialog
 class AudioPlayer extends StatefulWidget {
   final int contentId;
   const AudioPlayer({super.key, required this.contentId});
@@ -122,9 +125,12 @@ class AudioPlayer extends StatefulWidget {
 }
 
 class _AudioPlayerState extends State<AudioPlayer> {
+  //sound player
   final FlutterSoundPlayer _player = FlutterSoundPlayer(logLevel: Level.error);
+  //audio file to play
   File? audioFile;
 
+  //get the audio file from the Id given (entry)
   Future<void> getAudioFromId() async {
     try {
       final data = await getEntryById(widget.contentId);
@@ -135,6 +141,7 @@ class _AudioPlayerState extends State<AudioPlayer> {
     }
   }
 
+  //initialise tge player and check if recording exixts or not
   Future<void> initPlayer() async {
     await getAudioFromId();
     if (audioFile == null || !audioFile!.existsSync()) {
@@ -155,6 +162,7 @@ class _AudioPlayerState extends State<AudioPlayer> {
     }
   }
 
+  //dispose the player
   Future<void> disposePlayer() async {
     await _player.stopPlayer();
     await _player.closePlayer();
@@ -163,12 +171,14 @@ class _AudioPlayerState extends State<AudioPlayer> {
 
   @override
   void initState() {
+    //start the plyaer upon initialisation
     initPlayer();
     super.initState();
   }
 
   @override
   void dispose() {
+    //dispose the player upon closing
     disposePlayer();
     super.dispose();
   }
@@ -189,6 +199,7 @@ class _AudioPlayerState extends State<AudioPlayer> {
           children: [
             audioPlayInEditDialogBodyButton(
                 colors,
+                //to start playing, resume or pause
                 _player.isStopped
                     ? initPlayer
                     : () async {
@@ -198,11 +209,13 @@ class _AudioPlayerState extends State<AudioPlayer> {
                             : await _player.pausePlayer();
                         setState(() {});
                       },
+                //which icon to display
                 _player.isStopped
                     ? Icons.replay_outlined
                     : _player.isPaused
                         ? Icons.play_arrow
                         : Icons.pause_circle,
+                //is the button transpaernt or gradient
                 _player.isStopped
                     ? const LinearGradient(
                         colors: [Colors.transparent, Colors.transparent])
@@ -217,11 +230,13 @@ class _AudioPlayerState extends State<AudioPlayer> {
     );
   }
 
+  //StreamBuilder progress bar that uses data from sound player to display playing progress
   StreamBuilder<PlaybackDisposition> playerProgressIndicator(
       double? playerProgress) {
     return StreamBuilder(
       stream: _player.onProgress,
       builder: (context, snapshot) {
+        //if the player is stopped
         if (_player.isStopped) {
           playerProgress = 0.0;
 
@@ -237,12 +252,15 @@ class _AudioPlayerState extends State<AudioPlayer> {
               ),
             ],
           );
+          //if its playing
         } else if (snapshot.hasData) {
+          //calculate the progress for Progress bar
           playerProgress = (snapshot.data!.position.inMilliseconds > 0)
               ? snapshot.data!.position.inMilliseconds /
                   snapshot.data!.duration.inMilliseconds
               : 0.0;
 
+          //format second and minutes
           final String minutes = (snapshot.data!.position.inSeconds ~/ 60)
               .toString()
               .padLeft(2, "0");
@@ -276,6 +294,7 @@ class _AudioPlayerState extends State<AudioPlayer> {
     );
   }
 
+  //the same button from audio Record dialog
   Container audioPlayInEditDialogBodyButton(ColorScheme colors,
       void Function() onclick, IconData icon, Gradient background) {
     return Container(

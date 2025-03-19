@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
+//the most used Widget of the app, the primary way to display buttons and options and elements of a page
 // ignore: must_be_immutable
 class XIconLabelButton extends StatefulWidget {
   final IconData icon;
   final String label;
   final void Function()? onclick;
+  //customfontsize is the text is too long
   final double? customFontSize;
   const XIconLabelButton(
       {super.key,
@@ -25,6 +27,7 @@ class _XIconLabelButtonState extends State<XIconLabelButton> {
     final ColorScheme colors = Theme.of(context).colorScheme;
     return GestureDetector(
       onTap: widget.onclick ?? () {},
+      //Tap up and down to change opacity for animation
       onTapDown: (details) {
         setState(() {
           buttonOpacity = 0.8;
@@ -36,6 +39,7 @@ class _XIconLabelButtonState extends State<XIconLabelButton> {
         });
       },
       child: AnimatedOpacity(
+        //animatedOpacity for click effect upon clicking
         duration: const Duration(milliseconds: 100),
         opacity: buttonOpacity,
         child: Container(
@@ -56,6 +60,7 @@ class _XIconLabelButtonState extends State<XIconLabelButton> {
               ]),
           child: Row(
             children: [
+              //The given icon
               Icon(
                 widget.icon,
                 color: colors.onPrimary,
@@ -71,6 +76,7 @@ class _XIconLabelButtonState extends State<XIconLabelButton> {
                 ],
                 size: 40.0,
               ),
+              //The text label
               Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: Text(

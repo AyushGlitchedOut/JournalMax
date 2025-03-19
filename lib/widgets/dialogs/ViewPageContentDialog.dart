@@ -7,9 +7,11 @@ import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
 import 'package:journalmax/widgets/dialogs/EnterImageDialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+//dialog used in ViewPage to change the content being viewed i.e Data entry, image, location, recording
 Future<dynamic> viewPageContentDialog(
     BuildContext context,
     ColorScheme colors,
+    //setState method to change the widget in viewer Page
     void Function(Widget contentWidget) contentWidgetChanger,
     Map<String, Object?> content,
     Map<String, Color> mood) {
@@ -31,6 +33,7 @@ Future<dynamic> viewPageContentDialog(
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              //options to view different stored data
               dialogButton(
                 colors: colors,
                 icon: Icons.book,
@@ -43,6 +46,7 @@ Future<dynamic> viewPageContentDialog(
                   Navigator.pop(context);
                 },
               ),
+              //see location
               dialogButton(
                 colors: colors,
                 icon: Icons.location_on,
@@ -53,6 +57,7 @@ Future<dynamic> viewPageContentDialog(
                   Navigator.pop(context);
                 },
               ),
+              //see recording
               dialogButton(
                 colors: colors,
                 icon: Icons.mic,
@@ -62,6 +67,7 @@ Future<dynamic> viewPageContentDialog(
                   Navigator.pop(context);
                 },
               ),
+              //see images
               dialogButton(
                 colors: colors,
                 icon: Icons.image,
@@ -74,6 +80,7 @@ Future<dynamic> viewPageContentDialog(
             ],
           ),
           actions: [
+            //Both do the same thing-> Quit the dialog
             actionButton(
                 onclick: () {
                   Navigator.of(context).pop();
@@ -93,6 +100,7 @@ Future<dynamic> viewPageContentDialog(
       });
 }
 
+// A reusable button to display items in the dialog
 Container dialogButton(
     {required ColorScheme colors,
     required IconData icon,
@@ -134,11 +142,13 @@ Container dialogButton(
   );
 }
 
+//Widget in viewerPage to display location
 class LocationWidget extends StatelessWidget {
   final Map<String, Object?> content;
   final Map<String, Color> mood;
   const LocationWidget({super.key, required this.content, required this.mood});
 
+  //to open the obtained location in google maps query
   Future<void> openLocationInMaps(String location, BuildContext context) async {
     try {
       final locationEncodedUri = Uri.encodeFull(location);
@@ -153,6 +163,7 @@ class LocationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //check if location is entered
     final bool locationNotEntered =
         content["location"].toString().trim() == "Not Entered!";
     final ColorScheme colors = Theme.of(context).colorScheme;
@@ -160,6 +171,7 @@ class LocationWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       spacing: 10.0,
       children: [
+        //red icon for aesthetics
         Center(
           child: Icon(
             Icons.location_pin,
@@ -170,11 +182,13 @@ class LocationWidget extends StatelessWidget {
             ],
           ),
         ),
+        //label
         Center(
             child: Text(
           "On ${content["date"]}, You were at: ",
           style: TextStyle(fontSize: 17.0, color: mood["secondary"]),
         )),
+        //THe actual location in format of a link that has onclick to open a maps
         Center(
           child: GestureDetector(
             onTap: () {
@@ -197,6 +211,7 @@ class LocationWidget extends StatelessWidget {
   }
 }
 
+//ImagesWidget to display images
 class ImagesWidget extends StatefulWidget {
   final Map<String, Object?> content;
   const ImagesWidget({super.key, required this.content});
@@ -206,6 +221,7 @@ class ImagesWidget extends StatefulWidget {
 }
 
 class _ImagesWidgetState extends State<ImagesWidget> {
+  //loop over jsondecoded list from the entry and convert each one into files
   List<File> fileListFromEntry() {
     if (widget.content["image"].toString() == "null") {
       return [];
@@ -220,12 +236,14 @@ class _ImagesWidgetState extends State<ImagesWidget> {
 
   @override
   Widget build(BuildContext context) {
+    //use the dialog from ImageEditPage dialog to view images
     return ImageViewer(
       images: fileListFromEntry(),
     );
   }
 }
 
+//RecordingWidget to display voice recordings in viewer Page
 class RecordingWidget extends StatefulWidget {
   final Map<String, Object?> content;
   const RecordingWidget({super.key, required this.content});
@@ -237,6 +255,7 @@ class RecordingWidget extends StatefulWidget {
 class _RecordingWidgetState extends State<RecordingWidget> {
   @override
   Widget build(BuildContext context) {
+    //use AudioPlayer from audioplayineditmodedialog to play audio in viewer Page
     return AudioPlayer(contentId: int.parse(widget.content["id"].toString()));
   }
 }

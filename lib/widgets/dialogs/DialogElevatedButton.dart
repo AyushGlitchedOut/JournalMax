@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 
+//reusable elevatedButton used in all dialogs for OK, cancel etc. for consistency and ease of devlopment
 ElevatedButton actionButton(
     {required dynamic onclick,
     required String text,
@@ -17,6 +18,7 @@ ElevatedButton actionButton(
     child: Text(
       text,
       style: TextStyle(
+          //make the button text red if its for canceling or deleting
           color: isForDeleteOrCancel ? Colors.red[900] : colors.primary,
           fontWeight: FontWeight.bold),
     ),

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class XSearchBar extends StatelessWidget {
+  //the function to execute
   final void Function(String query) searchFunction;
   final TextEditingController controller;
   final FocusNode? focus;
@@ -47,6 +48,7 @@ class XSearchBar extends StatelessWidget {
     );
   }
 
+//The InputField (SearchBar) in which query is put
   Expanded searchBarField(ColorScheme colors) {
     return Expanded(
       child: SearchBar(
@@ -71,6 +73,7 @@ class XSearchBar extends StatelessWidget {
     );
   }
 
+  //The button that triggers the searh method
   IconButton searchBarButton(ColorScheme colors) {
     return IconButton(
       padding: const EdgeInsets.all(5.0),

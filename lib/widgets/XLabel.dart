@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//Simple label that is used to display sections of a page
 // ignore: must_be_immutable
 class XLabel extends StatelessWidget {
   final String label;

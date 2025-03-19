@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class XToggle extends StatefulWidget {
   final String title;
   final bool value;
+  //take custom font size if the text is long
   final double? customFontSize;
   final void Function(bool onclick)? onclick;
   const XToggle(
@@ -24,6 +25,7 @@ class _XToggleState extends State<XToggle> {
     final ColorScheme colors = Theme.of(context).colorScheme;
     return GestureDetector(
       onTap: () => widget.onclick!(widget.value),
+      //to change opacity for animation on Tap up and down
       onTapDown: (details) {
         setState(() {
           buttonOpacity = 0.8;
@@ -34,6 +36,7 @@ class _XToggleState extends State<XToggle> {
           buttonOpacity = 1.0;
         });
       },
+      //Animated Opacity to simulate the clicking effect
       child: AnimatedOpacity(
         duration: const Duration(milliseconds: 100),
         opacity: buttonOpacity,
@@ -56,6 +59,7 @@ class _XToggleState extends State<XToggle> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              //The label for text
               Padding(
                 padding: const EdgeInsets.only(left: 7.0),
                 child: Text(
@@ -67,6 +71,7 @@ class _XToggleState extends State<XToggle> {
                       fontWeight: FontWeight.w500),
                 ),
               ),
+              //the actual switch
               CupertinoSwitch(
                 value: widget.value,
                 onChanged: (value) => widget.onclick!(value),

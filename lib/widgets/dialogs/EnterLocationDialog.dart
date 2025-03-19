@@ -5,7 +5,9 @@ import 'package:journalmax/widgets/XSnackBar.dart';
 import 'package:journalmax/widgets/XToggle.dart';
 import 'package:journalmax/services/GetLocation.dart';
 
+//Dialog for entering the location in multimediadd page
 class EnterLocationDialog extends StatefulWidget {
+  //reporting method to report the location
   final void Function(String location) reportLocation;
   final int contentId;
   const EnterLocationDialog(
@@ -17,10 +19,6 @@ class EnterLocationDialog extends StatefulWidget {
 
 class _EnterLocationDialogState extends State<EnterLocationDialog> {
   final TextEditingController _locationController = TextEditingController();
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +37,7 @@ class _EnterLocationDialogState extends State<EnterLocationDialog> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            //Title
             const Padding(
               padding: EdgeInsets.only(top: 10),
               child: Center(
@@ -66,6 +65,7 @@ class _EnterLocationDialogState extends State<EnterLocationDialog> {
   }
 }
 
+//Location Body
 class LocationDialogBody extends StatefulWidget {
   final void Function(String location) reportLocation;
   final int contentId;
@@ -81,9 +81,13 @@ class LocationDialogBody extends StatefulWidget {
 }
 
 class _LocationDialogBodyState extends State<LocationDialogBody> {
+  //to show location or co-ordinates
   bool showInCoordinates = false;
+
+  //to get location from entry of the given EntryId
   Future<void> getLocationFromEntry() async {
     final result = await getEntryById(widget.contentId);
+    //return "Not Entered!" for null
     final String obtainedLocation =
         result.first["location"].toString() == "null"
             ? "Not Entered!"
@@ -91,10 +95,12 @@ class _LocationDialogBodyState extends State<LocationDialogBody> {
     widget.controller.text = obtainedLocation;
   }
 
+  //Method called to actually obtain the location and set the Text-Field
   Future<void> syncLocation(BuildContext context) async {
     widget.controller.text = "Loading.....";
     try {
       String result = "Unknown";
+      //get location in co-rdinates or place name
       if (showInCoordinates) {
         final coordinates = await getLocationInCoordinates();
         result =
@@ -102,6 +108,7 @@ class _LocationDialogBodyState extends State<LocationDialogBody> {
       } else {
         result = await getLocationInName();
       }
+
       widget.controller.text = result;
     } catch (exception) {
       widget.controller.text = "Not found";
@@ -111,8 +118,9 @@ class _LocationDialogBodyState extends State<LocationDialogBody> {
 
   @override
   void initState() {
-    getLocationFromEntry();
     super.initState();
+    //get Location after loading the UI
+    getLocationFromEntry();
   }
 
   @override
@@ -126,6 +134,7 @@ class _LocationDialogBodyState extends State<LocationDialogBody> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              //Sync button to load the location upon clicking
               IconButton(
                   onPressed: () => syncLocation(context),
                   icon: const Icon(
@@ -133,6 +142,7 @@ class _LocationDialogBodyState extends State<LocationDialogBody> {
                     size: 30.0,
                     applyTextScaling: true,
                   )),
+              //Text field that has the actual data (can be both entered by system or by user)
               Expanded(
                   child: TextField(
                 controller: locationController,
@@ -162,6 +172,7 @@ class _LocationDialogBodyState extends State<LocationDialogBody> {
         const SizedBox(
           height: 10.0,
         ),
+        //toggle to whether show in co-ordinates or name
         XToggle(
           title: "Show in Coordinates",
           value: showInCoordinates,
@@ -178,6 +189,7 @@ class _LocationDialogBodyState extends State<LocationDialogBody> {
   }
 }
 
+//Location Actions
 class LocationDialogActions extends StatelessWidget {
   const LocationDialogActions({
     super.key,
@@ -199,6 +211,7 @@ class LocationDialogActions extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          //Ok button to report the location
           actionButton(
               onclick: () {
                 widget.reportLocation(locationController.text == "null"

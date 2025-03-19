@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
 import 'package:journalmax/services/DataBaseService.dart';
 
+//dialog to warn before deleting the entire database
 Future<void> wipeEntriesDialog(BuildContext context, ColorScheme colors) {
   return showDialog(
       context: context,
@@ -33,6 +34,7 @@ Future<void> wipeEntriesDialog(BuildContext context, ColorScheme colors) {
             ),
           ),
           actions: [
+            //delete everything and close the dialog
             actionButton(
                 onclick: () async {
                   wipeOrdeleteAllEntry();
@@ -41,6 +43,7 @@ Future<void> wipeEntriesDialog(BuildContext context, ColorScheme colors) {
                 text: "Yes",
                 isForDeleteOrCancel: true,
                 colors: colors),
+            //close the dialog
             actionButton(
                 onclick: () {
                   Navigator.of(context).pop();

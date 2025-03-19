@@ -11,6 +11,7 @@ class ExportDataDialog extends StatefulWidget {
   State<ExportDataDialog> createState() => _ExportDataDialogState();
 }
 
+//dialog to export data
 class _ExportDataDialogState extends State<ExportDataDialog> {
   @override
   Widget build(BuildContext context) {
@@ -32,6 +33,7 @@ class _ExportDataDialogState extends State<ExportDataDialog> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Center(
+                //Title
                 child: Text(
                   "Import Data From Folder",
                   style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
@@ -47,6 +49,7 @@ class _ExportDataDialogState extends State<ExportDataDialog> {
   }
 }
 
+//Dialog Actions
 class ExportDataDialogActions extends StatelessWidget {
   const ExportDataDialogActions({
     super.key,
@@ -64,9 +67,9 @@ class ExportDataDialogActions extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          //both do the same thing: exit the dialog
           actionButton(
               onclick: () {
-                //cancel logic
                 Navigator.pop(context);
               },
               text: "Cancel",
@@ -77,7 +80,6 @@ class ExportDataDialogActions extends StatelessWidget {
           ),
           actionButton(
               onclick: () {
-                //exit logic
                 Navigator.pop(context);
               },
               text: "OK",
@@ -89,6 +91,7 @@ class ExportDataDialogActions extends StatelessWidget {
   }
 }
 
+//Dialog Body
 class ExportDataDialogBody extends StatefulWidget {
   const ExportDataDialogBody({
     super.key,
@@ -99,15 +102,18 @@ class ExportDataDialogBody extends StatefulWidget {
 }
 
 class _ExportDataDialogBodyState extends State<ExportDataDialogBody> {
+  //initialise variables
+  int noOfEntries = 0;
+  Stream<int>? exportStream;
+  bool exportCompleted = false;
+
+  //get number of entries to display
   Future<void> setNumberOfEntries() async {
     noOfEntries = await getNumberOfEntries();
     setState(() {});
   }
 
-  int noOfEntries = 0;
-  Stream<int>? exportStream;
-  bool exportCompleted = false;
-
+  //set the stream which exports the data
   void exportData() {
     if (exportCompleted) return;
     setState(() {
@@ -118,6 +124,7 @@ class _ExportDataDialogBodyState extends State<ExportDataDialogBody> {
   @override
   void initState() {
     super.initState();
+    //get number of entries ince UI loads
     setNumberOfEntries();
   }
 
@@ -127,12 +134,15 @@ class _ExportDataDialogBodyState extends State<ExportDataDialogBody> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        //streambuilder to build progress bar that progresses each update from the progress stream
         StreamBuilder(
             stream: exportStream,
             builder: (context, snapshot) {
+              //set exportcompleted to true once stream reaches 100
               if (snapshot.hasData && snapshot.data! == 100) {
                 exportCompleted = true;
               }
+              //see if stream has started
               return snapshot.hasData
                   ? Column(
                       children: [
@@ -164,6 +174,7 @@ class _ExportDataDialogBodyState extends State<ExportDataDialogBody> {
         const SizedBox(
           height: 20.0,
         ),
+        //button to start the export
         XIconLabelButton(
           icon: Icons.upload,
           label: "Export $noOfEntries Entries to Your Storage",

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//Floating button used for going to Editor or Viewer Page
 class XFloatingButton extends StatelessWidget {
   final void Function()? onclick;
   final IconData icon;

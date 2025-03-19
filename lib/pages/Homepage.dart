@@ -176,10 +176,11 @@ class RecentEntriesBox extends StatelessWidget {
                 ? XProgress(colors: colors)
                 : recentEntries.isEmpty
                     //message if there's no recent Entries
-                    ? const Center(
+                    ? Center(
                         child: Text(
                           "No recent entries..",
-                          style: TextStyle(fontSize: 16.0),
+                          style:
+                              TextStyle(fontSize: 16.0, color: colors.primary),
                         ),
                       )
                     //ListView to build from the provided List of Widgets

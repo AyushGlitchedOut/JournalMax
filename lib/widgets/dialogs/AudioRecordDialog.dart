@@ -6,6 +6,7 @@ import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
 import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+//The dialog to open when recording the audio in multimediadd page
 class AudioRecordDialog extends StatefulWidget {
   final int entryID;
   final void Function(String audioFilePath) reportRecordingFile;
@@ -17,7 +18,10 @@ class AudioRecordDialog extends StatefulWidget {
 }
 
 class _AudioRecordDialogState extends State<AudioRecordDialog> {
+  //file path of the temporary audio file obtained from recorder
   String tempAudioFilePath = "";
+
+  //method to set the tempAudioFile Path
   void setTempAudioFilePath(String query) {
     setState(() {
       tempAudioFilePath = query;
@@ -43,12 +47,13 @@ class _AudioRecordDialogState extends State<AudioRecordDialog> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              //The title
               const Center(
                 child: Text("Record Audio",
                     style:
                         TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500)),
               ),
-              AudioRecorderBody(
+              AudioRecorder(
                 setTempAudioFilePath: setTempAudioFilePath,
               ),
               AudioRecorderActions(
@@ -64,6 +69,7 @@ class _AudioRecordDialogState extends State<AudioRecordDialog> {
   }
 }
 
+//Actions of the dialog
 class AudioRecorderActions extends StatelessWidget {
   const AudioRecorderActions({
     super.key,
@@ -85,6 +91,7 @@ class AudioRecorderActions extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            //Exit the dialog
             actionButton(
                 onclick: () {
                   Navigator.pop(context);
@@ -95,6 +102,7 @@ class AudioRecorderActions extends StatelessWidget {
             const SizedBox(
               width: 15.0,
             ),
+            //report the recording file (if it exists) and exit the dialog
             actionButton(
                 onclick: () {
                   if (tempAudioFilePath == "") {
@@ -111,21 +119,26 @@ class AudioRecorderActions extends StatelessWidget {
   }
 }
 
+//Body of the recorder
 // ignore: must_be_immutable
-class AudioRecorderBody extends StatefulWidget {
-  AudioRecorderBody({super.key, required this.setTempAudioFilePath});
+class AudioRecorder extends StatefulWidget {
+  AudioRecorder({super.key, required this.setTempAudioFilePath});
   void Function(String query) setTempAudioFilePath;
 
   @override
-  State<AudioRecorderBody> createState() => _AudioRecorderBodyState();
+  State<AudioRecorder> createState() => _AudioRecorderState();
 }
 
-class _AudioRecorderBodyState extends State<AudioRecorderBody> {
+class _AudioRecorderState extends State<AudioRecorder> {
+  //timeElpased and timer for storing the recording time manually
   int timeElapsed = 0;
   Timer? _timer;
+
+  //the sound recorder
   final FlutterSoundRecorder _recorder =
       FlutterSoundRecorder(logLevel: Level.warning);
 
+  //to initialise and configure the recorder
   Future<void> initRecorder() async {
     if (await Permission.microphone.request() == PermissionStatus.denied) {
       showSnackBar("Permission is Denied:(", context);
@@ -143,6 +156,7 @@ class _AudioRecorderBodyState extends State<AudioRecorderBody> {
     _startTimer();
   }
 
+  //configure and start the timer
   void _startTimer() {
     _timer?.cancel(); // Prevent multiple timers
     _timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
@@ -152,6 +166,7 @@ class _AudioRecorderBodyState extends State<AudioRecorderBody> {
     });
   }
 
+  //pause the ongoing recording
   void _pauseRecording() async {
     if (_recorder.isStopped) return;
     await _recorder.pauseRecorder();
@@ -159,6 +174,7 @@ class _AudioRecorderBodyState extends State<AudioRecorderBody> {
     setState(() {});
   }
 
+  //resume paused recording
   void _resumeRecording() async {
     if (_recorder.isStopped) return;
     await _recorder.resumeRecorder();
@@ -166,6 +182,7 @@ class _AudioRecorderBodyState extends State<AudioRecorderBody> {
     setState(() {});
   }
 
+  //stop the recording and save it (also stop the timer)
   void _stopRecording() async {
     if (_recorder.isStopped) return;
 
@@ -181,12 +198,14 @@ class _AudioRecorderBodyState extends State<AudioRecorderBody> {
 
   @override
   void initState() {
+    //initialise the recorder
     initRecorder();
     super.initState();
   }
 
   @override
   void dispose() {
+    //dispose the recorder
     _recorder.closeRecorder();
     _timer?.cancel(); // Clean up timer
     super.dispose();
@@ -195,15 +214,19 @@ class _AudioRecorderBodyState extends State<AudioRecorderBody> {
   @override
   Widget build(BuildContext context) {
     final ColorScheme colors = Theme.of(context).colorScheme;
+
+    //minutes and second passed to display in the UI
     final String minutes = (timeElapsed ~/ 60).toString().padLeft(2, "0");
     final String seconds = (timeElapsed % 60).toString().padLeft(2, "0");
 
     return Column(
       children: [
+        //time elapsed label
         Text(
           "$minutes:$seconds",
           style: const TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
         ),
+        //progress indicator just for aesthetics
         LinearProgressIndicator(
           value: _recorder.isRecording
               ? _recorder.isPaused
@@ -216,9 +239,11 @@ class _AudioRecorderBodyState extends State<AudioRecorderBody> {
           height: 15.0,
         ),
         Row(
+          //play/pause button
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             recordAudioDialogBodyButton(colors, () {
+              //pause or play recording based on state
               _recorder.isPaused ? _resumeRecording() : _pauseRecording();
             },
                 _recorder.isPaused ? Icons.play_arrow_rounded : Icons.pause,
@@ -230,6 +255,7 @@ class _AudioRecorderBodyState extends State<AudioRecorderBody> {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [colors.onSurface, Colors.grey])),
+            //stop/submit button
             recordAudioDialogBodyButton(colors, () {
               _stopRecording();
             },
@@ -245,6 +271,7 @@ class _AudioRecorderBodyState extends State<AudioRecorderBody> {
     );
   }
 
+  //reusabel button for play/pause and stop buttons (also used in audio Player)
   Container recordAudioDialogBodyButton(ColorScheme colors,
       void Function() onclick, IconData icon, Gradient background) {
     return Container(

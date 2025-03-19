@@ -69,6 +69,7 @@ class XDrawer extends StatelessWidget {
                       ],
                       borderRadius:
                           const BorderRadius.all(Radius.circular(15.0))),
+                  //App's Icon
                   child: const Image(
                     fit: BoxFit.fill,
                     height: 150,
@@ -87,6 +88,7 @@ class XDrawer extends StatelessWidget {
     );
   }
 
+  //List of tiles to display to navigate to each screen
   Column screensList(BuildContext context) {
     return Column(
       children: [
@@ -98,17 +100,20 @@ class XDrawer extends StatelessWidget {
             highlight: currentPage == "editor" || currentPage == "view"),
         drawerTile(Icons.settings, context, "Settings", "/settings",
             highlight: currentPage == "settings"),
+        //display test page only if its debug build
         if (kDebugMode)
           drawerTile(Icons.adb, context, "Test DB", "/test", highlight: false)
       ],
     );
   }
 
+  //drawerTile which allow to navigate to different pages
   GestureDetector drawerTile(
       IconData icon, BuildContext context, String title, String? path,
       {required bool highlight}) {
     final ColorScheme colors = Theme.of(context).colorScheme;
     return GestureDetector(
+      //navigate to the given page
       onTap: () async {
         if (path == "/exit") {
           XExitDialog(context);
@@ -141,12 +146,14 @@ class XDrawer extends StatelessWidget {
               BoxShadow(color: colors.primary, offset: const Offset(1.5, 1.5))
             ]),
         child: ListTile(
+          //Page Icon
           leading: Icon(icon,
               size: 35.0,
               color: highlight ? colors.onPrimary : colors.onSurface,
               shadows: [
                 Shadow(color: colors.outline, offset: const Offset(-1.0, -1.0))
               ]),
+          //Page title
           title: Text(
             title,
             style: TextStyle(

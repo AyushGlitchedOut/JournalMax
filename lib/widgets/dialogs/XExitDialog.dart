@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
 
+//Dialog to exit the app
 Future<void> XExitDialog(BuildContext context) {
   final ColorScheme colors = Theme.of(context).colorScheme;
   HapticFeedback.heavyImpact();
@@ -23,6 +24,7 @@ Future<void> XExitDialog(BuildContext context) {
             style: TextStyle(fontSize: 17.0),
           ),
           actions: [
+            //To close the entire app
             actionButton(
                 onclick: () {
                   SystemNavigator.pop();
@@ -30,6 +32,7 @@ Future<void> XExitDialog(BuildContext context) {
                 text: "OK",
                 isForDeleteOrCancel: true,
                 colors: colors),
+            //to just close the dialog
             actionButton(
                 onclick: () {
                   Navigator.of(context).pop();

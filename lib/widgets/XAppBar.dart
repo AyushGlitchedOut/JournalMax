@@ -12,6 +12,7 @@ class XAppBar extends StatelessWidget {
     return AppBar(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       leading: IconButton(
+        //To open the drawer of the app
         onPressed: () {
           HapticFeedback.lightImpact();
           Scaffold.of(context).openDrawer();
@@ -25,6 +26,7 @@ class XAppBar extends StatelessWidget {
       ),
       backgroundColor: colors.onSurface,
       title: Center(
+        //The title of the page
         child: Text(
           title,
           style: TextStyle(
@@ -41,6 +43,7 @@ class XAppBar extends StatelessWidget {
         ),
       ),
       actions: [
+        //Button to allow the user to quit the app
         IconButton(
             onPressed: () {
               XExitDialog(context);
