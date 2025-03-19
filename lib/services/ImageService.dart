@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import "package:path_provider/path_provider.dart";
 import "package:uuid/uuid.dart";
 
@@ -47,6 +48,12 @@ Future<String> writeTempImagesToFile(
       }
       if (fileID == entryId.toString()) {
         await file.delete();
+      }
+    }
+
+    if (kDebugMode) {
+      for (var image in storedImagePaths) {
+        if (kDebugMode) print("File to save: $image");
       }
     }
 

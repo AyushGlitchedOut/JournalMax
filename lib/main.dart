@@ -39,6 +39,7 @@ class App extends StatelessWidget {
 
 //Main function
 void main() async {
+  if (kDebugMode) print("App Started");
   WidgetsFlutterBinding.ensureInitialized();
   await clearCache();
   runApp(ChangeNotifierProvider(

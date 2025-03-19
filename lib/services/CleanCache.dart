@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
 //a function to clear the cache as it can build up from the stored temporary files
@@ -16,6 +17,7 @@ Future<void> clearCache() async {
     for (FileSystemEntity file in filesToDelete) {
       await file.delete(recursive: true);
     }
+    if (kDebugMode) print("Cleared Cache!");
   } on MissingPlatformDirectoryException {
     //exception if cache directory is unavailable
     throw Exception("Cache Directory inaccesible!");

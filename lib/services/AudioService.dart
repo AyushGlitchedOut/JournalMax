@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
 //Function to save a temporary audio file into app Data connected to the entry of the given Entry Id. Used in the
@@ -42,6 +43,7 @@ Future<String> saveTempAudioToFile(
     await cachedAudioFile.copy(finalFilePath);
 
     // return the final file path for storing
+    if (kDebugMode) print("Saved final Audio File at: $finalFilePath");
     return finalFilePath;
   } on MissingPlatformDirectoryException {
     //throw exception if directory not available

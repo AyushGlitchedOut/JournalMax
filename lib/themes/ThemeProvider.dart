@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'Themes.dart';
@@ -17,8 +18,10 @@ class Themeprovider extends ChangeNotifier {
   //method to toggle themes
   void toggleThemes() {
     if (_themeData == lightmode) {
+      if (kDebugMode) print("Switched to Dark Mode");
       themeData = darkmode;
     } else {
+      if (kDebugMode) print("Switched to Light Mode");
       themeData = lightmode;
     }
   }

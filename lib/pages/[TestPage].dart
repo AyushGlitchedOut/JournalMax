@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:journalmax/widgets/XAppBar.dart';
 import 'package:journalmax/widgets/XDrawer.dart';
@@ -50,7 +51,7 @@ class TestPage extends StatelessWidget {
                               onclick: () async {
                                 final result = await getEntry(controller.text);
                                 for (dynamic i in result) {
-                                  print(i);
+                                  if (kDebugMode) print("Entry Found:" + i);
                                 }
                               },
                               text: "OK",
@@ -110,8 +111,8 @@ class TestPage extends StatelessWidget {
                         actions: [
                           actionButton(
                               onclick: () async {
-                                print(await getEntryById(
-                                    int.parse(controller.text)));
+                                print(
+                                    "Got Entry: ${await getEntryById(int.parse(controller.text))}");
                               },
                               text: "OK",
                               isForDeleteOrCancel: false,
@@ -125,7 +126,7 @@ class TestPage extends StatelessWidget {
               onPressed: () async {
                 final result = await getAllEntry();
                 for (dynamic i in result) {
-                  print(i);
+                  if (kDebugMode) print("Entry: $i");
                 }
               },
               child: const Text("Dump All Entries")),
@@ -166,7 +167,7 @@ class TestPage extends StatelessWidget {
                 final result =
                     await dataDirectory.list(recursive: true).toList();
                 for (dynamic i in result) {
-                  print(i);
+                  if (kDebugMode) print("File: $i");
                 }
               },
               child: const Text("Dump contents of data directory")),
@@ -176,7 +177,7 @@ class TestPage extends StatelessWidget {
                 final result =
                     await cacheDirectory.list(recursive: true).toList();
                 for (dynamic i in result) {
-                  print(i);
+                  if (kDebugMode) print("Cache File: $i");
                 }
               },
               child: const Text("Dump Cache Directory"))

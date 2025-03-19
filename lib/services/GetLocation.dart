@@ -56,6 +56,8 @@ Future<Position> getLocationInCoordinates() async {
     final location = await Geolocator.getCurrentPosition(
       locationSettings: const LocationSettings(accuracy: LocationAccuracy.high),
     );
+    print(
+        "Current Location Found: ${location.latitude} , ${location.longitude}");
     return location;
   } catch (exception) {
     //

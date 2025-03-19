@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:journalmax/models/EntryModel.dart';
 import 'package:journalmax/services/AudioService.dart';
@@ -26,6 +27,8 @@ Stream<int> importDataFromFolder(
       yield -1;
       return;
     }
+
+    // ignore: non_constant_identifier_names
     final String JSONDbData = await storedJSONDb.readAsString();
     final List<dynamic> decodedEntries = jsonDecode(JSONDbData);
     yield 25;
@@ -114,6 +117,7 @@ Stream<int> exportDataToFolder(BuildContext context) async* {
     //create a file inside the Downloads Directory with epoch time for exporting
     final Directory saveLocation = Directory(
         "${downloadsDirectory.path}/JournalMax_Export_${DateTime.now().millisecondsSinceEpoch}");
+    if (kDebugMode) print("Created Save Location: $saveLocation");
     await saveLocation.create();
     yield 5;
 

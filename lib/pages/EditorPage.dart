@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:journalmax/models/EntryItemMoods.dart';
 import 'package:journalmax/services/AudioService.dart';
@@ -143,16 +144,23 @@ class _EditorPageState extends State<EditorPage> {
   //reporting method passed into Location dialog
   void getLocationFromDialog(String obtainedLocation) {
     location = obtainedLocation;
+    if (kDebugMode) print("Got Location: $obtainedLocation");
   }
 
   //reporting method passed into Images dialog
   void getImagesFromDialog(List<File> obtainedImages) {
     tempImages = obtainedImages;
+    if (kDebugMode) {
+      for (var file in obtainedImages) {
+        if (kDebugMode) print("Image File: $file");
+      }
+    }
   }
 
   //reporting method passed into Recording dialog
   void getAudioFilePathFromDialog(String obtainedAudioFilePath) {
     tempRecordingFilePath = obtainedAudioFilePath;
+    if (kDebugMode) print("Got Audio File: $obtainedAudioFilePath");
   }
 
   //Method to change the STring form of stored current mood

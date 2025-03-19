@@ -4,7 +4,7 @@
 4. **NOT NEEDED** Google Drive integration (use already built export and import features)
 5. Introduction Page (using the intro_page package)
 6. *** DONE *** App Icon 
-8. Source Code Refactoring (Add comments and add sensible kdebugmode print statements)
+8. **DONE** Source Code Refactoring (Add comments and add sensible kdebugmode print statements)
 9. **DONE** Add loading screens and buffering animations everywhere
 10. **DONE** Use ListView Builder for better optimization
 11. **DONE** Use good fonts for aesthetics

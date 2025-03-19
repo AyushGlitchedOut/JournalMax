@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:journalmax/pages/ViewerPage.dart';
 import 'package:journalmax/services/CleanCache.dart';
@@ -38,6 +39,7 @@ class _HomePageState extends State<HomePage> {
       }
       final int random = Random().nextInt(list.length);
       final entry = list[random];
+      if (kDebugMode) print("Random Entry: $entry");
       Navigator.push(context,
           MaterialPageRoute(builder: (BuildContext context) {
         return ViewerPage(
@@ -59,6 +61,8 @@ class _HomePageState extends State<HomePage> {
         prefs.setBool("isDarkMode", false);
         return;
       }
+
+      if (kDebugMode) print("IsDarkMode: ${prefs.getBool("isDarkMode")}");
 
       //toggle themes if preferences dont match actual theme
       if (Provider.of<Themeprovider>(context, listen: false).isDarkMode ==
