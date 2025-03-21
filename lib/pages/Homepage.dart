@@ -2,7 +2,6 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:journalmax/pages/ViewerPage.dart';
-import 'package:journalmax/services/CleanCache.dart';
 import 'package:journalmax/themes/ThemeProvider.dart';
 import 'package:journalmax/widgets/ContentBox.dart';
 import 'package:journalmax/widgets/XAppBar.dart';
@@ -102,12 +101,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     //do stuff after loading the UI
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      try {
-        //clear the Cache upon app loads
-        clearCache();
-      } catch (e) {
-        showSnackBar(e.toString(), context);
-      }
       loadTheme(context);
       awaitRecentEntries();
     });

@@ -106,7 +106,12 @@ class _SettingsPageState extends State<SettingsPage> {
             },
             customFontSize: 13.5,
           ),
-
+          //Reshow the Introduction Screen
+          XIconLabelButton(
+              icon: Icons.help,
+              label: "Show Introduction Screen Again",
+              customFontSize: 16.0,
+              onclick: () => Navigator.pushNamed(context, "/intro")),
           //Links to open about sections
           XIconLabelButton(
             icon: Icons.book,
@@ -126,11 +131,6 @@ class _SettingsPageState extends State<SettingsPage> {
             onclick: () => openLink(
                 "https://github.com/AyushGlitchedOut/JournalMax", context),
           ),
-          XIconLabelButton(
-              icon: Icons.help,
-              label: "Show Introduction Screen Again",
-              customFontSize: 16.0,
-              onclick: () => Navigator.pushNamed(context, "/intro"))
         ],
       ),
     );

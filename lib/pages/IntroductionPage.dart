@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:introduction_screen/introduction_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
 
 class IntroductionPage extends StatefulWidget {
   const IntroductionPage({super.key});
@@ -10,49 +10,103 @@ class IntroductionPage extends StatefulWidget {
 }
 
 class _IntroductionPageState extends State<IntroductionPage> {
+  final pageController = PageController();
+  bool isLastPage = false;
+
   @override
   void initState() {
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
-    return introductionPage(context);
+  void dispose() {
+    super.dispose();
+    pageController.dispose();
   }
-}
 
-IntroductionScreen introductionPage(BuildContext context) {
-  Future<void> setShowIntroPageToFalse() async {
+  void nextPage() async {
+    await pageController.nextPage(
+        duration: const Duration(milliseconds: 250), curve: Curves.bounceOut);
+
+    setState(() {
+      isLastPage = (pageController.page == 3.0); //set to number of pages -1
+    });
+  }
+
+  void skipIntro(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool("showIntroPage", false);
+    Navigator.pushReplacementNamed(context, "/homepage");
   }
 
-  return IntroductionScreen(
-    pages: [page1],
-    onDone: () {
-      Navigator.pushNamed(context, "/homepage");
-      setShowIntroPageToFalse();
-    },
-    showDoneButton: true,
-    done: const Text("Done"),
-    showNextButton: true,
-    next: const Text("Next"),
-  );
+  void doneIntro(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool("showIntroPage", false);
+    Navigator.pushReplacementNamed(context, "/homepage");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ColorScheme colors = Theme.of(context).colorScheme;
+
+    return Scaffold(
+      body: Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Container(
+                margin: const EdgeInsets.only(top: 15.0),
+                height: MediaQuery.of(context).size.height,
+                child: PageView(
+                  onPageChanged: (page) {
+                    setState(() {
+                      isLastPage = (page == 3); //number of pages -1
+                    });
+                  },
+                  controller: pageController,
+                  allowImplicitScrolling: true,
+                  children: const [Page()],
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              spacing: 10.0,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                actionButton(
+                    onclick: () => skipIntro(context),
+                    text: "Skip",
+                    isForDeleteOrCancel: false,
+                    colors: colors),
+                actionButton(
+                    onclick: () => isLastPage ? doneIntro(context) : nextPage(),
+                    text: isLastPage ? "Done" : "Next",
+                    isForDeleteOrCancel: false,
+                    colors: colors)
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
 }
 
-//Introduction Page
-final page1 = PageViewModel(
-    title: "Welcome To JournalMax",
-    body: "A minimalist journaling App for Android");
+class Page extends StatelessWidget {
+  const Page({super.key});
 
-//Create and edit entries
-final page2 = PageViewModel();
-
-//Add multimedia to you journals
-final page3 = PageViewModel();
-
-//View Entries
-final page4 = PageViewModel();
-
-//Delete Entries
-final page5 = PageViewModel();
+  @override
+  Widget build(BuildContext context) {
+    final ColorScheme colors = Theme.of(context).colorScheme;
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(border: Border.all(color: colors.outline)),
+      child: const Text("Page"),
+    );
+  }
+}

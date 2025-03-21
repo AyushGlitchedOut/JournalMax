@@ -112,8 +112,11 @@ class _EditorPageState extends State<EditorPage> {
       await updateEntry(
         id,
         Entry(
-            title: _titleController.text.replaceFirst(_titleController.text[0],
-                _titleController.text[0].toUpperCase()),
+            //check if the title is even there before capitalisation
+            title: _titleController.text == ""
+                ? "Untitled"
+                : _titleController.text.replaceFirst(_titleController.text[0],
+                    _titleController.text[0].toUpperCase()),
             /* Capitalise the first letter*/
             content: _contentController.text,
             mood: currentMood,

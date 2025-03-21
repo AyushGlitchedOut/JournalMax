@@ -51,7 +51,6 @@ dependencies:
   permission_handler: ^11.3.1
   file_picker: ^8.3.2
   connectivity_plus: ^6.1.3
-  introduction_screen: ^3.1.17
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -97,6 +96,8 @@ flutter:
     - assets/screenshots/RecordAudio.png
     - assets/screenshots/ViewerPage.png
     - assets/screenshots/DeleteEntry.png
+    - assets/screenshots/Settings.png
+    - assets/screenshots/AddLocation.png
 
 
 
