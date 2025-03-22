@@ -22,13 +22,19 @@ Future<dynamic> deleteDialog(
           title: const Center(
             child: Text(
               "Delete Entry?",
-              style: TextStyle(fontSize: 25.0),
+              style: TextStyle(fontSize: 25.0, shadows: [
+                Shadow(
+                    offset: Offset(1.5, 1.5), color: Colors.grey, blurRadius: 2)
+              ]),
             ),
           ),
           content: const Center(
               child: Text(
             'Do you Really want to delete this Entry?',
-            style: TextStyle(fontSize: 17.0),
+            style: TextStyle(fontSize: 17.0, shadows: [
+              Shadow(
+                  offset: Offset(1.5, 1.5), color: Colors.grey, blurRadius: 2)
+            ]),
             textAlign: TextAlign.center,
           )),
           actions: [

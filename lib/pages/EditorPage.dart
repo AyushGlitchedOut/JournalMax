@@ -277,8 +277,11 @@ class _EditorPageState extends State<EditorPage> {
           borderRadius: BorderRadius.circular(15.0)),
       title: const Center(
         child: Text(
+          textAlign: TextAlign.center,
           "More Ways to Store Memories",
-          style: TextStyle(fontSize: 25.0),
+          style: TextStyle(fontSize: 25.0, shadows: [
+            Shadow(offset: Offset(1.5, 1.5), color: Colors.grey, blurRadius: 2)
+          ]),
         ),
       ),
       content: SizedBox(

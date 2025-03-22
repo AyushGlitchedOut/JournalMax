@@ -28,7 +28,10 @@ Future<dynamic> viewPageContentDialog(
           title: const Center(
               child: Text(
             "View Memories",
-            style: TextStyle(fontSize: 25.0),
+            style: TextStyle(fontSize: 25.0, shadows: [
+              Shadow(
+                  offset: Offset(1.5, 1.5), color: Colors.grey, blurRadius: 2)
+            ]),
           )),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -187,7 +190,9 @@ class LocationWidget extends StatelessWidget {
         Center(
             child: Text(
           "On ${content["date"]}, You were at: ",
-          style: TextStyle(fontSize: 17.0, color: mood["secondary"]),
+          style: TextStyle(fontSize: 17.0, color: mood["secondary"], shadows: const [
+            Shadow(offset: Offset(1.5, 1.5), color: Colors.grey, blurRadius: 2)
+          ]),
         )),
         //THe actual location in format of a link that has onclick to open a maps
         Center(
@@ -199,6 +204,12 @@ class LocationWidget extends StatelessWidget {
               content["location"].toString(),
               style: TextStyle(
                   fontSize: 25.0,
+                  shadows: const [
+                    Shadow(
+                        offset: Offset(1.5, 1.5),
+                        color: Colors.grey,
+                        blurRadius: 2)
+                  ],
                   fontWeight: FontWeight.w500,
                   color: locationNotEntered ? mood["text"] : Colors.lightBlue,
                   decoration:

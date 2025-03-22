@@ -36,7 +36,15 @@ class _ImportDataDialogState extends State<ImportDataDialog> {
               const Center(
                 child: Text(
                   "Import Data From Folder",
-                  style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.w500,
+                      shadows: [
+                        Shadow(
+                            offset: Offset(1.5, 1.5),
+                            color: Colors.grey,
+                            blurRadius: 2)
+                      ]),
                 ),
               ),
               const ImportDataDialogBody(),
@@ -149,7 +157,14 @@ class _ImportDataDialogBodyState extends State<ImportDataDialogBody> {
                       children: [
                         //display the selected directory
                         Text(
-                            "Target Directory: ${selectedFolder ?? "No Folder Selected"}"),
+                          "Target Directory: ${selectedFolder ?? "No Folder Selected"}",
+                          style: const TextStyle(shadows: [
+                            Shadow(
+                                offset: Offset(1.5, 1.5),
+                                color: Colors.grey,
+                                blurRadius: 2)
+                          ]),
+                        ),
                         const SizedBox(height: 10.0),
                         LinearProgressIndicator(
                           value: snapshot.data!.toDouble() / 100,
@@ -160,7 +175,15 @@ class _ImportDataDialogBodyState extends State<ImportDataDialogBody> {
                   : Column(
                       children: [
                         //display the selected directory
-                        Text("Target Directory: $selectedFolder"),
+                        Text(
+                          "Target Directory: $selectedFolder",
+                          style: const TextStyle(shadows: [
+                            Shadow(
+                                offset: Offset(1.5, 1.5),
+                                color: Colors.grey,
+                                blurRadius: 2)
+                          ]),
+                        ),
                         const SizedBox(height: 10.0),
                         const LinearProgressIndicator(
                           value: 0.0,

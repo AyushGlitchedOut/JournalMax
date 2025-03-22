@@ -20,7 +20,10 @@ ElevatedButton actionButton(
       style: TextStyle(
           //make the button text red if its for canceling or deleting
           color: isForDeleteOrCancel ? Colors.red[900] : colors.primary,
-          fontWeight: FontWeight.bold),
+          fontWeight: FontWeight.bold,
+          shadows: const [
+            Shadow(offset: Offset(1.5, 1.5), color: Colors.grey, blurRadius: 2)
+          ]),
     ),
   );
 }

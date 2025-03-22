@@ -68,7 +68,13 @@ class _XToggleState extends State<XToggle> {
                       color: colors.onPrimary,
                       fontSize: widget.customFontSize ?? 22.0,
                       overflow: TextOverflow.ellipsis,
-                      fontWeight: FontWeight.w500),
+                      fontWeight: FontWeight.w500,
+                      shadows: const [
+                        Shadow(
+                            offset: Offset(1.5, 1.5),
+                            color: Colors.grey,
+                            blurRadius: 2)
+                      ]),
                 ),
               ),
               //the actual switch

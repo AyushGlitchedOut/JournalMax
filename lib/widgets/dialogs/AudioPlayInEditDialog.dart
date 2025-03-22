@@ -47,7 +47,15 @@ class _AudioPlayInEditModeDialogState extends State<AudioPlayInEditModeDialog> {
               const Center(
                 child: Text(
                   "Play Saved Recording",
-                  style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.w500,
+                      shadows: [
+                        Shadow(
+                            offset: Offset(1.5, 1.5),
+                            color: Colors.grey,
+                            blurRadius: 2)
+                      ]),
                 ),
               ),
               AudioPlayer(
@@ -244,7 +252,15 @@ class _AudioPlayerState extends State<AudioPlayer> {
             children: [
               const Text(
                 "--:--",
-                style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
+                style: TextStyle(
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.w500,
+                    shadows: [
+                      Shadow(
+                          offset: Offset(1.5, 1.5),
+                          color: Colors.grey,
+                          blurRadius: 2)
+                    ]),
               ),
               LinearProgressIndicator(
                 value: playerProgress,
@@ -272,7 +288,14 @@ class _AudioPlayerState extends State<AudioPlayer> {
               Text(
                 "$minutes:$seconds",
                 style: const TextStyle(
-                    fontSize: 25.0, fontWeight: FontWeight.w500),
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.w500,
+                    shadows: [
+                      Shadow(
+                          offset: Offset(1.5, 1.5),
+                          color: Colors.grey,
+                          blurRadius: 2)
+                    ]),
               ),
               LinearProgressIndicator(
                 value: playerProgress,
@@ -283,7 +306,15 @@ class _AudioPlayerState extends State<AudioPlayer> {
         } else {
           return Column(children: [
             const Text("00:00",
-                style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500)),
+                style: TextStyle(
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.w500,
+                    shadows: [
+                      Shadow(
+                          offset: Offset(1.5, 1.5),
+                          color: Colors.grey,
+                          blurRadius: 2)
+                    ])),
             LinearProgressIndicator(
               value: playerProgress,
               minHeight: 15.0,

@@ -17,11 +17,17 @@ Future<void> XExitDialog(BuildContext context) {
           title: const Center(
               child: Text(
             "Exit App",
-            style: TextStyle(fontSize: 25.0),
+            style: TextStyle(fontSize: 25.0, shadows: [
+              Shadow(
+                  offset: Offset(1.5, 1.5), color: Colors.grey, blurRadius: 2)
+            ]),
           )),
           content: const Text(
             "Do you really want to exit the App?",
-            style: TextStyle(fontSize: 17.0),
+            style: TextStyle(fontSize: 17.0, shadows: [
+              Shadow(
+                  offset: Offset(1.5, 1.5), color: Colors.grey, blurRadius: 2)
+            ]),
           ),
           actions: [
             //To close the entire app

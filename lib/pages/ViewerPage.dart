@@ -42,7 +42,9 @@ class _ViewerPageState extends State<ViewerPage> {
       setState(() {
         contentToShow = SelectableText(
           content["content"].toString(),
-          style: TextStyle(color: mood["secondary"], fontSize: 20.0),
+          style: TextStyle(color: mood["secondary"], fontSize: 20.0, shadows: const [
+            Shadow(offset: Offset(1.5, 1.5), color: Colors.grey, blurRadius: 2)
+          ]),
         );
         //stop loading
         isLoading = false;

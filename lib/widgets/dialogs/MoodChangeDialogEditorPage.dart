@@ -40,7 +40,9 @@ class _MoodChangeDialogState extends State<MoodChangeDialog> {
         title: const Center(
             child: Text(
           "Choose your current Mood",
-          style: TextStyle(fontSize: 25.0),
+          style: TextStyle(fontSize: 25.0, shadows: [
+            Shadow(offset: Offset(1.5, 1.5), color: Colors.grey, blurRadius: 2)
+          ]),
         )),
         content: SingleChildScrollView(
             child: Column(
@@ -64,7 +66,12 @@ class _MoodChangeDialogState extends State<MoodChangeDialog> {
               //The label of the color
               Text(
                 mood,
-                style: const TextStyle(fontSize: 17.0),
+                style: const TextStyle(fontSize: 17.0, shadows: [
+                  Shadow(
+                      offset: Offset(1.5, 1.5),
+                      color: Colors.grey,
+                      blurRadius: 2)
+                ]),
               ),
             ],
           );

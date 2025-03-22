@@ -18,7 +18,11 @@ class XLabel extends StatelessWidget {
         style: TextStyle(
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
-            color: color ?? colors.onSurface),
+            color: color ?? colors.onSurface,
+            shadows: const [
+              Shadow(
+                  offset: Offset(1.5, 1.5), color: Colors.grey, blurRadius: 2)
+            ]),
       ),
     );
   }

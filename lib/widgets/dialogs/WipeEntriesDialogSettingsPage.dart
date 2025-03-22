@@ -23,14 +23,20 @@ Future<void> wipeEntriesDialog(BuildContext context, ColorScheme colors) {
             ),
             Text(
               "Wipe All Entries!!",
-              style: TextStyle(fontSize: 20.0),
+              style: TextStyle(fontSize: 20.0, shadows: [
+                Shadow(
+                    offset: Offset(1.5, 1.5), color: Colors.grey, blurRadius: 2)
+              ]),
             )
           ]),
           content: const Padding(
             padding: EdgeInsets.symmetric(vertical: 20.0),
             child: Text(
               "This action will permanently delete all the Entries. Do you really wanna do it?",
-              style: TextStyle(fontSize: 17.0),
+              style: TextStyle(fontSize: 17.0, shadows: [
+                Shadow(
+                    offset: Offset(1.5, 1.5), color: Colors.grey, blurRadius: 2)
+              ]),
             ),
           ),
           actions: [

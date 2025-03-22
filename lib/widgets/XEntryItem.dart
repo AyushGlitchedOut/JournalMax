@@ -72,6 +72,12 @@ class XEntryItem extends StatelessWidget {
                     title,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
+                        shadows: const [
+                          Shadow(
+                              offset: Offset(1.5, 1.5),
+                              color: Colors.grey,
+                              blurRadius: 2)
+                        ],
                         fontSize: 20.0,
                         color: mood.isEmpty ? colors.primary : mood["text"]),
                     maxLines: 1,
@@ -80,9 +86,9 @@ class XEntryItem extends StatelessWidget {
                   Text(
                     date,
                     style: TextStyle(
-                        fontSize: 15.0,
-                        color:
-                            mood.isEmpty ? colors.primary : mood["secondary"]),
+                      fontSize: 15.0,
+                      color: mood.isEmpty ? colors.primary : mood["secondary"],
+                    ),
                   )
                 ],
               ),

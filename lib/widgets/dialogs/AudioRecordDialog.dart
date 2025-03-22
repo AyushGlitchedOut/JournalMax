@@ -50,8 +50,15 @@ class _AudioRecordDialogState extends State<AudioRecordDialog> {
               //The title
               const Center(
                 child: Text("Record Audio",
-                    style:
-                        TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500)),
+                    style: TextStyle(
+                        fontSize: 25.0,
+                        fontWeight: FontWeight.w500,
+                        shadows: [
+                          Shadow(
+                              offset: Offset(1.5, 1.5),
+                              color: Colors.grey,
+                              blurRadius: 2)
+                        ])),
               ),
               AudioRecorder(
                 setTempAudioFilePath: setTempAudioFilePath,
@@ -224,7 +231,13 @@ class _AudioRecorderState extends State<AudioRecorder> {
         //time elapsed label
         Text(
           "$minutes:$seconds",
-          style: const TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
+          style: const TextStyle(
+              fontSize: 25.0,
+              fontWeight: FontWeight.w500,
+              shadows: [
+                Shadow(
+                    offset: Offset(1.5, 1.5), color: Colors.grey, blurRadius: 2)
+              ]),
         ),
         //progress indicator just for aesthetics
         LinearProgressIndicator(

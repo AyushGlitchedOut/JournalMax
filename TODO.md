@@ -33,6 +33,7 @@
 33. **DONE** Write a proper README for the project
 34. **DONE** Make a new mood called neutral that will be the default for any new entry instead of happy and will have the default colorscheme
 35. **DONE** Create a proper Test Page (Debug Page)
+36. **DONE** Add text shadows to all text
 
 >>Some Stuff to do after completing all these things
 1. Use a RichText field in the Editor Page

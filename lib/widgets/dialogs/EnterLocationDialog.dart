@@ -43,7 +43,15 @@ class _EnterLocationDialogState extends State<EnterLocationDialog> {
               child: Center(
                 child: Text(
                   "Attach Location",
-                  style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.w500,
+                      shadows: [
+                        Shadow(
+                            offset: Offset(1.5, 1.5),
+                            color: Colors.grey,
+                            blurRadius: 2)
+                      ]),
                 ),
               ),
             ),

@@ -36,7 +36,15 @@ class _ExportDataDialogState extends State<ExportDataDialog> {
                 //Title
                 child: Text(
                   "Import Data From Folder",
-                  style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.w500,
+                      shadows: [
+                        Shadow(
+                            offset: Offset(1.5, 1.5),
+                            color: Colors.grey,
+                            blurRadius: 2)
+                      ]),
                 ),
               ),
               const ExportDataDialogBody(),
@@ -149,7 +157,14 @@ class _ExportDataDialogBodyState extends State<ExportDataDialogBody> {
                         Text(
                           "${snapshot.data}% Complete",
                           style: const TextStyle(
-                              fontSize: 17.0, fontWeight: FontWeight.w500),
+                              fontSize: 17.0,
+                              fontWeight: FontWeight.w500,
+                              shadows: [
+                                Shadow(
+                                    offset: Offset(1.5, 1.5),
+                                    color: Colors.grey,
+                                    blurRadius: 2)
+                              ]),
                         ),
                         LinearProgressIndicator(
                           value: snapshot.data!.toDouble() / 100,
@@ -162,7 +177,14 @@ class _ExportDataDialogBodyState extends State<ExportDataDialogBody> {
                         Text(
                           "Click the Button To Begin Export",
                           style: TextStyle(
-                              fontSize: 17.0, fontWeight: FontWeight.w500),
+                              fontSize: 17.0,
+                              fontWeight: FontWeight.w500,
+                              shadows: [
+                                Shadow(
+                                    offset: Offset(1.5, 1.5),
+                                    color: Colors.grey,
+                                    blurRadius: 2)
+                              ]),
                         ),
                         LinearProgressIndicator(
                           value: 0.0,

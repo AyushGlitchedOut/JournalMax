@@ -119,7 +119,8 @@ class SearchResultsBox extends StatelessWidget {
                         Center(
                           child: Text(
                             "No Entries Found...",
-                            style: TextStyle(color: colors.primary),
+                            style: TextStyle(
+                                color: colors.primary, fontSize: 16.0),
                           ),
                         ),
                       ],

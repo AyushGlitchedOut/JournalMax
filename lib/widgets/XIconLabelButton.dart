@@ -85,7 +85,13 @@ class _XIconLabelButtonState extends State<XIconLabelButton> {
                       color: colors.onPrimary,
                       fontSize: widget.customFontSize ?? 20.0,
                       overflow: TextOverflow.ellipsis,
-                      fontWeight: FontWeight.w600),
+                      fontWeight: FontWeight.w600,
+                      shadows: const [
+                        Shadow(
+                            offset: Offset(1.5, 1.5),
+                            color: Colors.grey,
+                            blurRadius: 1)
+                      ]),
                 ),
               )
             ],
