@@ -1,5 +1,3 @@
-export default function Documentation(){
-    return(
-        <p>Documentation</p>
-    );
+export default function Documentation() {
+  return <p>Documentation</p>;
 }

@@ -1,0 +1,18 @@
+/* Poppins font, the same as the App */
+@font-face {
+  font-family: "Poppins";
+  src: url("../public/fonts/Poppins-Regular.ttf");
+}
+
+* {
+  font-family: "Poppins";
+}
+
+button:hover {
+  cursor: pointer;
+}
+/* So the body doesnt margin out all the elements from the screen edges automatically */
+body {
+  margin: 0;
+  background-color: rgba(50, 50, 50, 0.2);
+}

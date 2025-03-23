@@ -1,5 +1,3 @@
-export default function Downloads(){
-    return(
-        <p>Downloads</p>
-    );
+export default function Downloads() {
+  return <p>Downloads</p>;
 }
