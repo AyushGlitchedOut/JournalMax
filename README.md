@@ -36,3 +36,5 @@
 - Thanks for viewing the project, a star would be appreciated
 ### License
 - This project is licensed under the GNU General Public License v3.0. See the [LICENSE](./LICENSE) file for details
+### Credits
+- All the assets used in this project are made by me the Icon, the images, the themes. However, all the Icons used are either from MaterialIcons and a couple from CupertinoIcons, both provided along with the Flutter framework

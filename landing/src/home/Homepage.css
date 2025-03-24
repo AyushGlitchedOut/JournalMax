@@ -1,0 +1,92 @@
+.homepage-appicon {
+  position: absolute;
+  aspect-ratio: 760/610;
+  width: 20vw;
+  left: 40%;
+  top: 30%;
+  box-shadow: 4px 4px 1px rgba(128, 128, 128, 1);
+}
+.homepage-main li > img {
+  height: 10vh;
+  aspect-ratio: 1;
+  margin: 2%;
+  margin-right: 5%;
+}
+.homepage-main li {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 1%;
+  font-size: clamp(0.5rem, 1.2vw, 1.5rem);
+}
+
+.homepage-main ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: space-between;
+  height: 80%;
+  width: 80%;
+}
+
+.homepage-screenshots-part {
+  height: 45vh;
+}
+
+.homepage-bottom-part {
+  border: 1px solid red;
+  height: 45vh;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+}
+.homepage-bottom-center {
+  width: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 100%;
+}
+.homepage-bottom-center-iconpadding {
+  height: 20%;
+}
+.homepage-bottom-center-downloadbutton {
+  margin: 5%;
+  font-size: clamp(1.5rem, 2vw, 2.5rem);
+  width: 60%;
+  height: 20%;
+  background-color: rgba(70, 220, 70, 0.8);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  box-shadow: 4px 4px 1px rgba(128, 128, 128, 1);
+}
+.homepage-bottom-center-downloadbutton:hover {
+  background-color: rgba(100, 256, 100, 1);
+}
+.homepage-bottom-center-downloadbutton > img {
+  height: 80%;
+  aspect-ratio: 1;
+}
+.homepage-bottom-center-apptitle {
+  font-size: clamp(1.5rem, 2.5vw, 3rem);
+  margin-top: 18%;
+}
+.homepage-bottom-center-appsubtext {
+  font-size: clamp(1rem, 1.5vw, 2rem);
+  text-align: center;
+  margin-top: 3%;
+}
+.homepage-bottom-text-left {
+  width: 35%;
+  height: 100%;
+}
+.homepage-bottom-text-right {
+  width: 35%;
+  height: 100%;
+}
