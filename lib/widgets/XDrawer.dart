@@ -70,12 +70,16 @@ class XDrawer extends StatelessWidget {
                       borderRadius:
                           const BorderRadius.all(Radius.circular(15.0))),
                   //App's Icon
-                  child: const Image(
-                    fit: BoxFit.fill,
-                    height: 150,
-                    width: 150,
-                    image: AssetImage(
-                      'assets/AppIcon.png',
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    child: const AspectRatio(
+                      aspectRatio: 128 / 126,
+                      child: Image(
+                        fit: BoxFit.fill,
+                        image: AssetImage(
+                          'assets/AppIcon.png',
+                        ),
+                      ),
                     ),
                   ),
                 )),

@@ -182,7 +182,7 @@ class Page extends StatelessWidget {
               ? size.height * 0.33
               : size.height * 0.42,
       child: AspectRatio(
-        aspectRatio: isAppIcon ? 760 / 610 : 1600 / 720,
+        aspectRatio: isAppIcon ? 128 / 126 : 1600 / 720,
         child: Image(
           frameBuilder: (context, image, frame, loadedSync) {
             return Container(
@@ -190,7 +190,9 @@ class Page extends StatelessWidget {
                     border: Border.all(color: outline),
                     boxShadow: [
                       BoxShadow(
-                          offset: const Offset(4, 4), color: shadow, blurRadius: 4.0)
+                          offset: const Offset(4, 4),
+                          color: shadow,
+                          blurRadius: 4.0)
                     ]),
                 child: image);
           },
