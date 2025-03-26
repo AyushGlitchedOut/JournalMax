@@ -54,6 +54,8 @@
 .navbar-title {
   font-size: clamp(0.5rem, 3vw, 3.5rem);
   letter-spacing: 1px;
+  text-shadow: 2px 2px 1px rgba(100, 100, 100, 0.7);
+  font-weight: 700;
 }
 
 /* The end part of navbar */

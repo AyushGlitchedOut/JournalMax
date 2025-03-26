@@ -15,12 +15,11 @@ export default function Homepage() {
 
   return (
     <div className="homepage-main">
-      {/* The arbitrarily positioned appicon set directly at the center of the screen  */}
-      <img className="homepage-appicon" src={AppIcon} alt="AppIcon Not Found" />
-
       {/* The part where we put the Hero image */}
       <div className="homepage-hero">
+        <div className="homepage-hero-left"></div>
         <img src={HeroImage} alt="Hero Image" />
+        <div className="homepage-hero-right"></div>
       </div>
 
       <div className="homepage-bottom-part">
@@ -45,8 +44,11 @@ export default function Homepage() {
           {/* Padding so the appicon doesnt cover up the elements */}
           <div className="homepage-bottom-center-iconpadding"></div>
 
-          {/* The title below the AppIcon */}
-          <div className="homepage-bottom-center-apptitle">JournalMax!</div>
+          <img
+            className="homepage-appicon"
+            src={AppIcon}
+            alt="AppIcon Not Found"
+          />
 
           {/* The subtext */}
           <div className="homepage-bottom-center-appsubtext">
