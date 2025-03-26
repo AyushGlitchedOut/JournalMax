@@ -4,7 +4,13 @@ import 'package:journalmax/widgets/dialogs/XExitDialog.dart';
 
 class XAppBar extends StatelessWidget {
   final String title;
-  const XAppBar({super.key, required this.title});
+  final bool? preventDefaultDrawer;
+  final void Function()? onDrawer;
+  const XAppBar(
+      {super.key,
+      required this.title,
+      this.preventDefaultDrawer,
+      this.onDrawer});
 
   @override
   Widget build(BuildContext context) {
@@ -13,10 +19,12 @@ class XAppBar extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       leading: IconButton(
         //To open the drawer of the app
-        onPressed: () {
-          HapticFeedback.lightImpact();
-          Scaffold.of(context).openDrawer();
-        },
+        onPressed: preventDefaultDrawer ?? false
+            ? onDrawer
+            : () {
+                HapticFeedback.lightImpact();
+                Scaffold.of(context).openDrawer();
+              },
         icon: Icon(Icons.menu_rounded, color: colors.onPrimary, shadows: [
           Shadow(color: colors.shadow, offset: const Offset(-1.5, -1.5))
         ]),

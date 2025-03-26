@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
+import 'package:journalmax/themes/ThemeProvider.dart';
 import 'package:journalmax/widgets/XSnackBar.dart';
 import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
 import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 
 //The dialog to open when recording the audio in multimediadd page
 class AudioRecordDialog extends StatefulWidget {
@@ -221,6 +223,8 @@ class _AudioRecorderState extends State<AudioRecorder> {
   @override
   Widget build(BuildContext context) {
     final ColorScheme colors = Theme.of(context).colorScheme;
+    final bool isDarkMode =
+        Provider.of<Themeprovider>(context, listen: false).isDarkMode;
 
     //minutes and second passed to display in the UI
     final String minutes = (timeElapsed ~/ 60).toString().padLeft(2, "0");
@@ -267,7 +271,10 @@ class _AudioRecorderState extends State<AudioRecorder> {
                         stops: const [0.7, 0.85],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
-                        colors: [colors.onSurface, Colors.grey])),
+                        colors: [
+                          colors.onSurface,
+                          isDarkMode ? Colors.grey : Colors.grey[700]!
+                        ])),
             //stop/submit button
             recordAudioDialogBodyButton(colors, () {
               _stopRecording();
@@ -277,7 +284,10 @@ class _AudioRecorderState extends State<AudioRecorder> {
                     stops: const [0.7, 0.85],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: [colors.onSurface, Colors.grey]))
+                    colors: [
+                      colors.onSurface,
+                      isDarkMode ? Colors.grey : Colors.grey[700]!
+                    ]))
           ],
         ),
       ],

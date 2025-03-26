@@ -1,9 +1,9 @@
 .homepage-appicon {
   position: absolute;
   aspect-ratio: 128/126;
-  width: 20vw;
-  left: 40%;
-  top: 30%;
+  width: 12vw;
+  left: 44%;
+  top: 40%;
   box-shadow: 4px 4px 1px rgba(128, 128, 128, 1);
 }
 .homepage-main li > img {
@@ -31,13 +31,20 @@
   width: 80%;
 }
 
-.homepage-screenshots-part {
-  height: 45vh;
+.homepage-hero {
+  height: 46vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.homepage-hero img {
+  object-fit: contain;
+  height: 100%;
 }
 
 .homepage-bottom-part {
   border: 1px solid red;
-  height: 45vh;
+  height: 44vh;
   display: flex;
   align-items: start;
   justify-content: space-between;

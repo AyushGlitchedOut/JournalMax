@@ -5,8 +5,10 @@ import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:image_picker/image_picker.dart";
 import "package:journalmax/services/DataBaseService.dart";
+import "package:journalmax/themes/ThemeProvider.dart";
 import "package:journalmax/widgets/XSnackBar.dart";
 import "package:journalmax/widgets/dialogs/DialogElevatedButton.dart";
+import "package:provider/provider.dart";
 
 //Dialog to enter images in the MultimediaAddPage
 class EnterImageDialog extends StatefulWidget {
@@ -222,7 +224,8 @@ class _ImageViewerState extends State<ImageViewer> {
                 noMoreRight = false;
               });
             },
-            disabled: noMoreLeft),
+            disabled: noMoreLeft,
+            context: context),
 
         //The actual image
         Container(
@@ -265,7 +268,8 @@ class _ImageViewerState extends State<ImageViewer> {
                 noMoreLeft = false;
               });
             },
-            disabled: noMoreRight)
+            disabled: noMoreRight,
+            context: context)
       ],
     );
   }
@@ -274,7 +278,10 @@ class _ImageViewerState extends State<ImageViewer> {
       {required ColorScheme colors,
       required bool isLeft,
       void Function()? onclick,
-      required bool disabled}) {
+      required bool disabled,
+      required BuildContext context}) {
+    final isDarkMode =
+        Provider.of<Themeprovider>(context, listen: false).isDarkMode;
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.circle,
@@ -286,7 +293,10 @@ class _ImageViewerState extends State<ImageViewer> {
                 stops: const [0.7, 0.85],
                 begin: isLeft ? Alignment.topLeft : Alignment.topRight,
                 end: isLeft ? Alignment.bottomRight : Alignment.bottomLeft,
-                colors: [colors.onSurface, Colors.grey]),
+                colors: [
+                  colors.onSurface,
+                  isDarkMode ? Colors.grey : Colors.grey[700]!
+                ]),
       ),
       child: IconButton(
         disabledColor: Colors.transparent,

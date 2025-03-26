@@ -88,7 +88,8 @@ class _CollectionPageState extends State<CollectionPage> {
                         itemBuilder: (BuildContext context, int itemIndex) {
                           return entries[(entries.length - 1) - itemIndex];
                         }),
-                colors: colors),
+                colors: colors,
+                context: context),
           ),
         ],
       ),

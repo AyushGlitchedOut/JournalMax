@@ -1,12 +1,10 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:journalmax/widgets/dialogs/AudioPlayInEditDialog.dart';
 import 'package:journalmax/widgets/dialogs/AudioRecordDialog.dart';
 import 'package:journalmax/widgets/dialogs/EnterImageDialog.dart';
 import 'package:journalmax/widgets/dialogs/EnterLocationDialog.dart';
 import 'package:journalmax/widgets/XAppBar.dart';
-import 'package:journalmax/widgets/XDrawer.dart';
 import 'package:journalmax/widgets/XIconLabelButton.dart';
 
 class MultimediaAddPage extends StatelessWidget {
@@ -30,11 +28,16 @@ class MultimediaAddPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ColorScheme colors = Theme.of(context).colorScheme;
     return Scaffold(
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(60.0),
-        child: XAppBar(title: "Multimedia"),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(60.0),
+        child: XAppBar(
+          title: "Multimedia",
+          preventDefaultDrawer: true,
+          onDrawer: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
-      drawer: const XDrawer(currentPage: "editor"),
       backgroundColor: colors.surface,
       body: Column(
         //Opens up Location Dialog

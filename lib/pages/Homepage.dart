@@ -186,6 +186,7 @@ class RecentEntriesBox extends StatelessWidget {
                         itemBuilder: (BuildContext context, int itemIndex) {
                           return recentEntries[itemIndex];
                         }),
-            colors: colors));
+            colors: colors,
+            context: context));
   }
 }

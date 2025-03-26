@@ -11,7 +11,8 @@ class XFloatingButton extends StatelessWidget {
     final ColorScheme colors = Theme.of(context).colorScheme;
     return FloatingActionButton(
       onPressed: onclick ?? () {},
-      shape: CircleBorder(side: BorderSide(color: colors.outline, width: 1.0)),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20))),
       foregroundColor: colors.primary,
       backgroundColor: colors.onPrimary,
       child: Icon(

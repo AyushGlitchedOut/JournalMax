@@ -2,10 +2,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:journalmax/services/DataBaseService.dart';
+import 'package:journalmax/themes/ThemeProvider.dart';
 import 'package:journalmax/widgets/XSnackBar.dart';
 import 'package:journalmax/widgets/dialogs/AudioRecordDialog.dart';
 import 'package:journalmax/widgets/dialogs/DialogElevatedButton.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 
 class AudioPlayInEditModeDialog extends StatefulWidget {
   final int contentId;
@@ -194,6 +196,8 @@ class _AudioPlayerState extends State<AudioPlayer> {
   @override
   Widget build(BuildContext context) {
     final ColorScheme colors = Theme.of(context).colorScheme;
+    final isDarkMode =
+        Provider.of<Themeprovider>(context, listen: false).isDarkMode;
     double? playerProgress = 0.0;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -231,7 +235,10 @@ class _AudioPlayerState extends State<AudioPlayer> {
                         stops: const [0.7, 0.85],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
-                        colors: [colors.onSurface, Colors.grey]))
+                        colors: [
+                          colors.onSurface,
+                          isDarkMode ? Colors.grey : Colors.grey[700]!
+                        ]))
           ],
         )
       ],

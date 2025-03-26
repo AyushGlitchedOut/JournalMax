@@ -144,7 +144,7 @@ class XDrawer extends StatelessWidget {
                   Colors.grey[700]!
                 ]),
             color: highlight ? colors.primary : colors.tertiary,
-            borderRadius: BorderRadius.circular(25.0),
+            borderRadius: BorderRadius.circular(20.0),
             boxShadow: [
               BoxShadow(color: colors.shadow, offset: const Offset(-1.5, -1.5)),
               BoxShadow(color: colors.primary, offset: const Offset(1.5, 1.5))

@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:journalmax/themes/ThemeProvider.dart';
+import 'package:provider/provider.dart';
 
 class XToggle extends StatefulWidget {
   final String title;
@@ -23,12 +25,19 @@ class _XToggleState extends State<XToggle> {
   @override
   Widget build(BuildContext context) {
     final ColorScheme colors = Theme.of(context).colorScheme;
+    final bool isDarkMode =
+        Provider.of<Themeprovider>(context, listen: false).isDarkMode;
     return GestureDetector(
       onTap: () => widget.onclick!(widget.value),
       //to change opacity for animation on Tap up and down
       onTapDown: (details) {
         setState(() {
-          buttonOpacity = 0.8;
+          buttonOpacity = 0.7;
+        });
+      },
+      onTapCancel: () {
+        setState(() {
+          buttonOpacity = 1.0;
         });
       },
       onTapUp: (details) {
@@ -48,7 +57,10 @@ class _XToggleState extends State<XToggle> {
                   stops: const [0.7, 0.95],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [colors.onSurface, Colors.grey]),
+                  colors: [
+                    colors.onSurface,
+                    isDarkMode ? Colors.grey : Colors.grey[700]!
+                  ]),
               color: colors.onSurface,
               borderRadius: BorderRadius.circular(10.0),
               boxShadow: [

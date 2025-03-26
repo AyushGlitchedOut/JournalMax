@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:journalmax/themes/ThemeProvider.dart';
+import 'package:provider/provider.dart';
 
 //A container used in the app aat many places to make a simple gradient box with margins and shadows that accepts
 //the children as widget arguments
@@ -6,7 +8,10 @@ Container contentBox(
     {required Widget child,
     required ColorScheme colors,
     double? width,
-    double? height}) {
+    double? height,
+    required BuildContext context}) {
+  final isDarkMode =
+      Provider.of<Themeprovider>(context, listen: false).isDarkMode;
   return Container(
     width: width,
     height: height,
@@ -15,7 +20,10 @@ Container contentBox(
             stops: const [0.7, 0.95],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [colors.onSurface, Colors.grey]),
+            colors: [
+              colors.onSurface,
+              isDarkMode ? Colors.grey : Colors.grey[700]!
+            ]),
         color: colors.onSurface,
         border: Border.all(width: 2.0, color: colors.outline),
         borderRadius: BorderRadius.circular(10.0),

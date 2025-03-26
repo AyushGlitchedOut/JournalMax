@@ -20,7 +20,7 @@ ThemeData darkmode = ThemeData(
     fontFamily: "Poppins",
     fontFamilyFallback: const ["Roboto"],
     colorScheme: ColorScheme.dark(
-        brightness: Brightness.light,
+        brightness: Brightness.dark,
         surface: const Color(0xFF071013),
         onSurface: Colors.grey.shade300,
         primary: const Color.fromARGB(255, 150, 118, 178),

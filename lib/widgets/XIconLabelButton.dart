@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:journalmax/themes/ThemeProvider.dart';
+import 'package:provider/provider.dart';
 
 //the most used Widget of the app, the primary way to display buttons and options and elements of a page
 // ignore: must_be_immutable
@@ -25,12 +27,19 @@ class _XIconLabelButtonState extends State<XIconLabelButton> {
   @override
   Widget build(BuildContext context) {
     final ColorScheme colors = Theme.of(context).colorScheme;
+    bool isDarkMode =
+        Provider.of<Themeprovider>(context, listen: false).isDarkMode;
     return GestureDetector(
       onTap: widget.onclick ?? () {},
       //Tap up and down to change opacity for animation
       onTapDown: (details) {
         setState(() {
-          buttonOpacity = 0.8;
+          buttonOpacity = 0.7;
+        });
+      },
+      onTapCancel: () {
+        setState(() {
+          buttonOpacity = 1.0;
         });
       },
       onTapUp: (details) {
@@ -51,7 +60,10 @@ class _XIconLabelButtonState extends State<XIconLabelButton> {
                   stops: const [0.7, 0.9],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [colors.onSurface, Colors.grey]),
+                  colors: [
+                    colors.onSurface,
+                    isDarkMode ? Colors.grey : Colors.grey[700]!
+                  ]),
               borderRadius: BorderRadius.circular(10.0),
               boxShadow: [
                 BoxShadow(
