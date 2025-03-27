@@ -1,9 +1,106 @@
+/* The hero part of the homepage along with side gradients */
+.homepage-hero {
+  height: 46vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.homepage-hero img {
+  height: 100%;
+  box-shadow:
+    4px 0px 4px rgba(128, 128, 128, 1),
+    0px 4px 4px rgba(165, 42, 42, 0.7);
+  border-radius: 5px;
+}
+
+/* Left gradient */
+.homepage-hero-left {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(
+    270deg,
+    rgba(165, 42, 42, 0.7),
+    rgba(0, 0, 0, 0.3)
+  );
+  box-shadow: 4px 4px 4px rgba(165, 42, 42, 0.7);
+}
+
+/* Right gradient */
+.homepage-hero-right {
+  width: 100%;
+  height: 100%;
+  box-shadow: -4px 4px 4px rgba(165, 42, 42, 0.7);
+  background: linear-gradient(
+    90deg,
+    rgba(165, 42, 42, 0.7),
+    rgba(0, 0, 0, 0.3)
+  );
+}
+
+/* The bottom part of the page */
+.homepage-bottom-part {
+  height: 44vh;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+}
+
+/* The bottom center part */
+.homepage-bottom-center {
+  width: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 100%;
+}
+.homepage-bottom-center-downloadbutton {
+  margin: 2%;
+  font-size: clamp(1.5rem, 2vw, 2.5rem);
+  width: 60%;
+  height: 20%;
+  background-color: rgba(70, 220, 70, 0.8);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  box-shadow: 4px 4px 1px rgba(128, 128, 128, 1);
+}
+
+/* Download button */
+.homepage-bottom-center-downloadbutton:hover {
+  background-color: rgba(100, 256, 100, 1);
+}
+.homepage-bottom-center-downloadbutton > img {
+  height: 80%;
+  aspect-ratio: 1;
+}
+
+/* App icon and subtext */
 .homepage-appicon {
   aspect-ratio: 128/126;
   width: 10vw;
   box-shadow: 4px 4px 1px rgba(128, 128, 128, 1);
   margin-top: 3%;
 }
+.homepage-bottom-center-appsubtext {
+  font-size: clamp(1rem, 1.5vw, 2rem);
+  text-align: center;
+  margin-top: 3%;
+}
+
+/* The text in left and right side of bottom part */
+.homepage-bottom-text-left {
+  width: 35%;
+  height: 100%;
+}
+.homepage-bottom-text-right {
+  width: 35%;
+  height: 100%;
+}
+
+/* Styling for all the lists of features */
 .homepage-main li > img {
   height: 10vh;
   aspect-ratio: 1;
@@ -27,90 +124,4 @@
   justify-content: space-between;
   height: 80%;
   width: 80%;
-}
-
-.homepage-hero {
-  height: 46vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.homepage-hero img {
-  height: 100%;
-  box-shadow:
-    4px 0px 4px rgba(128, 128, 128, 1),
-    0px 4px 4px rgba(165, 42, 42, 0.7);
-  border-radius: 5px;
-}
-.homepage-hero-left {
-  height: 100%;
-  width: 100%;
-  background: linear-gradient(
-    270deg,
-    rgba(165, 42, 42, 0.7),
-    rgba(0, 0, 0, 0.3)
-  );
-  box-shadow: 4px 4px 4px rgba(165, 42, 42, 0.7);
-}
-.homepage-hero-right {
-  width: 100%;
-  height: 100%;
-  box-shadow: -4px 4px 4px rgba(165, 42, 42, 0.7);
-  background: linear-gradient(
-    90deg,
-    rgba(165, 42, 42, 0.7),
-    rgba(0, 0, 0, 0.3)
-  );
-}
-
-.homepage-bottom-part {
-  height: 44vh;
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-}
-.homepage-bottom-center {
-  width: 30%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
-  height: 100%;
-}
-.homepage-bottom-center-downloadbutton {
-  margin: 2%;
-  font-size: clamp(1.5rem, 2vw, 2.5rem);
-  width: 60%;
-  height: 20%;
-  background-color: rgba(70, 220, 70, 0.8);
-  border-radius: 15px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-evenly;
-  box-shadow: 4px 4px 1px rgba(128, 128, 128, 1);
-}
-.homepage-bottom-center-downloadbutton:hover {
-  background-color: rgba(100, 256, 100, 1);
-}
-.homepage-bottom-center-downloadbutton > img {
-  height: 80%;
-  aspect-ratio: 1;
-}
-.homepage-bottom-center-apptitle {
-  font-size: clamp(1.5rem, 2.5vw, 3rem);
-  margin-top: 18%;
-}
-.homepage-bottom-center-appsubtext {
-  font-size: clamp(1rem, 1.5vw, 2rem);
-  text-align: center;
-  margin-top: 3%;
-}
-.homepage-bottom-text-left {
-  width: 35%;
-  height: 100%;
-}
-.homepage-bottom-text-right {
-  width: 35%;
-  height: 100%;
 }

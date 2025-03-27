@@ -24,3 +24,5 @@
 - [Multimedia Icon](./public/multimedia.png) - Maxim Basinski Premium, Flaticons
 - [Features Icon](./public/features.png) - Freepik, Flaticons
 - [Lock Icon](./public/lock.png) - Dinosoft Labs, Flaticons
+- [Android Icon](./public/android.png) - Pictogrammer, Flaticons
+- [Build Icon](./public/build.png) - Juicy Fish, Flaticons

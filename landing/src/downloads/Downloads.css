@@ -1,0 +1,107 @@
+/* THe main page  */
+.downloads-main {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: row;
+}
+
+/* Left side of the page */
+.downloads-left {
+  width: 48%;
+  margin: 1%;
+  height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+.downloads-left-android-icon {
+  width: 20%;
+  aspect-ratio: 1;
+  margin-top: 2.5%;
+  filter: invert(40%) sepia(150%) saturate(500%) hue-rotate(90deg);
+}
+.downloads-left-title {
+  margin: 0;
+  font-size: clamp(1.5rem, 2vw, 2.5rem);
+}
+
+/* The right side of page */
+
+.downloads-right {
+  width: 48%;
+  margin: 1%;
+  height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+.downloads-right-build-icon {
+  aspect-ratio: 1;
+  width: 20%;
+  margin-top: 2.5%;
+}
+
+.downloads-right p {
+  font-size: clamp(0.5rem, 1.2vw, 1.5rem);
+}
+.downloads-right-title {
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+}
+.downloads-right code {
+  background-color: rgba(128, 128, 128, 0.7);
+  border-radius: 5px;
+  padding: 10px;
+}
+
+/* The divider column */
+.downloads-divider {
+  width: 0.5%;
+  height: 80vh;
+  background-color: rgba(128, 128, 128, 0.7);
+  margin-top: 2%;
+}
+
+/* The downloads button component */
+.downloads-button {
+  margin-bottom: 2%;
+  width: 70%;
+  height: 15%;
+  background-color: rgba(70, 220, 70, 0.8);
+  border-radius: 15px;
+  box-shadow: 4px 4px 1px rgba(128, 128, 128, 1);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+.downloads-button-title {
+  margin: 0;
+  font-size: clamp(1rem, 1.5vw, 2rem);
+}
+.downloads-button-abi {
+  margin: 0;
+  font-size: clamp(0.5rem, 1vw, 1.5rem);
+}
+
+/* Dialog Styling */
+dialog {
+  margin: 15%;
+  margin-right: 30%;
+  margin-left: 30%;
+}
+dialog div {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: end;
+  padding: 2%;
+}
+dialog button {
+  margin: 2%;
+  padding: 2%;
+  font-size: clamp(1rem, 1.25vw, 1.5rem);
+}
