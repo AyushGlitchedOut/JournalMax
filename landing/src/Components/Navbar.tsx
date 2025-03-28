@@ -3,7 +3,6 @@ import "./Navbar.css";
 
 export default function Navbar() {
   const activeTab = useLocation().pathname;
-  console.log(activeTab);
   const navigator = useNavigate();
 
   const isHomepageActive: boolean = activeTab == "/homepage";
@@ -52,7 +51,15 @@ export default function Navbar() {
         >
           Documentation
         </button>
-        <button>Review</button>
+        <button
+          onClick={() =>
+            window.open(
+              "https://docs.google.com/forms/d/e/1FAIpQLSfHbqpRPvJceew_Y4xvtTO38NP1KiyrQntQ5o3IXqUKvct1Pw/viewform?usp=dialog",
+            )
+          }
+        >
+          Review
+        </button>
         <button
           onClick={() =>
             window.open("https://github.com/AyushGlitchedOut/JournalMax")

@@ -1,7 +1,7 @@
 /* Poppins font, the same as the App */
 @font-face {
   font-family: "Poppins";
-  src: url("../public/fonts/Poppins-Regular.ttf");
+  src: url("/fonts/Poppins-Regular.ttf");
 }
 
 * {

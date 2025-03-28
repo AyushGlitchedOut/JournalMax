@@ -1,6 +1,6 @@
 import "./Downloads.css";
-import AndroidIcon from "../../public/android.png";
-import BuildIcon from "../../public/build.png";
+import AndroidIcon from "/android.png";
+import BuildIcon from "/build.png";
 import { useRef } from "react";
 
 export default function Downloads() {
@@ -69,10 +69,10 @@ export default function Downloads() {
           Clone using git:{" "}
           <code>git clone https://github.com/AyushGlitchedOut/JournalMax</code>
         </p>
-        <a href="">
+        <a href="#/downloads">
           <p>Download Zip Archive</p>
         </a>
-        <a href="">
+        <a href="#/downloads">
           <p>Download Tarball</p>
         </a>
         <div>

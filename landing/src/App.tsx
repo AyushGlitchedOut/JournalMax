@@ -9,6 +9,7 @@ function App() {
   return (
     <HashRouter>
       <Navbar />
+      <div className="navbar-padding"></div>
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/homepage" element={<Homepage />} />

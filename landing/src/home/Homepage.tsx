@@ -1,14 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import "./Homepage.css";
-import AppIcon from "../../public/AppIcon.webp";
-import DownloadIcon from "/public/download.png";
-import FreeIcon from "/public/free.png";
-import JournalIcon from "/public/journal.png";
-import LightningIcon from "/public/lightning.png";
-import MultimediaIcon from "/public/multimedia.png";
-import FeaturesIcon from "/public/features.png";
-import LockIcon from "/public/lock.png";
-import HeroImage from "../../public/HomepageHero.webp";
+import AppIcon from "/AppIcon.webp";
+import DownloadIcon from "/download.png";
+import FreeIcon from "/free.png";
+import JournalIcon from "/journal.png";
+import LightningIcon from "/lightning.png";
+import MultimediaIcon from "/multimedia.png";
+import FeaturesIcon from "/features.png";
+import LockIcon from "/lock.png";
+import HeroImage from "/HomepageHero.webp";
 
 export default function Homepage() {
   const navigator = useNavigate();

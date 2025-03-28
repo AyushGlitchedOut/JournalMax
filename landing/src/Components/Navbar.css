@@ -21,16 +21,18 @@
   border-image: linear-gradient(180deg, transparent, black, black, transparent)
     1;
 }
-
 .navbar-box {
   width: calc(99.7%);
   display: flex;
   justify-content: space-between;
-  background-color: rgba(128, 128, 128, 0.15);
+  background-color: rgba(128, 128, 128, 0.5);
   box-shadow:
-    inset 5px 5px 3px rgba(100, 100, 100, 0.7),
+    inset 5px 5px 3px rgba(100, 100, 100, 1),
     5px 5px 1px rgba(100, 100, 100, 0.5),
     5px -5px 5px grey;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
 /* Starting part of navbar */
