@@ -77,6 +77,11 @@
   align-items: center;
   flex-direction: column;
   justify-content: center;
+  border: 2px solid black;
+}
+.downloads-button:hover {
+  cursor: pointer;
+  background-color: rgba(100, 256, 100, 1);
 }
 .downloads-button-title {
   margin: 0;
@@ -104,4 +109,10 @@ dialog button {
   margin: 2%;
   padding: 2%;
   font-size: clamp(1rem, 1.25vw, 1.5rem);
+}
+
+/* Buttons functioning a styling */
+.downloads-left a {
+  text-decoration: none;
+  color: black;
 }

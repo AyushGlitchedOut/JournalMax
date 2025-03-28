@@ -29,7 +29,13 @@
 - To build the release version apk, just do
     `flutter build apk --split-per-abi --split-debug-info=.build/debuginfo  --obfuscate`  
     and you will get the built apks somewhere in the build/app/outputs/apk/release folder. It would generate 3 apks, one for the newer arm64-v8a, armeabi-v7a for older devices, and x86_64 for x86 architecture (emulators). All of these are also present on the Github Pages for direct download. You dont need to specify anything in the `flutter run` command however, the system will automatically detect it. THe obfuscate and split-debug info are there to first obfuscate the released binary for security and split the debug info the reduce the apk size
-
+- The apks that are released can/cannot have a signature, it would work none the less, it just depends if you want to use it for personal         purposes, create your own version, etc. The apks provided in Github Releases and hence, in Github Pages are signed by me. If you also want to sign the apks, dont follow the guides on internet as they mention a lot of stuff for google play store as well. Just do these two steps:
+    - To first generate a keystore to sign the apk, use keytool:
+        `keytool -genkey -v -keystore YourKeyStoreName.keystore -alias JournalMax -keyalg RSA -keysize 2048 -validity 10000`
+    - This will generate a YourKeyStoreName.keystore file after asking you for a password and some information for creating a certificate. After that, use apksigner as follows:
+        `apksigner sing -ks YourKeyStoreName.keystore --ks-key-alias JournalMax --out OutputName.apk /build/app/outputs/apk/app-abi-version-release.apk`
+    - This will ask for the initially entered password and then generate a signed apk and an idsig file. You can now install the signed apk and just make sure to keep the keystore and its password safely and securely.
+    - Note: Keytool comes with OpenJDk and apksigner comes with Android build-tools 
 ### Note
 - This is just a simple project by me to learn programming and especially, mobile devlopment so don't expect too much from the app. It's just for learning things.
 - Also, I have not opened contributions and am neither doing PRs, but if you have any ideas or suggestions, you can mail them here at ayushgupta.svma@gmail.com
