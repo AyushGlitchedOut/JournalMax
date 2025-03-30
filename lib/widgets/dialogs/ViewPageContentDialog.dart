@@ -42,7 +42,7 @@ Future<dynamic> viewPageContentDialog(
                 icon: Icons.book,
                 title: "View Diary Entry",
                 onclick: () {
-                  contentWidgetChanger(SelectableText(
+                  contentWidgetChanger(Text(
                     content["content"].toString(),
                     textAlign: TextAlign.left,
                     style: TextStyle(color: mood["secondary"], fontSize: 20.0),
@@ -190,9 +190,13 @@ class LocationWidget extends StatelessWidget {
         Center(
             child: Text(
           "On ${content["date"]}, You were at: ",
-          style: TextStyle(fontSize: 17.0, color: mood["secondary"], shadows: const [
-            Shadow(offset: Offset(1.5, 1.5), color: Colors.grey, blurRadius: 2)
-          ]),
+          style: TextStyle(
+              fontSize: 17.0,
+              color: mood["secondary"],
+              shadows: const [
+                Shadow(
+                    offset: Offset(1.5, 1.5), color: Colors.grey, blurRadius: 2)
+              ]),
         )),
         //THe actual location in format of a link that has onclick to open a maps
         Center(

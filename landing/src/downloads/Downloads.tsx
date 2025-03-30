@@ -26,7 +26,7 @@ export default function Downloads() {
             onClick={() => {
               const link = document.createElement("a");
               link.href =
-                "https://github.com/AyushGlitchedOut/JournalMax/releases/download/release/release-v7a.apk";
+                "https://github.com/AyushGlitchedOut/JournalMax/releases/download/v1.0.1/release-v7a.apk";
               link.download = "release-v7a.apk";
               document.body.appendChild(link);
               link.click();
@@ -57,13 +57,13 @@ export default function Downloads() {
           text="Download Apk for newer devices"
           abi="For armabi-v8a"
           onClick={() => {}}
-          downloadURL="https://github.com/AyushGlitchedOut/JournalMax/releases/download/release/release-v8a.apk"
+          downloadURL="https://github.com/AyushGlitchedOut/JournalMax/releases/download/v1.0.1/release-v8a.apk"
         />
         <DownloadButton
           text="Download Apk for emulators/desktop"
           abi="For x86_64"
           onClick={() => {}}
-          downloadURL="https://github.com/AyushGlitchedOut/JournalMax/releases/download/release/release-x86_64.apk"
+          downloadURL="https://github.com/AyushGlitchedOut/JournalMax/releases/download/v1.0.1/release-x86_64.apk"
         />
       </div>
       <hr className="downloads-divider" />
@@ -86,13 +86,13 @@ export default function Downloads() {
           <code>git clone https://github.com/AyushGlitchedOut/JournalMax</code>
         </p>
         <a
-          href="https://github.com/AyushGlitchedOut/JournalMax/archive/refs/tags/release.zip"
+          href="https://github.com/AyushGlitchedOut/JournalMax/archive/refs/tags/v1.0.1.zip"
           download={true}
         >
           <p>Download Zip Archive</p>
         </a>
         <a
-          href="https://github.com/AyushGlitchedOut/JournalMax/archive/refs/tags/release.tar.gz"
+          href="https://github.com/AyushGlitchedOut/JournalMax/archive/refs/tags/v1.0.1.tar.gz"
           download={true}
         >
           <p>Download Tarball</p>

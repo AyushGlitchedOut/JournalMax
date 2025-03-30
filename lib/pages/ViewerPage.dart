@@ -42,9 +42,13 @@ class _ViewerPageState extends State<ViewerPage> {
       setState(() {
         contentToShow = SelectableText(
           content["content"].toString(),
-          style: TextStyle(color: mood["secondary"], fontSize: 20.0, shadows: const [
-            Shadow(offset: Offset(1.5, 1.5), color: Colors.grey, blurRadius: 2)
-          ]),
+          style: TextStyle(
+              color: mood["secondary"],
+              fontSize: 20.0,
+              shadows: const [
+                Shadow(
+                    offset: Offset(1.5, 1.5), color: Colors.grey, blurRadius: 2)
+              ]),
         );
         //stop loading
         isLoading = false;
@@ -144,18 +148,19 @@ class _ViewerPageState extends State<ViewerPage> {
           borderRadius: BorderRadius.circular(0)),
       padding: const EdgeInsets.all(5.0),
       margin: const EdgeInsets.all(2.0),
-      child: Column(
-        crossAxisAlignment: contentToShow is SelectableText
-            ? CrossAxisAlignment.start
-            : CrossAxisAlignment.center,
-        //To not center the contents if its text (diary entry)
-        mainAxisAlignment: contentToShow is SelectableText
-            ? MainAxisAlignment.start
-            : MainAxisAlignment.spaceAround,
-        children: [
-          SingleChildScrollView(
-              child: isLoading ? XProgress(colors: colors) : contentToShow),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: contentToShow is SelectableText
+              ? CrossAxisAlignment.start
+              : CrossAxisAlignment.center,
+          //To not center the contents if its text (diary entry)
+          mainAxisAlignment: contentToShow is SelectableText
+              ? MainAxisAlignment.start
+              : MainAxisAlignment.spaceAround,
+          children: [
+            isLoading ? XProgress(colors: colors) : contentToShow,
+          ],
+        ),
       ),
     ));
   }
