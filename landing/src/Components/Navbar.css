@@ -22,7 +22,7 @@
     1;
 }
 .navbar-box {
-  width: calc(99.7%);
+  width: 99vw;
   display: flex;
   justify-content: space-between;
   background-color: rgba(128, 128, 128, 0.5);
@@ -48,13 +48,14 @@
 .navbar-initial > * {
   height: 100%;
   padding: 2%;
+  margin-right: 1%;
 
   font-size: clamp(1rem, 1.5vw, 3rem);
 }
 
 /* The journalMax title */
 .navbar-title {
-  font-size: clamp(0.5rem, 3vw, 3.5rem);
+  font-size: clamp(1rem, 2vw, 2.5rem);
   letter-spacing: 1px;
   text-shadow: 2px 2px 1px rgba(100, 100, 100, 0.7);
   font-weight: 700;
@@ -72,5 +73,19 @@
 .navbar-end > * {
   height: 100%;
   padding: 2%;
-  font-size: clamp(0.5rem, 1.5vw, 3rem);
+  font-size: clamp(0.75rem, 1.5vw, 3rem);
+}
+
+@media (max-width: 768px) {
+  .navbar-title {
+    margin-top: 1%;
+    align-self: center;
+    font-size: large;
+  }
+  .navbar-box {
+    box-shadow:
+      inset 5px 5px 5px rgba(100, 100, 100, 1),
+      5px 5px 5px rgba(100, 100, 100, 0.5),
+      5px -5px 5px grey;
+  }
 }

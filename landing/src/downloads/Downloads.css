@@ -26,6 +26,7 @@
 .downloads-left-title {
   margin: 0;
   font-size: clamp(1.5rem, 2vw, 2.5rem);
+  text-align: center;
 }
 
 /* The right side of page */
@@ -49,12 +50,13 @@
   font-size: clamp(0.5rem, 1.2vw, 1.5rem);
 }
 .downloads-right-title {
-  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  font-size: clamp(1.5rem, 6vw, 2.5rem);
 }
 .downloads-right code {
   background-color: rgba(128, 128, 128, 0.7);
   border-radius: 5px;
   padding: 10px;
+  font-size: clamp(1rem, 1.5vw, 1.5rem);
 }
 
 /* The divider column */
@@ -78,6 +80,7 @@
   flex-direction: column;
   justify-content: center;
   border: 2px solid black;
+  text-align: center;
 }
 .downloads-button:hover {
   cursor: pointer;
@@ -94,9 +97,8 @@
 
 /* Dialog Styling */
 dialog {
-  margin: 15%;
-  margin-right: 30%;
-  margin-left: 30%;
+  position: absolute;
+  width: 70%;
 }
 dialog div {
   display: flex;
@@ -115,4 +117,45 @@ dialog button {
 .downloads-left a {
   text-decoration: none;
   color: black;
+}
+
+@media (max-width: 768px) {
+  .downloads-main {
+    flex-direction: column;
+  }
+
+  /* Flipping the divider */
+  .downloads-divider {
+    width: 90vw;
+    height: 0.5vh;
+  }
+
+  .downloads-left {
+    height: 75vh;
+    width: 90%;
+  }
+  .downloads-left-android-icon {
+    width: 30%;
+  }
+
+  .downloads-right {
+    height: 75vh;
+    width: 90%;
+    text-align: center;
+  }
+  .downloads-right-build-icon {
+    width: 30%;
+  }
+  .downloads-right a p {
+    font-size: clamp(1rem, 1.5vw, 1.5rem);
+  }
+  .downloads-right p a {
+    font-size: clamp(1rem, 1.5vw, 1.5rem);
+  }
+  .downloads-right p {
+    font-size: clamp(1rem, 1.5vw, 1.5rem);
+  }
+  .downloads-right code {
+    font-size: clamp(0.5rem, 1vw, 1rem);
+  }
 }

@@ -1,13 +1,27 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import "./Navbar.css";
+import DownloadIcon from "/download.png";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const activeTab = useLocation().pathname;
   const navigator = useNavigate();
 
-  const isHomepageActive: boolean = activeTab == "/homepage";
+  const isHomepageActive: boolean =
+    activeTab == "/homepage" || activeTab == "/";
   const isDownloadsActive: boolean = activeTab == "/downloads";
   const isDocsActive: boolean = activeTab == "/docs";
+
+  const [isOnMobile, setIsOnMobile] = useState(false);
+
+  useEffect(() => {
+    const onMobile = () => setIsOnMobile(window.innerWidth <= 768);
+
+    onMobile();
+    window.addEventListener("resize", onMobile);
+
+    return () => window.removeEventListener("resize", onMobile);
+  }, []);
 
   function openPage(path: string): void {
     navigator(path);
@@ -34,7 +48,14 @@ export default function Navbar() {
               : {}
           }
         >
-          Download
+          {isOnMobile ? (
+            <img
+              src={DownloadIcon}
+              style={{ aspectRatio: 1, width: "60%", marginTop: "10%" }}
+            />
+          ) : (
+            "Downloads"
+          )}
         </button>
       </div>
 
@@ -49,7 +70,7 @@ export default function Navbar() {
             isDocsActive ? { backgroundColor: "rgba(128,128,128,0.5)" } : {}
           }
         >
-          Documentation
+          {isOnMobile ? "Docs" : "Documentation"}
         </button>
         <button
           onClick={() =>
@@ -60,13 +81,15 @@ export default function Navbar() {
         >
           Review
         </button>
-        <button
-          onClick={() =>
-            window.open("https://github.com/AyushGlitchedOut/JournalMax")
-          }
-        >
-          Source
-        </button>
+        {isOnMobile ? null : (
+          <button
+            onClick={() =>
+              window.open("https://github.com/AyushGlitchedOut/JournalMax")
+            }
+          >
+            Source
+          </button>
+        )}
       </div>
     </div>
   );

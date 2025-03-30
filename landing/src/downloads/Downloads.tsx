@@ -31,6 +31,7 @@ export default function Downloads() {
               document.body.appendChild(link);
               link.click();
               document.body.removeChild(link);
+              dialog.current?.close();
             }}
           >
             Continue
@@ -74,13 +75,14 @@ export default function Downloads() {
         />
         <div className="downloads-right-title">Get the Source Code</div>
         <p>
-          Github Repository:{" "}
+          Github Repository:
           <a href="https://github.com/AyushGlitchedOut/JournalMax">
             JournalMax
           </a>
         </p>
         <p>
-          Clone using git:{" "}
+          Clone using git:<br></br>
+          <br></br>
           <code>git clone https://github.com/AyushGlitchedOut/JournalMax</code>
         </p>
         <a

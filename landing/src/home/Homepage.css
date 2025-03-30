@@ -1,6 +1,7 @@
 /* The hero part of the homepage along with side gradients */
 .homepage-hero {
   height: 46vh;
+  width: 99vw;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -56,8 +57,8 @@
 }
 .homepage-bottom-center-downloadbutton {
   margin: 2%;
-  font-size: clamp(1.5rem, 2vw, 2.5rem);
-  width: 60%;
+  font-size: clamp(1rem, 2vw, 2.5rem);
+  width: 30vw;
   height: 20%;
   background-color: rgba(70, 220, 70, 0.8);
   border-radius: 15px;
@@ -124,4 +125,47 @@
   justify-content: space-between;
   height: 80%;
   width: 80%;
+}
+
+@media (max-width: 768px) {
+  .homepage-hero {
+    height: 32vh;
+  }
+
+  .homepage-hero {
+    height: 24vh;
+  }
+
+  .homepage-bottom-center-downloadbutton {
+    width: 60%;
+  }
+
+  .homepage-hero img {
+    height: 100%;
+  }
+  .homepage-bottom-part {
+    flex-direction: column;
+  }
+
+  .homepage-bottom-text-left {
+    width: 100%;
+  }
+
+  .homepage-bottom-center {
+    width: 100%;
+  }
+  .homepage-appicon {
+    width: 25vw;
+  }
+
+  .homepage-bottom-text-right {
+    width: 100%;
+  }
+
+  .homepage-main li {
+    font-size: clamp(1.5rem, 1.5vw, 2rem);
+  }
+  .homepage-main ul {
+    align-items: center;
+  }
 }

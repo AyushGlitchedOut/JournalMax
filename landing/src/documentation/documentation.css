@@ -6,3 +6,10 @@ h1 {
 h2 {
   text-align: center;
 }
+
+/* Mobile Styling */
+@media (max-width: 768px) {
+  .documentation-main {
+    width: 95%;
+  }
+}
