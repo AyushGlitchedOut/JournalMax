@@ -12,7 +12,6 @@
 
 ### Installation
 - It is available as apk on [Github Pages](https://ayushglitchedout.github.io/JournalMax) of this project
-- If you want, you can build the current commit but there's no guarantee if it would properly work or even build in the first place
 
 ## Building the App
 - This project uses plugins and libraries that require Java version 17 so before builing, make sure you are using OpenJDK 17. If you are using an older/later version, you can do(for debian and ubuntu/ its relatives):
