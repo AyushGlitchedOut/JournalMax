@@ -32,7 +32,7 @@
     - To first generate a keystore to sign the apk, use keytool:
         `keytool -genkey -v -keystore YourKeyStoreName.keystore -alias JournalMax -keyalg RSA -keysize 2048 -validity 10000`
     - This will generate a YourKeyStoreName.keystore file after asking you for a password and some information for creating a certificate. After that, use apksigner as follows:
-        `apksigner sing -ks YourKeyStoreName.keystore --ks-key-alias JournalMax --out OutputName.apk /build/app/outputs/apk/app-abi-version-release.apk`
+        `apksigner sign -ks YourKeyStoreName.keystore --ks-key-alias JournalMax --out OutputName.apk /build/app/outputs/apk/app-abi-version-release.apk`
     - This will ask for the initially entered password and then generate a signed apk and an idsig file. You can now install the signed apk and just make sure to keep the keystore and its password safely and securely.
     - Note: Keytool comes with OpenJDk and apksigner comes with Android build-tools 
 ### Note
